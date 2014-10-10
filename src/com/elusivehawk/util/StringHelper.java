@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -606,6 +607,24 @@ public final class StringHelper
 			
 		}
 		
+	}
+	
+	public static URL asURL(String str)
+	{
+		URL ret = null;
+		
+		try
+		{
+			ret = new URL(str);
+			
+		}
+		catch (Exception e)
+		{
+			Logger.log().err(e);
+			
+		}
+		
+		return ret;
 	}
 	
 }

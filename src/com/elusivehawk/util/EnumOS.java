@@ -15,7 +15,7 @@ public enum EnumOS
 	
 	private static EnumOS determineOS()
 	{
-		if ("The Android Project".equalsIgnoreCase(CompInfo.VENDOR))
+		if (CompInfo.VENDOR.equalsIgnoreCase("The Android Project"))
 		{
 			return ANDROID;//Still feel rather crummy for this...
 		}
