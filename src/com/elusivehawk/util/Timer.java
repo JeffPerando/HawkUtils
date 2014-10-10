@@ -11,7 +11,8 @@ public class Timer
 {
 	public static final double NANO_SEC = 1000000000D;
 	
-	protected double start = 0, time = 0;
+	protected long start = 0;
+	protected double time = 0D;
 	protected boolean started = false;
 	
 	public void start()
@@ -20,7 +21,7 @@ public class Timer
 		{
 			this.started = true;
 			
-			this.start = System.nanoTime() / NANO_SEC;
+			this.start = System.nanoTime();
 			
 		}
 		
@@ -32,7 +33,7 @@ public class Timer
 		{
 			this.started = false;
 			
-			this.time = (System.nanoTime() / NANO_SEC) - this.start;
+			this.time = (System.nanoTime() - this.start) / NANO_SEC;
 			
 		}
 		
