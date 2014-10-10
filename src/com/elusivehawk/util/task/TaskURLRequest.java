@@ -1,8 +1,8 @@
 
 package com.elusivehawk.util.task;
 
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import com.elusivehawk.util.io.ByteStreams;
 import com.elusivehawk.util.storage.Pair;
@@ -19,7 +19,10 @@ public class TaskURLRequest extends TaskURL
 	private final List<Pair<String>> props = Lists.newArrayList();
 	
 	private int connectTimeout = 15000, readTimeout = 15000;
+	private boolean followRedirect = true;
+	
 	private byte[] result = null;
+	private int response = 0;
 	
 	public TaskURLRequest(ITaskListener tlis, URL adr)
 	{
@@ -30,7 +33,7 @@ public class TaskURLRequest extends TaskURL
 	@Override
 	protected boolean finishTask() throws Throwable
 	{
-		URLConnection con = this.url.openConnection();
+		HttpURLConnection con = (HttpURLConnection)this.url.openConnection();
 		
 		con.setConnectTimeout(this.connectTimeout);
 		con.setReadTimeout(this.readTimeout);
@@ -41,7 +44,11 @@ public class TaskURLRequest extends TaskURL
 			
 		}
 		
+		con.setInstanceFollowRedirects(this.followRedirect);
+		
 		con.connect();
+		
+		this.response = con.getResponseCode();
 		
 		if (con.getDoInput())
 		{
@@ -61,6 +68,11 @@ public class TaskURLRequest extends TaskURL
 		return this.result;
 	}
 	
+	public int getResponseCode()
+	{
+		return this.response;
+	}
+	
 	public TaskURLRequest setConnectionTimeout(int ct)
 	{
 		this.connectTimeout = ct;
@@ -78,6 +90,13 @@ public class TaskURLRequest extends TaskURL
 	public TaskURLRequest addRequestProp(String name, String value)
 	{
 		this.props.add(Pair.createPair(name, value));
+		
+		return this;
+	}
+	
+	public TaskURLRequest setFollowRedirect(boolean fr)
+	{
+		this.followRedirect = fr;
 		
 		return this;
 	}
