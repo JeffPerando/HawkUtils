@@ -15,7 +15,6 @@ public interface IStreamProvider
 {
 	InputStream getInStream(String str);
 	
-	@SuppressWarnings("unused")
 	default OutputStream getOutStream(String str)
 	{
 		return null;

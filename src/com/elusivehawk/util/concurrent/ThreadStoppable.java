@@ -114,7 +114,6 @@ public abstract class ThreadStoppable extends Thread implements IThreadStoppable
 	
 	protected void onPostUpdate(){};
 	
-	@SuppressWarnings("unused")
 	public void onThreadStopped(boolean failed){}
 	
 	public void handleException(Throwable e)
