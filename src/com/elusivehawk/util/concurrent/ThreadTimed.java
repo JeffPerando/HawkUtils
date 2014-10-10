@@ -56,7 +56,7 @@ public abstract class ThreadTimed extends ThreadStoppable implements IUpdatable
 	@Override
 	public boolean initiate()
 	{
-		this.delta = (Timer.NANO_SEC / this.getTargetUpdateCount());
+		this.delta = (Timer.NANO_SEC / this.getTargetUpdateCount()) / Timer.NANO_SEC;
 		
 		return true;
 	}
@@ -92,8 +92,8 @@ public abstract class ThreadTimed extends ThreadStoppable implements IUpdatable
 		}
 		
 		this.lastTime = this.time;
-		this.time = System.nanoTime() ;
-		this.deltaTime = (this.time - this.lastTime) / Timer.NANO_SEC;
+		this.time = System.nanoTime() / Timer.NANO_SEC;
+		this.deltaTime = (this.time - this.lastTime) ;
 		
 		this.timeSpent = this.timer.timeCall(this.update);//Updates, and tracks how much time has been spent.
 		
