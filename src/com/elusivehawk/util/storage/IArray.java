@@ -9,11 +9,11 @@ package com.elusivehawk.util.storage;
  */
 public interface IArray<T>
 {
-	public int size();
+	int size();
 	
-	public T get(int i);
+	T get(int i);
 	
-	public IArray<? extends T> set(int i, T obj);
+	IArray<? extends T> set(int i, T obj);
 	
 	default IArray<? extends T> setImmutable()
 	{

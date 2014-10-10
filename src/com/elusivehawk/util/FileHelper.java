@@ -567,13 +567,13 @@ public final class FileHelper
 	@FunctionalInterface
 	public static interface IFileScanner
 	{
-		public boolean scan(File file);
+		boolean scan(File file);
 		
 	}
 	
 	public static interface IZipScanner
 	{
-		public void take(ZipFile zip, ZipEntry entry, String name);
+		void take(ZipFile zip, ZipEntry entry, String name);
 		
 	}
 	

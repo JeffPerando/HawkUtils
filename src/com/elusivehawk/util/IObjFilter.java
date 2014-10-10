@@ -10,6 +10,6 @@ package com.elusivehawk.util;
 @FunctionalInterface
 public interface IObjFilter<T>
 {
-	public T filter(int index, T obj);
+	T filter(int index, T obj);
 	
 }

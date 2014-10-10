@@ -12,8 +12,8 @@ package com.elusivehawk.util;
  */
 public interface IDirty
 {
-	public boolean isDirty();
+	boolean isDirty();
 	
-	public void setIsDirty(boolean b);
+	void setIsDirty(boolean b);
 	
 }

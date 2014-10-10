@@ -9,8 +9,8 @@ package com.elusivehawk.util.io;
  */
 public interface Serializer<T>
 {
-	public int toBytes(IByteWriter w, T obj);
+	int toBytes(IByteWriter w, T obj);
 	
-	public T fromBytes(IByteReader r);
+	T fromBytes(IByteReader r);
 	
 }

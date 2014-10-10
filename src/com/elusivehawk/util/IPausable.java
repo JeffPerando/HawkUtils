@@ -9,8 +9,8 @@ package com.elusivehawk.util;
  */
 public interface IPausable
 {
-	public boolean isPaused();
+	boolean isPaused();
 	
-	public void setPaused(boolean p);
+	void setPaused(boolean p);
 	
 }

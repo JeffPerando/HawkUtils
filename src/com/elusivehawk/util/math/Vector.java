@@ -635,7 +635,7 @@ public class Vector implements IMathArray<Float>
 	@FunctionalInterface
 	public static interface Listener
 	{
-		public void onVecChanged(Vector vec);
+		void onVecChanged(Vector vec);
 		
 	}
 	

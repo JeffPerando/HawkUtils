@@ -10,6 +10,6 @@ package com.elusivehawk.util;
 @FunctionalInterface
 public interface IPopulator<T>
 {
-	public void populate(T obj);
+	void populate(T obj);
 	
 }

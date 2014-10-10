@@ -9,6 +9,6 @@ package com.elusivehawk.util.storage;
  */
 public interface IStorable<T>
 {
-	public void store(Buffer<T> buf);
+	void store(Buffer<T> buf);
 	
 }

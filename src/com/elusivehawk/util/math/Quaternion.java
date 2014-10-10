@@ -323,7 +323,7 @@ public class Quaternion implements IMathArray<Float>
 	@FunctionalInterface
 	public static interface Listener
 	{
-		public void onQuatChanged(Quaternion q);
+		void onQuatChanged(Quaternion q);
 		
 	}
 	

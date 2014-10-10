@@ -12,9 +12,9 @@ import com.elusivehawk.util.Logger;
  */
 public interface IByteReader
 {
-	public int remaining();
+	int remaining();
 	
-	public byte read() throws Throwable;
+	byte read() throws Throwable;
 	
 	default byte[] readAll() throws Throwable
 	{

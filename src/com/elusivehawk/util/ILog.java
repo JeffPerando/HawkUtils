@@ -9,11 +9,11 @@ package com.elusivehawk.util;
  */
 public interface ILog
 {
-	public void log(EnumLogType type, String msg);
+	void log(EnumLogType type, String msg);
 	
-	public boolean enableVerbosity();
+	boolean enableVerbosity();
 	
-	public void setEnableVerbosity(boolean v);
+	void setEnableVerbosity(boolean v);
 	
 	//XXX Default methods
 	
