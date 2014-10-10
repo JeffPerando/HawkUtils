@@ -12,7 +12,7 @@ import com.elusivehawk.util.Logger;
  */
 public interface IByteWriter
 {
-	public int write(byte... bytes);
+	int write(byte... bytes);
 	
 	default int write(IByteReader r)
 	{

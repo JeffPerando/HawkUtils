@@ -450,7 +450,7 @@ public class Vector implements IMathArray<Float>
 		return dest;
 	}
 	
-	@SuppressWarnings({"static-method", "unused"})
+	@SuppressWarnings({"static-method"})
 	public Vector scaleAdd(float f, Vector vec, Vector dest)//FIXME
 	{
 		return dest;
@@ -635,7 +635,7 @@ public class Vector implements IMathArray<Float>
 	@FunctionalInterface
 	public static interface Listener
 	{
-		public void onVecChanged(Vector vec);
+		void onVecChanged(Vector vec);
 		
 	}
 	

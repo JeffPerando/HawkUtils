@@ -131,7 +131,6 @@ public abstract class ThreadTimed extends ThreadStoppable implements IUpdatable
 		return false;
 	}
 	
-	@SuppressWarnings("unused")
 	public void postUpdate(double delta) throws Throwable{};
 	
 }

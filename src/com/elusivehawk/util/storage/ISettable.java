@@ -10,6 +10,6 @@ package com.elusivehawk.util.storage;
 @FunctionalInterface
 public interface ISettable<T>
 {
-	public boolean set(T obj);
+	boolean set(T obj);
 	
 }

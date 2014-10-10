@@ -10,6 +10,6 @@ package com.elusivehawk.util.task;
 @FunctionalInterface
 public interface ITaskListener
 {
-	public void onTaskComplete(Task task);
+	void onTaskComplete(Task task);
 	
 }

@@ -14,17 +14,17 @@ import com.elusivehawk.util.storage.IStorable;
  */
 public interface IMathArray<T extends Number> extends IDirty, IStorable<T>, IArray<T>
 {
-	public IMathArray<T> set(int pos, Number num, boolean notify);
+	IMathArray<T> set(int pos, Number num, boolean notify);
 	
-	public IMathArray<T> add(IMathArray<T> obj, IMathArray<T> dest);
+	IMathArray<T> add(IMathArray<T> obj, IMathArray<T> dest);
 	
-	public IMathArray<T> div(IMathArray<T> obj, IMathArray<T> dest);
+	IMathArray<T> div(IMathArray<T> obj, IMathArray<T> dest);
 	
-	public IMathArray<T> mul(IMathArray<T> obj, IMathArray<T> dest);
+	IMathArray<T> mul(IMathArray<T> obj, IMathArray<T> dest);
 	
-	public IMathArray<T> sub(IMathArray<T> obj, IMathArray<T> dest);
+	IMathArray<T> sub(IMathArray<T> obj, IMathArray<T> dest);
 	
-	public IMathArray<T> normalize(IMathArray<T> dest);
+	IMathArray<T> normalize(IMathArray<T> dest);
 	
 	//Default methods
 	

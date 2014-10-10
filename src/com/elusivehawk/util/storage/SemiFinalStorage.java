@@ -85,7 +85,7 @@ public class SemiFinalStorage<T> extends DirtableStorage<T>
 	
 	public static interface IStorageListener<T>
 	{
-		public boolean canChange(SemiFinalStorage<T> stor);
+		boolean canChange(SemiFinalStorage<T> stor);
 		
 	}
 	

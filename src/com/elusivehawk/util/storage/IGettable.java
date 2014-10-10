@@ -10,6 +10,6 @@ package com.elusivehawk.util.storage;
 @FunctionalInterface
 public interface IGettable<T>
 {
-	public T get();
+	T get();
 	
 }

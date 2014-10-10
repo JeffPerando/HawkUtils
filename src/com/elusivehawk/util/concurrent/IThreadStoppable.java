@@ -11,8 +11,8 @@ import com.elusivehawk.util.IPausable;
  */
 public interface IThreadStoppable extends IPausable
 {
-	public boolean isRunning();
+	boolean isRunning();
 	
-	public void stopThread();
+	void stopThread();
 	
 }

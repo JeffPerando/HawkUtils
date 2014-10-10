@@ -13,9 +13,8 @@ import java.io.OutputStream;
 @FunctionalInterface
 public interface IStreamProvider
 {
-	public InputStream getInStream(String str);
+	InputStream getInStream(String str);
 	
-	@SuppressWarnings("unused")
 	default OutputStream getOutStream(String str)
 	{
 		return null;
