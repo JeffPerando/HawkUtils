@@ -1,8 +1,6 @@
 
 package com.elusivehawk.util.task;
 
-import java.net.URL;
-
 /**
  * 
  * 
@@ -11,14 +9,19 @@ import java.net.URL;
  */
 public abstract class TaskURL extends Task
 {
-	protected final URL url;
+	protected final String address;
 	
 	@SuppressWarnings("unqualified-field-access")
-	public TaskURL(ITaskListener tlis, URL adr)
+	public TaskURL(String url, ITaskListener tlis)
 	{
 		super(tlis);
-		url = adr;
+		address = url;
 		
+	}
+	
+	public String getAddress()
+	{
+		return this.address;
 	}
 	
 }

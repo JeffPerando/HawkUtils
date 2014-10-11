@@ -3,7 +3,9 @@ package com.elusivehawk.util.task;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
+import com.elusivehawk.util.StringHelper;
 import com.elusivehawk.util.io.ByteStreams;
 import com.elusivehawk.util.storage.Pair;
 import com.google.common.collect.Lists;
@@ -24,16 +26,26 @@ public class TaskURLRequest extends TaskURL
 	private byte[] result = null;
 	private int response = 0;
 	
-	public TaskURLRequest(ITaskListener tlis, URL adr)
+	public TaskURLRequest(String url, ITaskListener tlis)
 	{
-		super(tlis, adr);
+		super(url, tlis);
 		
 	}
 	
 	@Override
 	protected boolean finishTask() throws Throwable
 	{
-		HttpURLConnection con = (HttpURLConnection)this.url.openConnection();
+		URL url = StringHelper.asURL(this.getAddress());
+		
+		if (url == null)
+		{
+			this.response = 404;
+			
+			return true;
+		}
+		
+		URLConnection con = url.openConnection();
+		HttpURLConnection http = (con instanceof HttpURLConnection) ? (HttpURLConnection)con : null;
 		
 		con.setConnectTimeout(this.connectTimeout);
 		con.setReadTimeout(this.readTimeout);
@@ -44,11 +56,19 @@ public class TaskURLRequest extends TaskURL
 			
 		}
 		
-		con.setInstanceFollowRedirects(this.followRedirect);
+		if (http != null)
+		{
+			http.setInstanceFollowRedirects(this.followRedirect);
+			
+		}
 		
 		con.connect();
 		
-		this.response = con.getResponseCode();
+		if (http != null)
+		{
+			this.response = http.getResponseCode();
+			
+		}
 		
 		if (con.getDoInput())
 		{
