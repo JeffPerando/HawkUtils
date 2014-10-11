@@ -9,10 +9,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import com.elusivehawk.util.storage.Pair;
+import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 
 /**
@@ -40,37 +42,70 @@ public final class StringHelper
 	
 	public static List<String> read(String path)
 	{
-		return read(path, null);
+		return read(path, Charsets.UTF_8);
+	}
+	
+	public static List<String> read(String path, Charset encoding)
+	{
+		return read(path, encoding, null);
 	}
 	
 	public static List<String> read(String path, IObjFilter<String> filter)
 	{
-		return read(FileHelper.createFile(path), filter);
+		return read(path, Charsets.UTF_8, filter);
+	}
+	
+	public static List<String> read(String path, Charset encoding, IObjFilter<String> filter)
+	{
+		return read(FileHelper.createFile(path), encoding, filter);
 	}
 	
 	public static List<String> read(File file)
 	{
-		return read(file, null);
+		return read(file, Charsets.UTF_8);
+	}
+	
+	public static List<String> read(File file, Charset encoding)
+	{
+		return read(file, encoding, null);
 	}
 	
 	public static List<String> read(File file, IObjFilter<String> filter)
 	{
-		return read(FileHelper.createInStream(file), filter);
+		return read(file, Charsets.UTF_8, filter);
+	}
+	
+	public static List<String> read(File file, Charset encoding, IObjFilter<String> filter)
+	{
+		return read(FileHelper.createInStream(file), encoding, filter);
 	}
 	
 	public static List<String> read(InputStream is)
 	{
-		return read(is, null);
+		return read(is, Charsets.UTF_8);
+	}
+	
+	public static List<String> read(InputStream is, Charset encoding)
+	{
+		return read(is, encoding, null);
 	}
 	
 	public static List<String> read(InputStream is, IObjFilter<String> filter)
 	{
+		return read(is, Charsets.UTF_8, filter);
+	}
+	
+	public static List<String> read(InputStream is, Charset encoding, IObjFilter<String> filter)
+	{
+		assert is != null;
+		assert encoding != null;
+		
 		if (is == null)
 		{
 			return Lists.newArrayList();
 		}
 		
-		return read(new BufferedReader(new InputStreamReader(is)), filter);
+		return read(new BufferedReader(new InputStreamReader(is, encoding)), filter);
 	}
 	
 	public static List<String> read(Reader r)
