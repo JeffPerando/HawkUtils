@@ -14,7 +14,7 @@ public class Quaternion implements IMathArray<Float>
 {
 	protected final float[] data = new float[4];
 	
-	protected volatile boolean dirty = false;
+	protected volatile boolean dirty = false, sync = false;
 	protected List<Listener> listeners = null;
 	protected Matrix matrix = MatrixHelper.createIdentityMatrix();
 	
@@ -72,7 +72,21 @@ public class Quaternion implements IMathArray<Float>
 	{
 		assert MathHelper.bounds(pos, 0, this.size());
 		
-		this.data[pos] = num.floatValue();
+		if (this.sync)
+		{
+			synchronized (this)
+			{
+				this.data[pos] = num.floatValue();
+				
+			}
+			
+		}
+		else
+		{
+			this.data[pos] = num.floatValue();
+			
+		}
+		
 		this.dirty = true;
 		
 		if (notify)
@@ -308,6 +322,13 @@ public class Quaternion implements IMathArray<Float>
 		vQuat.mul(conj, dest);
 		
 		return vec;
+	}
+	
+	public Quaternion setSync()
+	{
+		this.sync = true;
+		
+		return this;
 	}
 	
 	public Matrix asMatrix()
