@@ -4,6 +4,7 @@ package com.elusivehawk.util.storage;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import com.elusivehawk.util.ArrayItr;
 
 /**
  * 
@@ -11,12 +12,13 @@ import java.util.List;
  * 
  * @author Elusivehawk
  */
-public class ImmutableArray<T> implements IArray<T>, Iterable<T>
+public class Array<T> implements IArray<T>, Iterable<T>
 {
 	protected final T[] array;
+	private boolean immutable = false;
 	
 	@SuppressWarnings("unqualified-field-access")
-	public ImmutableArray(T[] a)
+	public Array(T[] a)
 	{
 		array = a;
 		
@@ -25,19 +27,13 @@ public class ImmutableArray<T> implements IArray<T>, Iterable<T>
 	@Override
 	public Iterator<T> iterator()
 	{
-		return new Buffer<T>(this.array);
+		return new ArrayItr<T>(this);
 	}
 	
 	@Override
 	public int size()
 	{
 		return this.array.length;
-	}
-	
-	@Override
-	public boolean isImmutable()
-	{
-		return true;
 	}
 	
 	@Override
@@ -59,14 +55,27 @@ public class ImmutableArray<T> implements IArray<T>, Iterable<T>
 		return this;
 	}
 	
+	@Override
+	public boolean isImmutable()
+	{
+		return this.immutable;
+	}
+	
+	public Array<T> setImmutable()
+	{
+		this.immutable = true;
+		
+		return this;
+	}
+	
 	public List<T> asList()
 	{
 		return Arrays.asList(this.array);
 	}
 	
-	public static <T> ImmutableArray<T> create(T[] array)
+	public static <T> Array<T> create(T[] array)
 	{
-		return new ImmutableArray<T>(array);
+		return new Array<T>(array);
 	}
 	
 }
