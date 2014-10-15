@@ -414,7 +414,6 @@ public class Matrix implements IMathArray<Float>
 		return this.invert(this);
 	}
 	
-	@SuppressWarnings("static-method")
 	public Matrix invert(Matrix m)//FIXME
 	{
 		return m;

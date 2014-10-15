@@ -125,7 +125,6 @@ public abstract class ThreadTimed extends ThreadStoppable implements IUpdatable
 	
 	public abstract int getTargetUpdateCount();
 	
-	@SuppressWarnings("static-method")
 	public boolean doPostUpdate()
 	{
 		return false;

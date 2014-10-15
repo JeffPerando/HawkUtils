@@ -67,7 +67,6 @@ public final class ShutdownHelper
 	
 	public static class ShutdownMechanism
 	{
-		@SuppressWarnings("static-method")
 		public void exit(int err)
 		{
 			System.exit(err);

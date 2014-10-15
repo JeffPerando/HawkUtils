@@ -11,7 +11,6 @@ import com.elusivehawk.util.Logger;
  * 
  * @author Elusivehawk
  */
-@SuppressWarnings("static-method")
 public abstract class ThreadStoppable extends Thread implements IThreadStoppable
 {
 	private volatile boolean running = false;
