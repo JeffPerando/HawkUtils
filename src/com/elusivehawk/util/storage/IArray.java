@@ -1,14 +1,23 @@
 
 package com.elusivehawk.util.storage;
 
+import java.util.Iterator;
+import com.elusivehawk.util.ArrayItr;
+
 /**
  * 
  * 
  * 
  * @author Elusivehawk
  */
-public interface IArray<T>
+public interface IArray<T> extends Iterable<T>
 {
+	@Override
+	default Iterator<T> iterator()
+	{
+		return new ArrayItr<T>(this);
+	}
+	
 	int size();
 	
 	T get(int i);

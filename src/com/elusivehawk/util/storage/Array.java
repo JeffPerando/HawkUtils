@@ -12,7 +12,7 @@ import com.elusivehawk.util.ArrayItr;
  * 
  * @author Elusivehawk
  */
-public class Array<T> implements IArray<T>, Iterable<T>
+public class Array<T> implements IArray<T>
 {
 	protected final T[] array;
 	private boolean immutable = false;
