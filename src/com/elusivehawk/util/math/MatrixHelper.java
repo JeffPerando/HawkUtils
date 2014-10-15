@@ -29,7 +29,7 @@ public final class MatrixHelper
 		return (Matrix)createRotationMatrix(rot).mul(createScalingMatrix(scl)).mul(createTranslationMatrix(trans));
 	}
 	
-	public static Matrix createProjectionMatrix(Vector pos, Quaternion rot, float fov, float aspect, float zFar, float zNear)
+	public static Matrix createProjectionMatrix(float fov, float aspect, float zFar, float zNear)
 	{
 		float[] ret = new float[16];
 		
