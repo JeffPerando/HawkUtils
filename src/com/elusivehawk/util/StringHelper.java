@@ -3,6 +3,7 @@ package com.elusivehawk.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -78,6 +79,26 @@ public final class StringHelper
 	public static List<String> read(File file, Charset encoding, IObjFilter<String> filter)
 	{
 		return read(FileHelper.createInStream(file), encoding, filter);
+	}
+	
+	public static List<String> read(byte[] bs)
+	{
+		return read(bs, Charsets.UTF_8);
+	}
+	
+	public static List<String> read(byte[] bs, Charset encoding)
+	{
+		return read(bs, encoding, null);
+	}
+	
+	public static List<String> read(byte[] bs, IObjFilter<String> filter)
+	{
+		return read(bs, Charsets.UTF_8, filter);
+	}
+	
+	public static List<String> read(byte[] bs, Charset encoding, IObjFilter<String> filter)
+	{
+		return read(new ByteArrayInputStream(bs), encoding, filter);
 	}
 	
 	public static List<String> read(InputStream is)
