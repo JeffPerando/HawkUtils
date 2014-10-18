@@ -4,7 +4,6 @@ package com.elusivehawk.util.storage;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import com.elusivehawk.util.ArrayItr;
 
 /**
  * 

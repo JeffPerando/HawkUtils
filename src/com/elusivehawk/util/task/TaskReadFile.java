@@ -3,7 +3,7 @@ package com.elusivehawk.util.task;
 
 import java.io.File;
 import java.util.List;
-import com.elusivehawk.util.StringHelper;
+import com.elusivehawk.util.string.StringHelper;
 
 /**
  * 

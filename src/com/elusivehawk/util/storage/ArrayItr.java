@@ -1,9 +1,7 @@
 
-package com.elusivehawk.util;
+package com.elusivehawk.util.storage;
 
 import java.util.Iterator;
-import com.elusivehawk.util.storage.IArray;
-import com.elusivehawk.util.storage.Array;
 
 /**
  * 

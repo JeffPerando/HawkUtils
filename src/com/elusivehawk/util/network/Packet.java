@@ -3,10 +3,10 @@ package com.elusivehawk.util.network;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import com.elusivehawk.util.ArrayHelper;
 import com.elusivehawk.util.io.IByteReader;
 import com.elusivehawk.util.io.IByteWriter;
 import com.elusivehawk.util.math.MathHelper;
+import com.elusivehawk.util.storage.ArrayHelper;
 
 /**
  * 

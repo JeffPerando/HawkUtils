@@ -1,5 +1,5 @@
 
-package com.elusivehawk.util;
+package com.elusivehawk.util.string;
 
 import java.util.List;
 import com.elusivehawk.util.storage.Pair;

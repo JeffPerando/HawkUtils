@@ -5,9 +5,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-import com.elusivehawk.util.StringHelper;
 import com.elusivehawk.util.io.ByteStreams;
 import com.elusivehawk.util.storage.Pair;
+import com.elusivehawk.util.string.StringHelper;
 import com.google.common.collect.Lists;
 
 /**

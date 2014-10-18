@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import com.elusivehawk.util.BufferHelper;
 import com.elusivehawk.util.Internal;
 import com.elusivehawk.util.Logger;
 import com.elusivehawk.util.concurrent.ThreadStoppable;
+import com.elusivehawk.util.storage.BufferHelper;
 import com.google.common.collect.Maps;
 
 /**

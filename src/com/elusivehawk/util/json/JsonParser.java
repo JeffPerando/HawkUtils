@@ -5,10 +5,10 @@ import java.io.File;
 import java.io.Reader;
 import java.util.List;
 import java.util.Map;
-import com.elusivehawk.util.StringHelper;
-import com.elusivehawk.util.Token;
-import com.elusivehawk.util.Tokenizer;
 import com.elusivehawk.util.storage.Buffer;
+import com.elusivehawk.util.string.StringHelper;
+import com.elusivehawk.util.string.Token;
+import com.elusivehawk.util.string.Tokenizer;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -79,9 +79,11 @@ public final class JsonParser
 		
 		skipWhitespace(buf);
 		
-		if (!":".equalsIgnoreCase(buf.next().str))
+		Token tkn = buf.next();
+		
+		if (!":".equalsIgnoreCase(tkn.str))
 		{
-			throw new JsonParseException("Colon not found for keypair %s", name);
+			throw new JsonParseException("Found \"%s\" for keypair %s at line %s, col %s; Was expecting \":\"", tkn.str, name, tkn.line, tkn.col);
 		}
 		
 		skipWhitespace(buf);
@@ -116,7 +118,7 @@ public final class JsonParser
 			return parseInt(name, buf);
 		}
 		
-		throw new JsonParseException("Invalid value for key \"%s\": \"%s\"", name, StringHelper.sanitizeEscapeSequence(str));
+		throw new JsonParseException("Invalid value for key \"%s\" found at line %s, col %s: \"%s\"", name, tkn.line, tkn.col, StringHelper.sanitizeEscapeSequence(str));
 	}
 	
 	public static String parseString(Buffer<Token> buf)
@@ -125,7 +127,7 @@ public final class JsonParser
 		
 		if (!"\"".equalsIgnoreCase(tkn.str))
 		{
-			throw new JsonParseException("Not a string: \"%s\"", tkn.str);
+			throw new JsonParseException("Found \"%s\" at line %s, col %s; Was expecting quote mark", tkn.str, tkn.line, tkn.col);
 		}
 		
 		StringBuilder b = new StringBuilder();
@@ -141,15 +143,17 @@ public final class JsonParser
 	
 	public static JsonObject parseObj(String name, Buffer<Token> buf) throws JsonParseException
 	{
-		if (!"{".equalsIgnoreCase(buf.next().str))
+		Token tkn = buf.next();
+		
+		if (!"{".equalsIgnoreCase(tkn.str))
 		{
-			throw new JsonParseException("Not an object: %s", name);
+			throw new JsonParseException("Found \"%s\" at line %s, col %s; Was expecting \"{\"", tkn.str, tkn.line, tkn.col);
 		}
 		
 		Map<String, JsonData> m = Maps.newHashMap();
 		boolean kill = false;
 		
-		while (!"}".equalsIgnoreCase(buf.next(false).str))
+		while (!"}".equalsIgnoreCase((tkn = buf.next(false)).str))
 		{
 			JsonData v = parseKeypair(buf);
 			
@@ -162,11 +166,13 @@ public final class JsonParser
 			
 			skipWhitespace(buf);
 			
-			if (!",".equalsIgnoreCase(buf.next().str))
+			tkn = buf.next();
+			
+			if (!",".equalsIgnoreCase(tkn.str))
 			{
 				if (kill)
 				{
-					throw new JsonParseException("Missing comma found whilst scanning object %s", name);
+					throw new JsonParseException("Found \"%s\" at line %s, col %s; Was expecting a comma", tkn.str, tkn.line, tkn.col);
 				}
 				
 				kill = true;
@@ -182,15 +188,17 @@ public final class JsonParser
 	
 	public static JsonArray parseArray(String name, Buffer<Token> buf) throws JsonParseException
 	{
-		if (!"[".equalsIgnoreCase(buf.next().str))
+		Token tkn = buf.next();
+		
+		if (!"[".equalsIgnoreCase(tkn.str))
 		{
-			throw new JsonParseException("Not an array: %s", name);
+			throw new JsonParseException("Found \"%s\" at line %s, col %s; Was expecting \"[\"", tkn.str, tkn.line, tkn.col);
 		}
 		
 		List<JsonData> list = Lists.newArrayList();
 		boolean kill = false;
 		
-		while (!"]".equalsIgnoreCase(buf.next(false).str))
+		while (!"]".equalsIgnoreCase((tkn = buf.next(false)).str))
 		{
 			skipWhitespace(buf);
 			
@@ -198,11 +206,11 @@ public final class JsonParser
 			
 			skipWhitespace(buf);
 			
-			if (!",".equalsIgnoreCase(buf.next().str))
+			if (!",".equalsIgnoreCase((tkn = buf.next()).str))
 			{
 				if (kill)
 				{
-					throw new JsonParseException("Missing comma found whilst scanning array %s", name);
+					throw new JsonParseException("Found \"%s\" at line %s, col %s; Remove this token!", tkn.str, tkn.line, tkn.col);
 				}
 				
 				kill = true;
@@ -228,11 +236,6 @@ public final class JsonParser
 		}
 		
 		String i = gatherInts(buf);
-		
-		if ("".equalsIgnoreCase(i))
-		{
-			throw new JsonParseException("Invalid integer found on %s", name);
-		}
 		
 		StringBuilder b = new StringBuilder();
 		
@@ -287,14 +290,21 @@ public final class JsonParser
 	
 	public static String gatherInts(Buffer<Token> buf)
 	{
-		String str = buf.next().str;
+		Token tkn = buf.next();
 		StringBuilder b = new StringBuilder();
+		boolean empty = true;
 		
-		while (StringHelper.isInt(str))
+		while (StringHelper.isInt(tkn.str))
 		{
-			b.append(str);
-			str = buf.next().str;
+			b.append(tkn.str);
+			empty = false;
+			tkn = buf.next();
 			
+		}
+		
+		if (empty)
+		{
+			throw new JsonParseException("Found \"%s\" at line %s, col %s; Was expecting a number literal", tkn.str, tkn.line, tkn.col);
 		}
 		
 		return b.toString();

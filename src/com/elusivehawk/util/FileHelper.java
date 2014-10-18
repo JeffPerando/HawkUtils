@@ -17,6 +17,7 @@ import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import com.elusivehawk.util.storage.SemiFinalStorage;
+import com.elusivehawk.util.string.StringHelper;
 import com.google.common.collect.Lists;
 
 /**

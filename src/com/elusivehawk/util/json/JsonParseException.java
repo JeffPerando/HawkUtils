@@ -1,16 +1,16 @@
 
 package com.elusivehawk.util.json;
 
+import com.elusivehawk.util.string.ParseException;
+
 /**
  * 
  * 
  * 
  * @author Elusivehawk
  */
-public class JsonParseException extends RuntimeException
+public class JsonParseException extends ParseException
 {
-	private static final long serialVersionUID = -4595551040088007378L;
-	
 	public JsonParseException()
 	{
 		super();

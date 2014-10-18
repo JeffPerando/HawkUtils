@@ -1,11 +1,12 @@
 
-package com.elusivehawk.util;
+package com.elusivehawk.util.storage;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.List;
+import com.elusivehawk.util.IDirty;
+import com.elusivehawk.util.IPopulator;
 import com.elusivehawk.util.math.MathHelper;
-import com.elusivehawk.util.storage.Tuple;
 import com.google.common.collect.Lists;
 
 /**

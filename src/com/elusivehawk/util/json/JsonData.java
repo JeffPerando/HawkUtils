@@ -1,7 +1,7 @@
 
 package com.elusivehawk.util.json;
 
-import com.elusivehawk.util.StringHelper;
+import com.elusivehawk.util.string.StringHelper;
 
 /**
  * 

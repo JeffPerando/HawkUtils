@@ -1,5 +1,5 @@
 
-package com.elusivehawk.util;
+package com.elusivehawk.util.storage;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -10,9 +10,8 @@ import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 import java.nio.ShortBuffer;
 import java.util.Collection;
+import com.elusivehawk.util.Logger;
 import com.elusivehawk.util.io.IByteReader;
-import com.elusivehawk.util.storage.Buffer;
-import com.elusivehawk.util.storage.IArray;
 
 /**
  * 

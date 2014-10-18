@@ -1,5 +1,5 @@
 
-package com.elusivehawk.util;
+package com.elusivehawk.util.string;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,6 +13,13 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import com.elusivehawk.util.EnumLogType;
+import com.elusivehawk.util.FileHelper;
+import com.elusivehawk.util.IObjFilter;
+import com.elusivehawk.util.Logger;
+import com.elusivehawk.util.RNG;
+import com.elusivehawk.util.io.ByteReaderInputStream;
+import com.elusivehawk.util.io.IByteReader;
 import com.elusivehawk.util.storage.Pair;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
@@ -39,26 +46,6 @@ public final class StringHelper
 	public static final String[] S_ESCAPES =	{"\\b", "\\t", "\\n", "\\f", "\\r", "\\\"", "\\\'", "\\\\"};
 	
 	private StringHelper(){}
-	
-	public static List<String> read(String path)
-	{
-		return read(path, Charsets.UTF_8);
-	}
-	
-	public static List<String> read(String path, Charset encoding)
-	{
-		return read(path, encoding, null);
-	}
-	
-	public static List<String> read(String path, IObjFilter<String> filter)
-	{
-		return read(path, Charsets.UTF_8, filter);
-	}
-	
-	public static List<String> read(String path, Charset encoding, IObjFilter<String> filter)
-	{
-		return read(FileHelper.createFile(path), encoding, filter);
-	}
 	
 	public static List<String> read(File file)
 	{
@@ -100,6 +87,26 @@ public final class StringHelper
 		return read(new ByteArrayInputStream(bs), encoding, filter);
 	}
 	
+	public static List<String> read(IByteReader r)
+	{
+		return read(r, Charsets.UTF_8);
+	}
+	
+	public static List<String> read(IByteReader r, Charset encoding)
+	{
+		return read(r, encoding, null);
+	}
+	
+	public static List<String> read(IByteReader r, IObjFilter<String> filter)
+	{
+		return read(r, Charsets.UTF_8, filter);
+	}
+	
+	public static List<String> read(IByteReader r, Charset encoding, IObjFilter<String> filter)
+	{
+		return read(new ByteReaderInputStream(r), encoding, filter);
+	}
+	
 	public static List<String> read(InputStream is)
 	{
 		return read(is, Charsets.UTF_8);
@@ -117,7 +124,7 @@ public final class StringHelper
 	
 	public static List<String> read(InputStream is, Charset encoding, IObjFilter<String> filter)
 	{
-		return read(new BufferedReader(new InputStreamReader(is, encoding)), filter);
+		return read(new InputStreamReader(is, encoding), filter);
 	}
 	
 	public static List<String> read(Reader r)
@@ -131,7 +138,7 @@ public final class StringHelper
 		
 		if (r != null)
 		{
-			BufferedReader br = (r instanceof BufferedReader) ? (BufferedReader)r : new BufferedReader(r);
+			BufferedReader br = new BufferedReader(r);
 			
 			try
 			{
@@ -174,19 +181,44 @@ public final class StringHelper
 		return text;
 	}
 	
-	public static String readToOneLine(String path)
-	{
-		return readToOneLine(FileHelper.createFile(path));
-	}
-	
 	public static String readToOneLine(File file)
 	{
-		return readToOneLine(FileHelper.createReader(file));
+		return readToOneLine(file, Charsets.UTF_8);
+	}
+	
+	public static String readToOneLine(File file, Charset encoding)
+	{
+		return readToOneLine(FileHelper.createInStream(file), encoding);
+	}
+	
+	public static String readToOneLine(byte[] bs)
+	{
+		return readToOneLine(bs, Charsets.UTF_8);
+	}
+	
+	public static String readToOneLine(byte[] bs, Charset encoding)
+	{
+		return readToOneLine(new ByteArrayInputStream(bs), encoding);
+	}
+	
+	public static String readToOneLine(IByteReader r)
+	{
+		return readToOneLine(r, Charsets.UTF_8);
+	}
+	
+	public static String readToOneLine(IByteReader r, Charset encoding)
+	{
+		return readToOneLine(new ByteReaderInputStream(r), encoding);
 	}
 	
 	public static String readToOneLine(InputStream is)
 	{
-		return readToOneLine(new InputStreamReader(is));
+		return readToOneLine(is, Charsets.UTF_8);
+	}
+	
+	public static String readToOneLine(InputStream is, Charset encoding)
+	{
+		return readToOneLine(new InputStreamReader(is, encoding));
 	}
 	
 	public static String readToOneLine(Reader r)
@@ -195,7 +227,7 @@ public final class StringHelper
 		
 		if (r != null)
 		{
-			BufferedReader br = (r instanceof BufferedReader) ? (BufferedReader)r : new BufferedReader(r);
+			BufferedReader br = new BufferedReader(r);
 			boolean prev = false;
 			
 			try

@@ -2,7 +2,6 @@
 package com.elusivehawk.util.storage;
 
 import java.util.Iterator;
-import com.elusivehawk.util.ArrayItr;
 
 /**
  * 

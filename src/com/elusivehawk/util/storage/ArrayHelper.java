@@ -1,5 +1,5 @@
 
-package com.elusivehawk.util;
+package com.elusivehawk.util.storage;
 
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
@@ -8,7 +8,6 @@ import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 import java.nio.ShortBuffer;
 import java.util.List;
-import com.elusivehawk.util.storage.IArray;
 import com.google.common.collect.Lists;
 
 /**

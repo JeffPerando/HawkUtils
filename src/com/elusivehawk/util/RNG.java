@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public final class RNG
 {
-	private static final Random RNG = new Random("Elusivehawk".hashCode());
+	private static final Random RNG = new Random();
 	
 	private RNG(){}
 	
