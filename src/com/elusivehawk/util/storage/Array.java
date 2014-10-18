@@ -61,6 +61,7 @@ public class Array<T> implements IArray<T>
 		return this.immutable;
 	}
 	
+	@Override
 	public Array<T> setImmutable()
 	{
 		this.immutable = true;

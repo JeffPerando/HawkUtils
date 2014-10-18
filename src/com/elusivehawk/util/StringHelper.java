@@ -5,7 +5,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -118,14 +117,6 @@ public final class StringHelper
 	
 	public static List<String> read(InputStream is, Charset encoding, IObjFilter<String> filter)
 	{
-		assert is != null;
-		assert encoding != null;
-		
-		if (is == null)
-		{
-			return Lists.newArrayList();
-		}
-		
 		return read(new BufferedReader(new InputStreamReader(is, encoding)), filter);
 	}
 	
@@ -162,7 +153,7 @@ public final class StringHelper
 				br.close();
 				
 			}
-			catch (IOException e)
+			catch (Exception e)
 			{
 				Logger.log().err(e);
 				
@@ -235,7 +226,7 @@ public final class StringHelper
 					br.close();
 					
 				}
-				catch (IOException e)
+				catch (Exception e)
 				{
 					Logger.log().err(e);
 					
@@ -313,7 +304,7 @@ public final class StringHelper
 				writer.close();
 				
 			}
-			catch (IOException e)
+			catch (Exception e)
 			{
 				Logger.log().err(e);
 				
