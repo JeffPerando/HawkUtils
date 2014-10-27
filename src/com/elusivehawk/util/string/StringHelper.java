@@ -134,45 +134,45 @@ public final class StringHelper
 	
 	public static List<String> read(Reader r, IObjFilter<String> filter)
 	{
-		List<String> text = Lists.newArrayList();
-		
-		if (r != null)
+		if (r == null)
 		{
-			BufferedReader br = new BufferedReader(r);
-			
-			try
+			return null;
+		}
+		
+		List<String> text = Lists.newArrayList();
+		BufferedReader br = new BufferedReader(r);
+		
+		try
+		{
+			for (String line = br.readLine(); line != null; line = br.readLine())
 			{
-				for (String line = br.readLine(); line != null; line = br.readLine())
-				{
-					text.add(line);
-					
-				}
-				
-			}
-			catch (Exception e)
-			{
-				Logger.log().err(e);
+				text.add(line);
 				
 			}
 			
-			try
-			{
-				br.close();
-				
-			}
-			catch (Exception e)
-			{
-				Logger.log().err(e);
-				
-			}
+		}
+		catch (Exception e)
+		{
+			Logger.log().err(e);
 			
-			if (filter != null)
+		}
+		
+		try
+		{
+			br.close();
+			
+		}
+		catch (Exception e)
+		{
+			Logger.log().err(e);
+			
+		}
+		
+		if (filter != null)
+		{
+			for (int c = 0; c < text.size(); c++)
 			{
-				for (int c = 0; c < text.size(); c++)
-				{
-					text.set(c, filter.filter(c, text.get(c)));
-					
-				}
+				text.set(c, filter.filter(c, text.get(c)));
 				
 			}
 			
@@ -223,46 +223,46 @@ public final class StringHelper
 	
 	public static String readToOneLine(Reader r)
 	{
-		StringBuilder b = new StringBuilder();
-		
-		if (r != null)
+		if (r == null)
 		{
-			BufferedReader br = new BufferedReader(r);
-			boolean prev = false;
-			
-			try
+			return null;
+		}
+		
+		StringBuilder b = new StringBuilder();
+		BufferedReader br = new BufferedReader(r);
+		boolean prev = false;
+		
+		try
+		{
+			for (String line = br.readLine(); line != null; line = br.readLine())
 			{
-				for (String line = br.readLine(); line != null; line = br.readLine())
+				if (prev)
 				{
-					if (prev)
-					{
-						b.append("\n");
-						
-					}
-					else prev = true;
-					
-					b.append(line);
+					b.append("\n");
 					
 				}
+				else prev = true;
+				
+				b.append(line);
+				
+			}
+			
+		}
+		catch (Exception e)
+		{
+			Logger.log().err(e);
+			
+		}
+		finally
+		{
+			try
+			{
+				br.close();
 				
 			}
 			catch (Exception e)
 			{
 				Logger.log().err(e);
-				
-			}
-			finally
-			{
-				try
-				{
-					br.close();
-					
-				}
-				catch (Exception e)
-				{
-					Logger.log().err(e);
-					
-				}
 				
 			}
 			
