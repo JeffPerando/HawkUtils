@@ -178,6 +178,32 @@ public final class MathHelper
 		return (int)(((float)i / max) * 100);
 	}
 	
+	public static float pow(float f, int pow)
+	{
+		float ret = f;
+		
+		for (int c = 0; c < pow; c++)
+		{
+			ret *= f;
+			
+		}
+		
+		return ret;
+	}
+	
+	public static int pow(int i, int pow)
+	{
+		int ret = i;
+		
+		for (int c = 0; c < pow; c++)
+		{
+			ret *= i;
+			
+		}
+		
+		return ret;
+	}
+	
 	public static boolean rollDice(float weight)
 	{
 		return weight > RNG.rng().nextFloat();
