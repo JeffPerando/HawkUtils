@@ -34,6 +34,29 @@ public interface IByteReader
 		return ret;
 	}
 	
+	default int readUnsigned() throws Throwable
+	{
+		return Byte.toUnsignedInt(this.read());
+	}
+	
+	default int[] readAllUnsigned() throws Throwable
+	{
+		return this.readUnsigned(this.remaining());
+	}
+	
+	default int[] readUnsigned(int count) throws Throwable
+	{
+		int[] ret = new int[count];
+		
+		for (int c = 0; c < ret.length; c++)
+		{
+			ret[c] = this.readUnsigned();
+			
+		}
+		
+		return ret;
+	}
+	
 	default boolean readBool()
 	{
 		boolean ret = false;

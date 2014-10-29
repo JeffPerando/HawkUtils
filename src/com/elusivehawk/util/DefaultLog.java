@@ -2,7 +2,6 @@
 package com.elusivehawk.util;
 
 import java.util.Calendar;
-import java.util.List;
 import com.elusivehawk.util.string.StringHelper;
 
 /**
@@ -13,8 +12,6 @@ import com.elusivehawk.util.string.StringHelper;
  */
 public class DefaultLog implements ILog
 {
-	protected final List<String> crashDialog = StringHelper.read(FileHelper.getResourceStream("/res/CrashReportDialog.txt"));
-	
 	private boolean enableVerbosity = true;
 	
 	@Override
@@ -32,7 +29,7 @@ public class DefaultLog implements ILog
 		
 		Thread thr = Thread.currentThread();
 		
-		String fin = String.format("[%s] [%s] [%s]: %s", type, thr.getName(), StringHelper.parseDate(Calendar.getInstance(), "-", ":"), type.err && (msg == null || "".equals(msg)) && !this.crashDialog.isEmpty() ? this.crashDialog.get(RNG.rng().nextInt(this.crashDialog.size())) : msg);
+		String fin = String.format("[%s] [%s] [%s]: %s", type, thr.getName(), StringHelper.parseDate(Calendar.getInstance(), "-", ":"), (type.err && (msg == null || "".equals(msg)) ? "Error caught:" : msg));
 		
 		if (type.err)
 		{
