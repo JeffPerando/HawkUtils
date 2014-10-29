@@ -1,7 +1,9 @@
 
 package com.elusivehawk.util;
 
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
+import java.util.zip.CRC32;
 
 /**
  * 
@@ -13,12 +15,13 @@ public final class HashGen
 {
 	private static final HashGen INSTANCE = new HashGen();
 	
-	private MessageDigest
+	private final MessageDigest
 				md5 = newDigest("MD5"),
 				sha1 = newDigest("SHA-1"),
 				sha2 = newDigest("SHA-2"),
 				sha3 = newDigest("SHA-3"),
 				sha256 = newDigest("SHA-256");
+	private final CRC32 crc32 = new CRC32();
 	
 	private HashGen(){}
 	
@@ -36,6 +39,40 @@ public final class HashGen
 			Logger.log().err(e);
 			
 		}
+		
+		return ret;
+	}
+	
+	public static long crc32(byte[]... in)
+	{
+		CRC32 crc = INSTANCE.crc32;
+		
+		for (byte[] bs : in)
+		{
+			crc.update(bs);
+			
+		}
+		
+		long ret = crc.getValue();
+		
+		crc.reset();
+		
+		return ret;
+	}
+	
+	public static long crc32(ByteBuffer... in)
+	{
+		CRC32 crc = INSTANCE.crc32;
+		
+		for (ByteBuffer bb : in)
+		{
+			crc.update(bb);
+			
+		}
+		
+		long ret = crc.getValue();
+		
+		crc.reset();
 		
 		return ret;
 	}
