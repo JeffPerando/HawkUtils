@@ -15,7 +15,7 @@ public abstract class TaskURL extends Task
 	public TaskURL(String url, ITaskListener tlis)
 	{
 		super(tlis);
-		address = url;
+		address = url.replace("\\", "/");
 		
 	}
 	
