@@ -43,7 +43,7 @@ public final class HashGen
 		return ret;
 	}
 	
-	public static long crc32(byte[]... in)
+	public static synchronized long crc32(byte[]... in)
 	{
 		CRC32 crc = INSTANCE.crc32;
 		
@@ -60,7 +60,7 @@ public final class HashGen
 		return ret;
 	}
 	
-	public static long crc32(ByteBuffer... in)
+	public static synchronized long crc32(ByteBuffer... in)
 	{
 		CRC32 crc = INSTANCE.crc32;
 		
@@ -102,7 +102,7 @@ public final class HashGen
 		return hash(INSTANCE.sha256, in);
 	}
 	
-	public static byte[] hash(MessageDigest md, byte[]... in)
+	public static synchronized byte[] hash(MessageDigest md, byte[]... in)
 	{
 		if (md == null)
 		{
