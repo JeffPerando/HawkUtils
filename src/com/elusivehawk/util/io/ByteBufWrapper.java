@@ -40,6 +40,9 @@ public class ByteBufWrapper implements IByteReader, IByteWriter
 	}
 	
 	@Override
+	public void flush(){}
+	
+	@Override
 	public int write(byte... bytes)
 	{
 		int written = 0;

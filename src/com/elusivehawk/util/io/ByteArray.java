@@ -37,6 +37,9 @@ public class ByteArray implements IByteReader, IByteWriter
 	}
 	
 	@Override
+	public void flush(){}
+	
+	@Override
 	public int write(byte... bytes)
 	{
 		int written = 0;

@@ -62,7 +62,7 @@ public class ByteStreams implements IByteReader, IByteWriter, Closeable
 			ret = (byte)this.in.read();
 			
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			Logger.log().err(e);
 			
@@ -84,7 +84,7 @@ public class ByteStreams implements IByteReader, IByteWriter, Closeable
 				this.in.read(ret);
 				
 			}
-			catch (IOException e)
+			catch (Exception e)
 			{
 				Logger.log().err(e);
 				
@@ -93,6 +93,25 @@ public class ByteStreams implements IByteReader, IByteWriter, Closeable
 		}
 		
 		return ret;
+	}
+	
+	@Override
+	public void flush()
+	{
+		if (this.out != null)
+		{
+			try
+			{
+				this.out.flush();
+			}
+			catch (Exception e)
+			{
+				Logger.log().err(e);
+				
+			}
+			
+		}
+		
 	}
 	
 	@Override
@@ -106,7 +125,7 @@ public class ByteStreams implements IByteReader, IByteWriter, Closeable
 			written = bytes.length;
 			
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			Logger.log().err(e);
 			

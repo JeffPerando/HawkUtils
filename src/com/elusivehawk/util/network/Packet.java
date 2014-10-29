@@ -45,6 +45,9 @@ public class Packet implements IByteReader, IByteWriter
 	}
 	
 	@Override
+	public void flush(){}
+	
+	@Override
 	public int write(byte... bytes)
 	{
 		if (!this.write)
