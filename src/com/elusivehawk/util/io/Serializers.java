@@ -14,62 +14,12 @@ public final class Serializers
 {
 	private Serializers(){}
 	
-	public static final Serializer<Boolean> BOOLEAN = new Serializer<Boolean>()
-			{
-				@Override
-				public int toBytes(IByteWriter w, Boolean b)
-				{
-					return w.write((byte)(b ? 1 : 0));
-				}
-				
-				@Override
-				public Boolean fromBytes(IByteReader b)
-				{
-					try
-					{
-						return b.read() != 0;
-					}
-					catch (Throwable e)
-					{
-						Logger.log().err(e);
-						
-					}
-					
-					return false;
-				}
-				
-			};
-	public static final Serializer<Byte> BYTE = new Serializer<Byte>()
-			{
-				@Override
-				public int toBytes(IByteWriter w, Byte b)
-				{
-					return w.write(b);
-				}
-				
-				@Override
-				public Byte fromBytes(IByteReader b)
-				{
-					try
-					{
-						return b.read();
-					}
-					catch (Throwable e)
-					{
-						Logger.log().err(e);
-						
-					}
-					
-					return null;
-				}
-				
-			};
 	public static final Serializer<Short> SHORT = new Serializer<Short>()
 			{
 				@Override
 				public int toBytes(IByteWriter w, Short s)
 				{
-					return w.write((byte)(s & 255), (byte)((s >> 8) & 255));
+					return w.write((byte)((s >> 8) & 255), (byte)(s & 255));
 				}
 				
 				@Override
@@ -77,7 +27,7 @@ public final class Serializers
 				{
 					try
 					{
-						return (short)(b.read() | (b.read() << 8));
+						return (short)(b.read() << 8 | b.read());
 					}
 					catch (Throwable e)
 					{
@@ -85,7 +35,7 @@ public final class Serializers
 						
 					}
 					
-					return null;
+					return 0;
 				}
 				
 			};
@@ -94,20 +44,15 @@ public final class Serializers
 				@Override
 				public int toBytes(IByteWriter w, Integer i)
 				{
-					int ret = 0;
+					byte[] bytes = new byte[4];
 					
-					for (int c = 0; c < 4; c++)
+					for (int c = 3; c >= 0; c++)
 					{
-						if (w.write((byte)(i >> (c * 8) & 255)) == 0)
-						{
-							break;
-						}
-						
-						ret++;
+						bytes[c] = (byte)((i >> (c * 8)) & 0xFF);
 						
 					}
 					
-					return ret;
+					return w.write(bytes);
 				}
 				
 				@Override
@@ -139,20 +84,15 @@ public final class Serializers
 				@Override
 				public int toBytes(IByteWriter w, Long l)
 				{
-					int ret = 0;
+					byte[] bytes = new byte[8];
 					
-					for (int c = 0; c < 4; c++)
+					for (int c = 7; c >= 0; c++)
 					{
-						if (w.write((byte)(l >> (c * 8) & 255)) == 0)
-						{
-							break;
-						}
-						
-						ret++;
+						bytes[c] = (byte)((l >> (c * 8)) & 0xFF);
 						
 					}
 					
-					return ret;
+					return w.write(bytes);
 				}
 				
 				@Override

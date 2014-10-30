@@ -1,6 +1,7 @@
 
 package com.elusivehawk.util.io;
 
+import java.nio.ByteBuffer;
 import java.util.UUID;
 import com.elusivehawk.util.Logger;
 
@@ -15,6 +16,20 @@ public interface IByteWriter
 	void flush();
 	
 	int write(byte... bytes);
+	
+	default int write(ByteBuffer bb)
+	{
+		return this.write(bb, bb.remaining());
+	}
+	
+	default int write(ByteBuffer bb, int count)
+	{
+		byte[] bs = new byte[Math.min(bb.remaining(), count)];
+		
+		bb.get(bs);
+		
+		return this.write(bs);
+	}
 	
 	default int write(IByteReader r)
 	{
