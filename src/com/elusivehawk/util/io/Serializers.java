@@ -19,7 +19,7 @@ public final class Serializers
 				@Override
 				public int toBytes(IByteWriter w, Short s)
 				{
-					return w.write((byte)((s >> 8) & 255), (byte)(s & 255));
+					return w.write((byte)(s & 255), (byte)((s >> 8) & 255));
 				}
 				
 				@Override
@@ -27,7 +27,7 @@ public final class Serializers
 				{
 					try
 					{
-						return (short)(b.read() << 8 | b.read());
+						return (short)(b.read() | (b.read() << 8));
 					}
 					catch (Throwable e)
 					{
@@ -46,7 +46,7 @@ public final class Serializers
 				{
 					byte[] bytes = new byte[4];
 					
-					for (int c = 3; c >= 0; c++)
+					for (int c = 0; c < 4; c++)
 					{
 						bytes[c] = (byte)((i >> (c * 8)) & 0xFF);
 						
@@ -64,7 +64,7 @@ public final class Serializers
 					{
 						try
 						{
-							ret = (ret << 8) | b.read();
+							ret &= b.read() << (c * 8);
 							
 						}
 						catch (Throwable e)
@@ -86,7 +86,7 @@ public final class Serializers
 				{
 					byte[] bytes = new byte[8];
 					
-					for (int c = 7; c >= 0; c++)
+					for (int c = 0; c < 8; c++)
 					{
 						bytes[c] = (byte)((l >> (c * 8)) & 0xFF);
 						
@@ -104,7 +104,7 @@ public final class Serializers
 					{
 						try
 						{
-							ret = (ret << 8) | b.read();
+							ret &= b.read() << (c * 8);
 							
 						}
 						catch (Throwable e)
