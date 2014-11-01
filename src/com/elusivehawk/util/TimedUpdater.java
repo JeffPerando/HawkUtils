@@ -9,30 +9,32 @@ package com.elusivehawk.util;
  */
 public class TimedUpdater implements IUpdatable
 {
-	private final double timeBetweenCalls;
+	private final double delay;
 	private final IUpdatable upd;
-	private double timeSpent = 0d;
+	
+	private double time = 0d;
 	
 	@SuppressWarnings("unqualified-field-access")
-	public TimedUpdater(double t, IUpdatable u)
+	public TimedUpdater(double delta, IUpdatable updater)
 	{
-		assert u != null;
+		assert delta >= 0.0;
+		assert updater != null;
 		
-		timeBetweenCalls = t;
-		upd = u;
+		delay = delta;
+		upd = updater;
 		
 	}
 	
 	@Override
-	public void update(double delta, Object... extra) throws Throwable
+	public void update(double delta) throws Throwable
 	{
-		this.timeSpent += delta;
+		this.time += delta;
 		
-		if (this.timeSpent >= this.timeBetweenCalls)
+		if (this.time >= this.delay)
 		{
-			this.upd.update(this.timeSpent, extra);
+			this.upd.update(this.time);
 			
-			this.timeSpent = 0d;
+			this.time = 0d;
 			
 		}
 		

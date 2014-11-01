@@ -10,6 +10,6 @@ package com.elusivehawk.util;
 @FunctionalInterface
 public interface IUpdatable
 {
-	void update(double delta, Object... extra) throws Throwable;
+	void update(double delta) throws Throwable;
 	
 }
