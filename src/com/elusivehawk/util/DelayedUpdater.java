@@ -7,7 +7,7 @@ package com.elusivehawk.util;
  * 
  * @author Elusivehawk
  */
-public class TimedUpdater implements IUpdatable
+public class DelayedUpdater implements IUpdatable
 {
 	private final double delay;
 	private final IUpdatable upd;
@@ -15,7 +15,7 @@ public class TimedUpdater implements IUpdatable
 	private double time = 0d;
 	
 	@SuppressWarnings("unqualified-field-access")
-	public TimedUpdater(double delta, IUpdatable updater)
+	public DelayedUpdater(double delta, IUpdatable updater)
 	{
 		assert delta >= 0.0;
 		assert updater != null;
