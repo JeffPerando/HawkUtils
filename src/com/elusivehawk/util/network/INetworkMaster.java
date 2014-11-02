@@ -11,6 +11,6 @@ public interface INetworkMaster
 {
 	int getEncryptionBitCount();
 	
-	boolean handshake(Connection connection, Packet pkt);
+	boolean handshake(Connection connection, IPacket pkt);
 	
 }

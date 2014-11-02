@@ -79,8 +79,8 @@ public class ThreadNetwork extends ThreadStoppable
 		
 		Set<SelectionKey> keys = this.selector.selectedKeys();
 		Iterator<SelectionKey> keyItr = keys.iterator();
-		Iterator<Packet> pktItr;
-		Packet pkt;
+		Iterator<IPacket> pktItr;
+		IPacket pkt;
 		
 		SelectionKey key;
 		ByteChannel io;
@@ -121,7 +121,7 @@ public class ThreadNetwork extends ThreadStoppable
 						
 					}
 					
-					this.bin_buf.clear();//Clear the incoming bytes to prepare for the next packet.
+					this.bin_buf.clear();//Clear the incoming bytes to prepare for the next IPacket.
 					
 				}
 				
@@ -129,7 +129,7 @@ public class ThreadNetwork extends ThreadStoppable
 			
 			if (key.isWritable())
 			{
-				List<Packet> outPkts = con.getOutgoingPackets();
+				List<IPacket> outPkts = con.getOutgoingPackets();
 				
 				if (outPkts.isEmpty())
 				{
@@ -151,7 +151,7 @@ public class ThreadNetwork extends ThreadStoppable
 						continue;
 					}
 					
-					this.bout_buf.put(con.encryptData(pkt.getBytes()));
+					this.bout_buf.put(con.encryptData(pkt.getData()));
 					
 					con.flushPacket(pkt);
 					
@@ -181,7 +181,7 @@ public class ThreadNetwork extends ThreadStoppable
 		
 	}
 	
-	public synchronized void sendPackets(UUID id, Packet... pkts)
+	public synchronized void sendPackets(UUID id, IPacket... pkts)
 	{
 		if (pkts == null || pkts.length == 0)
 		{

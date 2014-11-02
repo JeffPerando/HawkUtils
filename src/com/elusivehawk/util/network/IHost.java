@@ -24,7 +24,7 @@ public interface IHost extends IPacketHandler, Closeable, IPausable
 	 * @param client The connection ID to use, null if it's client -> server communication.
 	 * @param pkts The packets to send.
 	 */
-	default void sendPackets(UUID client, Packet... pkts)
+	default void sendPackets(UUID client, IPacket... pkts)
 	{
 		this.forEveryConnection(((con) ->
 		{
@@ -40,7 +40,7 @@ public interface IHost extends IPacketHandler, Closeable, IPausable
 		
 	}
 	
-	default void sendPacketsExcept(UUID client, Packet... pkts)
+	default void sendPacketsExcept(UUID client, IPacket... pkts)
 	{
 		this.forEveryConnection(((con) ->
 		{
@@ -144,6 +144,6 @@ public interface IHost extends IPacketHandler, Closeable, IPausable
 	
 	int getPlayerCount();
 	
-	void onHandshake(Connection connection, Packet pkt);
+	void onHandshake(Connection connection, IPacket pkt);
 	
 }

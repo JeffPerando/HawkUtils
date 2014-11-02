@@ -1,11 +1,11 @@
 
 package com.elusivehawk.util.task;
 
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-import com.elusivehawk.util.io.ByteStreams;
 import com.elusivehawk.util.storage.Pair;
 import com.elusivehawk.util.string.StringHelper;
 import com.google.common.collect.Lists;
@@ -72,11 +72,12 @@ public class TaskURLRequest extends TaskURL
 		
 		if (con.getDoInput())
 		{
-			ByteStreams s = new ByteStreams(con.getInputStream());
+			InputStream in = con.getInputStream();
 			
-			this.result = s.readAll();
+			this.result = new byte[in.available()];
+			in.read(this.result);
 			
-			s.close();
+			in.close();
 			
 		}
 		
