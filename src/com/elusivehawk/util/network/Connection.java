@@ -33,7 +33,6 @@ public class Connection implements IPacketListener
 	
 	private final PublicKey pub;
 	private final PrivateKey priv;
-	
 	private final Cipher cipher;
 	
 	protected PublicKey pub_rec = null;
@@ -80,24 +79,11 @@ public class Connection implements IPacketListener
 		else type = ConnectionType.UNKNOWN;
 		
 		KeyPairGenerator kpg = null;
-		
-		try
-		{
-			kpg = KeyPairGenerator.getInstance("RSA");
-			
-		}
-		catch (Exception e){}
-		
-		kpg.initialize(bits);
-		KeyPair kp = kpg.genKeyPair();
-		
-		pub = kp.getPublic();
-		priv = kp.getPrivate();
-		
 		Cipher ciph = null;
 		
 		try
 		{
+			kpg = KeyPairGenerator.getInstance("RSA");
 			ciph = Cipher.getInstance("RSA");
 			
 		}
@@ -107,8 +93,14 @@ public class Connection implements IPacketListener
 			
 		}
 		
+		assert kpg != null;
 		assert ciph != null;
 		
+		kpg.initialize(bits);
+		KeyPair kp = kpg.genKeyPair();
+		
+		pub = kp.getPublic();
+		priv = kp.getPrivate();
 		cipher = ciph;
 		
 	}
@@ -118,15 +110,16 @@ public class Connection implements IPacketListener
 	{
 		handler = con.handler;
 		connectId = con.connectId;
+		
 		channel = con.channel;
 		type = con.type;
 		
 		pub = con.pub;
 		priv = con.priv;
+		cipher = con.cipher;
+		
 		pub_rec = con.pub_rec;
 		readPubKey = con.readPubKey;
-		
-		cipher = con.cipher;
 		
 	}
 	
@@ -188,7 +181,7 @@ public class Connection implements IPacketListener
 		
 	}
 	
-	public final void decryptData(byte[] bytes, int count) throws NetworkException
+	public final void decryptData(byte[] bytes) throws NetworkException
 	{
 		if (this.pub_rec == null)
 		{
@@ -223,7 +216,7 @@ public class Connection implements IPacketListener
 			byte[] tmp;
 			
 			this.cipher.init(Cipher.DECRYPT_MODE, this.pub_rec);
-			tmp = this.cipher.doFinal(bytes, 0, count);
+			tmp = this.cipher.doFinal(bytes);
 			
 			this.cipher.init(Cipher.DECRYPT_MODE, this.priv);
 			pkt = this.cipher.doFinal(tmp);

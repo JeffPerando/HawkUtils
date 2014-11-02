@@ -2,6 +2,7 @@
 package com.elusivehawk.util.network;
 
 import java.io.Closeable;
+import java.nio.channels.spi.AbstractSelectableChannel;
 import java.util.UUID;
 import com.elusivehawk.util.IPausable;
 import com.elusivehawk.util.storage.SemiFinalStorage;
@@ -14,7 +15,7 @@ import com.elusivehawk.util.storage.SemiFinalStorage;
  * 
  * @author Elusivehawk
  */
-public interface IHost extends IConnectable, IPacketHandler, Closeable, IPausable
+public interface IHost extends IPacketHandler, Closeable, IPausable
 {
 	/**
 	 * 
@@ -122,6 +123,20 @@ public interface IHost extends IConnectable, IPacketHandler, Closeable, IPausabl
 		this.forEveryConnection(((con) -> {con.receivePackets(); return true;}));
 		
 	}
+	
+	default UUID connect(ConnectionType type, int port)
+	{
+		return this.connect(type, new IP(port));
+	}
+	
+	default UUID connect(ConnectionType type, IP ip)
+	{
+		return this.connect(ip.toChannel(type));
+	}
+	
+	UUID connect(AbstractSelectableChannel ch);
+	
+	void beginComm();
 	
 	void forEveryConnection(IConnectionUser user);
 	

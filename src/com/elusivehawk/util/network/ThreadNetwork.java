@@ -87,6 +87,7 @@ public class ThreadNetwork extends ThreadStoppable
 		Connection con;
 		
 		int bytesRead = -1;
+		byte[] pktBytes;
 		
 		while (keyItr.hasNext())
 		{
@@ -105,9 +106,13 @@ public class ThreadNetwork extends ThreadStoppable
 			{
 				while ((bytesRead = io.read(this.bin_buf)) != -1)
 				{
+					pktBytes = new byte[bytesRead];
+					
+					System.arraycopy(this.bin, 0, pktBytes, 0, bytesRead);
+					
 					try
 					{
-						con.decryptData(this.bin, bytesRead);
+						con.decryptData(pktBytes);
 						
 					}
 					catch (NetworkException e)

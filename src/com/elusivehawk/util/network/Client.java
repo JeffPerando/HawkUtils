@@ -16,8 +16,9 @@ import com.elusivehawk.util.Logger;
  */
 public class Client implements IHost
 {
+	protected final ThreadNetwork thr = new ThreadNetwork(this, 1);
+	
 	protected final INetworkMaster master;
-	protected final ThreadNetwork thr;
 	
 	protected Connection connection = null;
 	protected boolean hasHS = false;
@@ -29,7 +30,6 @@ public class Client implements IHost
 		assert mstr != null;
 		
 		master = mstr;
-		thr = new ThreadNetwork(this, 1);
 		
 	}
 	
@@ -55,7 +55,7 @@ public class Client implements IHost
 		}
 		catch (NetworkException e)
 		{
-			Logger.log().err("Could not connect.", e);
+			Logger.log().err(e);
 			
 		}
 		
