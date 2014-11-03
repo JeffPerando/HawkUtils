@@ -648,7 +648,7 @@ public final class StringHelper
 	{
 		List<String> text = read(txt, filter);
 		
-		if (!text.isEmpty())
+		if (text != null)
 		{
 			write(txt, text, false, false);
 			
@@ -672,6 +672,20 @@ public final class StringHelper
 		}
 		
 		return ret;
+	}
+	
+	public static String asHexString(byte[] bytes)
+	{
+		StringBuilder ret = new StringBuilder(bytes.length * 2);
+		
+		for (byte b : bytes)
+		{
+			ret.append(HEX[(b & 0b11110000) >> 4]);
+			ret.append(HEX[(b & 0b00001111)]);
+			
+		}
+		
+		return ret.toString();
 	}
 	
 }
