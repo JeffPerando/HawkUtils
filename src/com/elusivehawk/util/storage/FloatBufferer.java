@@ -114,10 +114,10 @@ public class FloatBufferer implements IDirty
 			
 			this.buf.put(fs);
 			
-			this.buf.position(this.buf.position() - this.fpi);
+			this.buf.position(this.buf.position() + this.fpi);
 			this.prev.position(this.buf.position());
 			
-			int pos = this.buf.position();
+			int pos = this.buf.position() - this.fpi;
 			
 			for (int c = 0; c < this.fpi; c++)
 			{
