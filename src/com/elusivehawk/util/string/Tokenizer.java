@@ -1,9 +1,9 @@
 
 package com.elusivehawk.util.string;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.elusivehawk.util.storage.Pair;
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -13,7 +13,7 @@ import com.google.common.collect.Lists;
  */
 public class Tokenizer
 {
-	protected List<String> tokens = Lists.newArrayList();
+	protected List<String> tokens = new ArrayList<String>();
 	
 	public Tokenizer(){}
 	
@@ -40,7 +40,7 @@ public class Tokenizer
 	
 	public List<Token> tokenize(List<String> str)
 	{
-		List<Token> ret = Lists.newArrayList();
+		List<Token> ret = new ArrayList<Token>();
 		
 		if (this.tokens.isEmpty())
 		{

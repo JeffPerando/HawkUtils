@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarFile;
@@ -18,7 +19,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import com.elusivehawk.util.storage.SemiFinalStorage;
 import com.elusivehawk.util.string.StringHelper;
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -276,7 +276,7 @@ public final class FileHelper
 	
 	public static List<File> getFiles(File file, FileFilter filter)
 	{
-		List<File> ret = Lists.newArrayList();
+		List<File> ret = new ArrayList<File>();
 		
 		scanForFiles(file, ((f) ->
 		{

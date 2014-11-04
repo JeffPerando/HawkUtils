@@ -10,12 +10,12 @@ import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.crypto.Cipher;
 import com.elusivehawk.util.Logger;
 import com.elusivehawk.util.storage.SyncList;
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -40,8 +40,8 @@ public class Connection implements IPacketListener
 	protected Object attach = null;
 	
 	private final List<IPacket>
-				in_buffer = Lists.newArrayList(),
-				incoming = Lists.newArrayList(),
+				in_buffer = new ArrayList<IPacket>(),
+				incoming = new ArrayList<IPacket>(),
 				outgoing = SyncList.newList();
 	private final SyncList<IPacketListener> listeners = SyncList.newList();
 	

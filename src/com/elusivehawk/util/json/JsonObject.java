@@ -1,11 +1,11 @@
 
 package com.elusivehawk.util.json;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import com.elusivehawk.util.IPopulator;
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -21,7 +21,7 @@ public class JsonObject extends JsonData implements Iterable<JsonData>
 	public JsonObject(String name)
 	{
 		super(EnumJsonType.OBJECT, name, "{");
-		jsons = Lists.newArrayList();
+		jsons = new ArrayList<JsonData>();
 		
 	}
 	

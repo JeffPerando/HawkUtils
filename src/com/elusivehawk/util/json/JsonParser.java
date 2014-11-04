@@ -3,14 +3,14 @@ package com.elusivehawk.util.json;
 
 import java.io.File;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.elusivehawk.util.storage.Buffer;
 import com.elusivehawk.util.string.StringHelper;
 import com.elusivehawk.util.string.Token;
 import com.elusivehawk.util.string.Tokenizer;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  * 
@@ -150,7 +150,7 @@ public final class JsonParser
 			throw new JsonParseException("Found \"%s\" at line %s, col %s; Was expecting \"{\"", tkn.str, tkn.line, tkn.col);
 		}
 		
-		Map<String, JsonData> m = Maps.newHashMap();
+		Map<String, JsonData> m = new HashMap<String, JsonData>();
 		boolean kill = false;
 		
 		while (!"}".equalsIgnoreCase((tkn = buf.next(false)).str))
@@ -195,7 +195,7 @@ public final class JsonParser
 			throw new JsonParseException("Found \"%s\" at line %s, col %s; Was expecting \"[\"", tkn.str, tkn.line, tkn.col);
 		}
 		
-		List<JsonData> list = Lists.newArrayList();
+		List<JsonData> list = new ArrayList<JsonData>();
 		boolean kill = false;
 		
 		while (!"]".equalsIgnoreCase((tkn = buf.next(false)).str))

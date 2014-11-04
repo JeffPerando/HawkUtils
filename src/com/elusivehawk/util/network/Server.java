@@ -2,9 +2,9 @@
 package com.elusivehawk.util.network;
 
 import java.nio.channels.spi.AbstractSelectableChannel;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -35,7 +35,7 @@ public class Server implements IHost
 		network = new ThreadNetwork(this, gameport);
 		
 		maxPlayers = players;
-		clients = Lists.newArrayList();
+		clients = new ArrayList<Connection>();
 		
 	}
 	

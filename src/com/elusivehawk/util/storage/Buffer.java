@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import com.elusivehawk.util.IDirty;
 import com.elusivehawk.util.math.MathHelper;
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -47,7 +46,7 @@ public class Buffer<T> implements IDirty, Collection<T>, Iterator<T>, IGettable<
 	public Buffer(List<T> list)
 	{
 		l = list;
-		dirt = Lists.newArrayListWithCapacity(list.size());
+		dirt = new ArrayList<Boolean>(list.size());
 		
 	}
 	

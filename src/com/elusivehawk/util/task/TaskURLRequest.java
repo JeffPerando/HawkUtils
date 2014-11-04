@@ -5,10 +5,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 import com.elusivehawk.util.storage.Pair;
 import com.elusivehawk.util.string.StringHelper;
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -18,7 +18,7 @@ import com.google.common.collect.Lists;
  */
 public class TaskURLRequest extends TaskURL
 {
-	private final List<Pair<String>> props = Lists.newArrayList();
+	private final List<Pair<String>> props = new ArrayList<Pair<String>>();
 	
 	private int connectTimeout = 15000, readTimeout = 15000;
 	private boolean followRedirect = true;

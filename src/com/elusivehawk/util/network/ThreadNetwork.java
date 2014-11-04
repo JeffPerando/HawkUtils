@@ -8,6 +8,7 @@ import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.security.PublicKey;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,6 @@ import com.elusivehawk.util.Internal;
 import com.elusivehawk.util.Logger;
 import com.elusivehawk.util.concurrent.ThreadStoppable;
 import com.elusivehawk.util.storage.BufferHelper;
-import com.google.common.collect.Maps;
 
 /**
  * 
@@ -50,7 +50,7 @@ public class ThreadNetwork extends ThreadStoppable
 		assert playerCount > 0;
 		
 		handler = h;
-		connections = Maps.newHashMapWithExpectedSize(playerCount);
+		connections = new HashMap<UUID, Connection>(playerCount);
 		
 		Selector s = null;
 		

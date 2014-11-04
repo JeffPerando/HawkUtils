@@ -3,8 +3,6 @@ package com.elusivehawk.util;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
-import java.util.Arrays;
-import com.google.common.collect.ImmutableList;
 
 /**
  * 
@@ -23,7 +21,7 @@ public final class CompInfo
 			TIME_ZONE = System.getProperty("user.timezone"),
 			USERNAME = System.getProperty("user.name"),
 			VENDOR = System.getProperty("java.vendor");
-	public static final ImmutableList<String> PATH = ImmutableList.copyOf(Arrays.asList(System.getProperty("java.library.path").split(System.getProperty("path.separator"))));
+	public static final String[] PATH = System.getProperty("java.library.path").split(System.getProperty("path.separator"));
 	public static final EnumOS OS = EnumOS.getCurrentOS();
 	public static final int CORES = Runtime.getRuntime().availableProcessors();
 	public static final File

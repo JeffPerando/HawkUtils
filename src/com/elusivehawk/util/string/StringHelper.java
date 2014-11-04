@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -19,8 +20,6 @@ import com.elusivehawk.util.IObjFilter;
 import com.elusivehawk.util.Logger;
 import com.elusivehawk.util.RNG;
 import com.elusivehawk.util.storage.Pair;
-import com.google.common.base.Charsets;
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -43,11 +42,14 @@ public final class StringHelper
 	public static final String[] ESCAPES =		{"\b", "\t", "\n", "\f", "\r", "\"", "\'", "\\"};
 	public static final String[] S_ESCAPES =	{"\\b", "\\t", "\\n", "\\f", "\\r", "\\\"", "\\\'", "\\\\"};
 	
+	public static final Charset UTF_8 = Charset.forName("UTF-8");
+	public static final Charset ASCII = Charset.forName("ASCII");
+	
 	private StringHelper(){}
 	
 	public static List<String> read(File file)
 	{
-		return read(file, Charsets.UTF_8);
+		return read(file, UTF_8);
 	}
 	
 	public static List<String> read(File file, Charset encoding)
@@ -57,7 +59,7 @@ public final class StringHelper
 	
 	public static List<String> read(File file, IObjFilter<String> filter)
 	{
-		return read(file, Charsets.UTF_8, filter);
+		return read(file, UTF_8, filter);
 	}
 	
 	public static List<String> read(File file, Charset encoding, IObjFilter<String> filter)
@@ -67,7 +69,7 @@ public final class StringHelper
 	
 	public static List<String> read(byte[] bs)
 	{
-		return read(bs, Charsets.UTF_8);
+		return read(bs, UTF_8);
 	}
 	
 	public static List<String> read(byte[] bs, Charset encoding)
@@ -77,7 +79,7 @@ public final class StringHelper
 	
 	public static List<String> read(byte[] bs, IObjFilter<String> filter)
 	{
-		return read(bs, Charsets.UTF_8, filter);
+		return read(bs, UTF_8, filter);
 	}
 	
 	public static List<String> read(byte[] bs, Charset encoding, IObjFilter<String> filter)
@@ -87,7 +89,7 @@ public final class StringHelper
 	
 	public static List<String> read(InputStream is)
 	{
-		return read(is, Charsets.UTF_8);
+		return read(is, UTF_8);
 	}
 	
 	public static List<String> read(InputStream is, Charset encoding)
@@ -97,7 +99,7 @@ public final class StringHelper
 	
 	public static List<String> read(InputStream is, IObjFilter<String> filter)
 	{
-		return read(is, Charsets.UTF_8, filter);
+		return read(is, UTF_8, filter);
 	}
 	
 	public static List<String> read(InputStream is, Charset encoding, IObjFilter<String> filter)
@@ -117,7 +119,7 @@ public final class StringHelper
 			return null;
 		}
 		
-		List<String> text = Lists.newArrayList();
+		List<String> text = new ArrayList<String>();
 		BufferedReader br = new BufferedReader(r);
 		
 		try
@@ -161,7 +163,7 @@ public final class StringHelper
 	
 	public static String readToOneLine(File file)
 	{
-		return readToOneLine(file, Charsets.UTF_8);
+		return readToOneLine(file, UTF_8);
 	}
 	
 	public static String readToOneLine(File file, Charset encoding)
@@ -171,7 +173,7 @@ public final class StringHelper
 	
 	public static String readToOneLine(byte[] bs)
 	{
-		return readToOneLine(bs, Charsets.UTF_8);
+		return readToOneLine(bs, UTF_8);
 	}
 	
 	public static String readToOneLine(byte[] bs, Charset encoding)
@@ -181,7 +183,7 @@ public final class StringHelper
 	
 	public static String readToOneLine(InputStream is)
 	{
-		return readToOneLine(is, Charsets.UTF_8);
+		return readToOneLine(is, UTF_8);
 	}
 	
 	public static String readToOneLine(InputStream is, Charset encoding)

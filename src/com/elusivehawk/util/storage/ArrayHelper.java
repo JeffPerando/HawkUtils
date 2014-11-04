@@ -7,8 +7,8 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
 import java.util.List;
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -163,7 +163,7 @@ public class ArrayHelper
 			size += ta.length;
 		}
 		
-		List<T> l = Lists.newArrayListWithCapacity(size);
+		List<T> l = new ArrayList<T>(size);
 		
 		for (T[] ta : ts)
 		{

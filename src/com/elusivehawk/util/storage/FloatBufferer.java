@@ -3,11 +3,11 @@ package com.elusivehawk.util.storage;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 import java.util.List;
 import com.elusivehawk.util.IDirty;
 import com.elusivehawk.util.IPopulator;
 import com.elusivehawk.util.math.MathHelper;
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -20,8 +20,8 @@ public class FloatBufferer implements IDirty
 	private final int fpi;
 	private FloatBuffer buf, prev;
 	private IntBuffer indices, indPrev;
-	private final List<Tuple<Integer, FloatBuffer>> floatDiff = Lists.newArrayList();
-	private final List<Tuple<Integer, IntBuffer>> intDiff = Lists.newArrayList();
+	private final List<Tuple<Integer, FloatBuffer>> floatDiff = new ArrayList<Tuple<Integer, FloatBuffer>>();
+	private final List<Tuple<Integer, IntBuffer>> intDiff = new ArrayList<Tuple<Integer, IntBuffer>>();
 	
 	private volatile boolean dirty = false;
 	private boolean resized = false;
@@ -134,7 +134,7 @@ public class FloatBufferer implements IDirty
 				{
 					if (this.fDiff == null)
 					{
-						this.fDiff = Tuple.create(pos + c, Lists.newArrayList());
+						this.fDiff = Tuple.create(pos + c, new ArrayList<Float>());
 						
 					}
 					

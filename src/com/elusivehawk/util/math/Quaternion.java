@@ -1,8 +1,8 @@
 
 package com.elusivehawk.util.math;
 
+import java.util.ArrayList;
 import java.util.List;
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -213,7 +213,7 @@ public class Quaternion implements IMathArray<Float>
 		
 		if (this.listeners == null)
 		{
-			this.listeners = Lists.newArrayList();
+			this.listeners = new ArrayList<Listener>();
 			
 		}
 		
