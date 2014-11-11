@@ -103,7 +103,7 @@ public class Tokenizer
 				continue;
 			}
 			
-			if (tkn == null || i < index || (index == i && token.length() > tkn.length()))
+			if (tkn == null || i < index || (index == i && token.length() < tkn.length()))
 			{
 				tkn = token;
 				index = i;

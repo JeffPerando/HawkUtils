@@ -39,9 +39,9 @@ public class Connection implements IPacketListener
 	protected boolean readPubKey = false;
 	protected Object attach = null;
 	
-	private final List<IPacket>
-				in_buffer = new ArrayList<IPacket>(),
-				incoming = new ArrayList<IPacket>(),
+	private final List<Packet>
+				in_buffer = new ArrayList<Packet>(),
+				incoming = new ArrayList<Packet>(),
 				outgoing = SyncList.newList();
 	private final SyncList<IPacketListener> listeners = SyncList.newList();
 	
@@ -124,7 +124,7 @@ public class Connection implements IPacketListener
 	}
 	
 	@Override
-	public void onPacketReceived(Connection origin, IPacket pkt){}
+	public void onPacketReceived(Connection origin, Packet pkt){}
 	
 	@Override
 	public Connection clone()
@@ -152,12 +152,12 @@ public class Connection implements IPacketListener
 		return this.pub;
 	}
 	
-	public List<IPacket> getOutgoingPackets()
+	public List<Packet> getOutgoingPackets()
 	{
 		return this.outgoing;
 	}
 	
-	public synchronized void flushPacket(IPacket pkt)
+	public synchronized void flushPacket(Packet pkt)
 	{
 		this.outgoing.remove(pkt);
 		
@@ -171,9 +171,9 @@ public class Connection implements IPacketListener
 		
 	}
 	
-	public void sendPackets(IPacket... pkts)
+	public void sendPackets(Packet... pkts)
 	{
-		for (IPacket pkt : pkts)
+		for (Packet pkt : pkts)
 		{
 			this.outgoing.add(pkt);
 			
@@ -227,7 +227,7 @@ public class Connection implements IPacketListener
 			throw new NetworkException("Cannot decrypt data:", e);
 		}
 		
-		this.incoming.add(new IncomingPacket(pkt));
+		this.incoming.add(new Packet(pkt));
 		
 	}
 	

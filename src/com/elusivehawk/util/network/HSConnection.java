@@ -42,14 +42,14 @@ public class HSConnection extends Connection implements IPacketHandler
 	}
 	
 	@Override
-	public void onPacketReceived(Connection origin, IPacket pkt)
+	public void onPacketReceived(Connection origin, Packet pkt)
 	{
 		this.master.onHandshake(this, pkt);
 		
 	}
 	
 	@Override
-	public void onPacketDropped(IPacket pkt)
+	public void onPacketDropped(Packet pkt)
 	{
 		this.master.onPacketDropped(pkt);
 		

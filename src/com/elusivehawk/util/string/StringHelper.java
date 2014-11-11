@@ -19,6 +19,8 @@ import com.elusivehawk.util.FileHelper;
 import com.elusivehawk.util.IObjFilter;
 import com.elusivehawk.util.Logger;
 import com.elusivehawk.util.RNG;
+import com.elusivehawk.util.io.ByteReaderInputStream;
+import com.elusivehawk.util.io.IByteReader;
 import com.elusivehawk.util.storage.Pair;
 
 /**
@@ -85,6 +87,26 @@ public final class StringHelper
 	public static List<String> read(byte[] bs, Charset encoding, IObjFilter<String> filter)
 	{
 		return read(new ByteArrayInputStream(bs), encoding, filter);
+	}
+	
+	public static List<String> read(IByteReader r)
+	{
+		return read(r, UTF_8);
+	}
+	
+	public static List<String> read(IByteReader r, Charset encoding)
+	{
+		return read(r, encoding, null);
+	}
+	
+	public static List<String> read(IByteReader r, IObjFilter<String> filter)
+	{
+		return read(r, UTF_8, filter);
+	}
+	
+	public static List<String> read(IByteReader r, Charset encoding, IObjFilter<String> filter)
+	{
+		return read(new ByteReaderInputStream(r), encoding, filter);
 	}
 	
 	public static List<String> read(InputStream is)
@@ -179,6 +201,16 @@ public final class StringHelper
 	public static String readToOneLine(byte[] bs, Charset encoding)
 	{
 		return readToOneLine(new ByteArrayInputStream(bs), encoding);
+	}
+	
+	public static String readToOneLine(IByteReader r)
+	{
+		return readToOneLine(r, UTF_8);
+	}
+	
+	public static String readToOneLine(IByteReader r, Charset encoding)
+	{
+		return readToOneLine(new ByteReaderInputStream(r), encoding);
 	}
 	
 	public static String readToOneLine(InputStream is)

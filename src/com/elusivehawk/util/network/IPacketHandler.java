@@ -26,6 +26,6 @@ public interface IPacketHandler
 	 */
 	void onDisconnect(Connection connect);
 	
-	default void onPacketDropped(IPacket pkt){}
+	default void onPacketDropped(Packet pkt){}
 	
 }

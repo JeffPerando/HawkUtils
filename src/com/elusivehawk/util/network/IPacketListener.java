@@ -17,6 +17,6 @@ public interface IPacketListener
 	 * @param origin The connection that sent these packets.
 	 * @param pkt A packet that was received.
 	 */
-	void onPacketReceived(Connection origin, IPacket pkt);
+	void onPacketReceived(Connection origin, Packet pkt);
 	
 }

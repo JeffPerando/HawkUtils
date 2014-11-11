@@ -141,7 +141,7 @@ public class Client implements IHost
 	}
 	
 	@Override
-	public void onHandshake(Connection connection, IPacket pkt)
+	public void onHandshake(Connection connection, Packet pkt)
 	{
 		if (this.hasHS)
 		{

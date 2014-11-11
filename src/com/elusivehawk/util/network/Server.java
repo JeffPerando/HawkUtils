@@ -137,7 +137,7 @@ public class Server implements IHost
 	}
 	
 	@Override
-	public void onHandshake(Connection con, IPacket pkt)
+	public void onHandshake(Connection con, Packet pkt)
 	{
 		if (con == null)
 		{

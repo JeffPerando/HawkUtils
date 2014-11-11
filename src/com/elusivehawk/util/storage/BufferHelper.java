@@ -10,6 +10,8 @@ import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 import java.nio.ShortBuffer;
 import java.util.Collection;
+import com.elusivehawk.util.Logger;
+import com.elusivehawk.util.io.IByteReader;
 
 /**
  * 
@@ -164,6 +166,35 @@ public final class BufferHelper
 		}
 		
 		ret.flip();
+		
+		return ret;
+	}
+	
+	public static ByteBuffer makeByteBuffer(IByteReader r)
+	{
+		return makeByteBuffer(r.remaining(), r);
+	}
+	
+	public static ByteBuffer makeByteBuffer(int length, IByteReader r)
+	{
+		ByteBuffer ret = createByteBuffer(length);
+		
+		try
+		{
+			for (int c = 0; c < length; c++)
+			{
+				ret.put(r.read());
+				
+			}
+			
+			ret.flip();
+			
+		}
+		catch (Throwable e)
+		{
+			Logger.log().err(e);
+			
+		}
 		
 		return ret;
 	}
