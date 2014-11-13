@@ -146,4 +146,41 @@ public final class MatrixHelper
 		return ret;
 	}
 	
+	public static Matrix lookAt(Vector pos, Vector lookAt)
+	{
+		return lookAt(pos, lookAt, MathConst.Y_AXIS);
+	}
+	
+	public static Matrix lookAt(Vector pos, Vector target, Vector up)
+	{
+		assert pos.size() == 3 : "Position size is not 3";
+		assert target.size() == 3 : "Size of target vector is not size 3";
+		assert up.size() == 3 : "Upwards vector size is not 3";
+		
+		Vector up0 = up.clone();
+		Vector forward = new Vector(4);
+		
+		for (int c = 0; c < 3; c++)
+		{
+			forward.set(c, target.get(c) - pos.get(c));
+			
+		}
+		
+		forward.normalize();
+		
+		Vector side = MathHelper.cross(forward, up0);
+		side.normalize();
+		
+		MathHelper.cross(up0, side, forward);
+		
+		Matrix ret = createIdentityMatrix();
+		
+		ret.setRow(0, side);
+		ret.setRow(1, up0);
+		ret.setRow(2, forward.negate());
+		ret.invert();
+		
+		return ret;
+	}
+	
 }

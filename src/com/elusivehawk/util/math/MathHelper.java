@@ -84,7 +84,16 @@ public final class MathHelper
 	
 	public static Vector cross(Vector one, Vector two)
 	{
-		assert one.size() <= 3 && two.size() <= 3;
+		Vector ret = new Vector();
+		
+		cross(ret, one, two);
+		
+		return ret;
+	}
+	
+	public static void cross(Vector ret, Vector one, Vector two)
+	{
+		assert one.size() <= 3 && two.size() <= 3 && ret.size() <= 3;
 		
 		float ax = one.get(X);
 		float ay = one.get(Y);
@@ -94,9 +103,10 @@ public final class MathHelper
 		float by = two.get(Y);
 		float bz = two.get(Z);
 		
-		return new Vector((ay * bz) - (az * by),
-				(az * bx) - (ax * bz),
-				(ax * by) - (ay * bx));
+		ret.set(0, (ay * bz) - (az * by), false);
+		ret.set(1, (az * bx) - (ax * bz), false);
+		ret.set(2, (ax * by) - (ay * bx));
+		
 	}
 	
 	public static float dist(Vector from, Vector to)
