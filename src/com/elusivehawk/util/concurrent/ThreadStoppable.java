@@ -1,6 +1,7 @@
 
 package com.elusivehawk.util.concurrent;
 
+import com.elusivehawk.util.IPausable;
 import com.elusivehawk.util.Logger;
 
 /**
@@ -11,7 +12,7 @@ import com.elusivehawk.util.Logger;
  * 
  * @author Elusivehawk
  */
-public abstract class ThreadStoppable extends Thread implements IThreadStoppable
+public abstract class ThreadStoppable extends Thread implements IPausable
 {
 	private volatile boolean running = false;
 	private boolean paused = false;
@@ -84,13 +85,11 @@ public abstract class ThreadStoppable extends Thread implements IThreadStoppable
 		
 	}
 	
-	@Override
 	public final boolean isRunning()
 	{
 		return this.running;
 	}
 	
-	@Override
 	public final void stopThread()
 	{
 		this.running = false;
