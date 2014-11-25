@@ -1,6 +1,7 @@
 
 package com.elusivehawk.util.math;
 
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import com.elusivehawk.util.storage.Buffer;
@@ -629,6 +630,17 @@ public class Vector implements IMathArray<Float>
 	public Vector scale(float f)
 	{
 		return this.mulAll(f);
+	}
+	
+	public Vector into(FloatBuffer buf, int[] order)
+	{
+		for (int i : order)
+		{
+			buf.put(this.get(i));
+			
+		}
+		
+		return this;
 	}
 	
 	@FunctionalInterface

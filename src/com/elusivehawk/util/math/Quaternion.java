@@ -1,6 +1,7 @@
 
 package com.elusivehawk.util.math;
 
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -339,6 +340,17 @@ public class Quaternion implements IMathArray<Float>
 	public Matrix asMatrix(Matrix dest)
 	{
 		return MatrixHelper.createRotationMatrix(this, dest);
+	}
+	
+	public Quaternion into(FloatBuffer buf, int[] order)
+	{
+		for (int i : order)
+		{
+			buf.put(this.get(i));
+			
+		}
+		
+		return this;
 	}
 	
 	@FunctionalInterface
