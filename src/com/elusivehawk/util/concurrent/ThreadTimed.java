@@ -10,18 +10,19 @@ import com.elusivehawk.util.Timer;
  * 
  * @author Elusivehawk
  */
-public abstract class ThreadTimed extends ThreadStoppable implements IUpdatable
+public class ThreadTimed extends ThreadStoppable implements IUpdatable
 {
 	public static final int MILI_SEC = 1000;
 	
 	private double time = 0, lastTime, timeUsed = 0, delta, deltaTime = 0, timeSpent = 0;
 	
 	private Timer timer = new Timer();
+	private IUpdatable updater = this;
 	private final Runnable update = (() ->
 	{
 		try
 		{
-			this.update(this.deltaTime);
+			this.updater.update(this.deltaTime);
 			
 		}
 		catch (Throwable e)
@@ -53,21 +54,23 @@ public abstract class ThreadTimed extends ThreadStoppable implements IUpdatable
 		
 	}
 	
-	@Override
-	public boolean initiate()
+	@SuppressWarnings("unqualified-field-access")
+	public ThreadTimed(IUpdatable upd)
 	{
-		this.delta = (Timer.NANO_SEC / this.getTargetUpdateCount()) / Timer.NANO_SEC;
+		assert upd != null;
 		
-		return true;
+		updater = upd;
+		
 	}
 	
-	@Override
-	public final void firstUpdate()
+	@SuppressWarnings("unqualified-field-access")
+	public ThreadTimed(String name, IUpdatable upd)
 	{
-		this.timer.start();
-		this.timer.stop();
+		super(name);
 		
-		this.time = System.nanoTime() / Timer.NANO_SEC;
+		assert upd != null;
+		
+		updater = upd;
 		
 	}
 	
@@ -117,19 +120,43 @@ public abstract class ThreadTimed extends ThreadStoppable implements IUpdatable
 	}
 	
 	@Override
+	public void update(double delta) throws Throwable{}
+	
+	@Override
+	public boolean initiate()
+	{
+		this.delta = (Timer.NANO_SEC / this.getTargetUpdateCount()) / Timer.NANO_SEC;
+		
+		return true;
+	}
+	
+	@Override
+	public final void firstUpdate()
+	{
+		this.timer.start();
+		this.timer.stop();
+		
+		this.time = System.nanoTime() / Timer.NANO_SEC;
+		
+	}
+	
+	@Override
 	protected void onPostUpdate()
 	{
 		this.timeUsed += this.timeSpent;
 		
 	}
 	
-	public abstract int getTargetUpdateCount();
+	public int getTargetUpdateCount()
+	{
+		return 30;
+	}
 	
 	public boolean doPostUpdate()
 	{
 		return false;
 	}
 	
-	public void postUpdate(double delta) throws Throwable{};
+	public void postUpdate(double delta) throws Throwable{}
 	
 }
