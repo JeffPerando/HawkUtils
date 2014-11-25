@@ -16,7 +16,6 @@ public class ThreadTimed extends ThreadStoppable implements IUpdatable
 	
 	private double time = 0, lastTime, timeUsed = 0, delta, deltaTime = 0, timeSpent = 0;
 	
-	private Timer timer = new Timer();
 	private IUpdatable updater = this;
 	private final Runnable update = (() ->
 	{
@@ -46,31 +45,46 @@ public class ThreadTimed extends ThreadStoppable implements IUpdatable
 		
 	});
 	
-	public ThreadTimed(){}
+	private final int updates;
+	private Timer timer = new Timer();
 	
+	@SuppressWarnings("unqualified-field-access")
+	public ThreadTimed()
+	{
+		updates = 30;
+		
+	}
+	
+	@SuppressWarnings("unqualified-field-access")
 	public ThreadTimed(String name)
 	{
 		super(name);
 		
+		updates = 30;
+		
 	}
 	
 	@SuppressWarnings("unqualified-field-access")
-	public ThreadTimed(IUpdatable upd)
+	public ThreadTimed(IUpdatable upd, int updCount)
 	{
 		assert upd != null;
+		assert updCount > 0;
 		
 		updater = upd;
+		updates = updCount;
 		
 	}
 	
 	@SuppressWarnings("unqualified-field-access")
-	public ThreadTimed(String name, IUpdatable upd)
+	public ThreadTimed(String name, IUpdatable upd, int updCount)
 	{
 		super(name);
 		
 		assert upd != null;
+		assert updCount > 0;
 		
 		updater = upd;
+		updates = updCount;
 		
 	}
 	
@@ -149,7 +163,7 @@ public class ThreadTimed extends ThreadStoppable implements IUpdatable
 	
 	public int getTargetUpdateCount()
 	{
-		return 30;
+		return this.updates;
 	}
 	
 	public boolean doPostUpdate()
