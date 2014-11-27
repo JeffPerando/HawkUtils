@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import com.elusivehawk.util.storage.SemiFinalStorage;
 import com.elusivehawk.util.string.StringHelper;
 
 /**
@@ -311,25 +310,23 @@ public final class FileHelper
 	
 	public static File getChild(String name, File folder)
 	{
-		return getChild(name, folder, false);
-	}
-	
-	public static File getChild(String name, File folder, boolean goDeep)
-	{
-		SemiFinalStorage<File> ret = SemiFinalStorage.create(null);
+		File[] children = folder.listFiles();
 		
-		scanForFiles(folder, goDeep, ((file) ->
+		if (children == null || children.length == 0)
+		{
+			return null;
+		}
+		
+		for (File file : children)
 		{
 			if (file.getName().equals(name))
 			{
-				ret.set(file);
-				
+				return file;
 			}
 			
-			return !ret.locked();
-		}));
+		}
 		
-		return ret.get();
+		return null;
 	}
 	
 	public static File getChild(String name, List<File> files)
@@ -351,13 +348,7 @@ public final class FileHelper
 		return null;
 	}
 	
-	public static void scanForFiles(File folder, IFileScanner sc)
-	{
-		scanForFiles(folder, true, sc);
-		
-	}
-	
-	public static void scanForFiles(File file, boolean recursive, IFileScanner sc)
+	public static void scanForFiles(File file, IFileScanner sc)
 	{
 		assert isReal(file);
 		
@@ -370,9 +361,9 @@ public final class FileHelper
 		
 		for (File f : files)
 		{
-			if (f.isDirectory() && recursive)
+			if (f.isDirectory())
 			{
-				scanForFiles(f, true, sc);
+				scanForFiles(f, sc);
 				
 			}
 			
