@@ -1,9 +1,6 @@
 
 package com.elusivehawk.util;
 
-import java.io.PrintStream;
-
-
 /**
  * 
  * Assists in helping to shut down your PC or Android application.
@@ -39,18 +36,15 @@ public final class ShutdownHelper
 		
 		int hash = err.hashCode();
 		
-		System.err.println(String.format("Exiting with err %s (%s)", hash, err));
+		System.err.println(String.format("Exiting with error code %s (\"%s\")", hash, err));
 		
 		exit0(hash);
 		
 	}
 	
-	@SuppressWarnings("resource")
 	public static void exit(int err)
 	{
-		PrintStream ps = err == 0 ? System.out : System.err;
-		
-		ps.println(String.format("Exiting with error code #%s", err));
+		(err == 0 ? System.out : System.err).println(String.format("Exiting with error code #%s", err));
 		
 		exit0(err);
 		
