@@ -18,8 +18,6 @@ public final class HashGen
 	private final MessageDigest
 				md5 = newDigest("MD5"),
 				sha1 = newDigest("SHA-1"),
-				sha2 = newDigest("SHA-2"),
-				sha3 = newDigest("SHA-3"),
 				sha256 = newDigest("SHA-256");
 	private final CRC32 crc32 = new CRC32();
 	
@@ -85,16 +83,6 @@ public final class HashGen
 	public static byte[] sha1(byte[]... in)
 	{
 		return hash(INSTANCE.sha1, in);
-	}
-	
-	public static byte[] sha2(byte[]... in)
-	{
-		return hash(INSTANCE.sha2, in);
-	}
-	
-	public static byte[] sha3(byte[]... in)
-	{
-		return hash(INSTANCE.sha3, in);
 	}
 	
 	public static byte[] sha256(byte[]... in)
