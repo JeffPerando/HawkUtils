@@ -89,7 +89,7 @@ public final class FileHelper
 		return null;
 	}
 	
-	public static File getResource(String path)
+	public static File getResourceFile(String path)
 	{
 		File root = getRootResDir();
 		
@@ -108,9 +108,7 @@ public final class FileHelper
 			return FileHelper.class.getResourceAsStream(path);
 		}
 		
-		File file = createFile(CompInfo.JAR_DIR.getParentFile(), path);
-		
-		return createInStream(file);
+		return createInStream(createFile(CompInfo.JAR_DIR.getParentFile(), fixPath(path)));
 	}
 	
 	public static FileInputStream createInStream(File file)
