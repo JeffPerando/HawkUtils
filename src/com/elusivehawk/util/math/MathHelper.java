@@ -142,6 +142,11 @@ public final class MathHelper
 		return ret;
 	}
 	
+	public static float interpolate(float one, float two)
+	{
+		return interpolate(one, two, 1f);
+	}
+	
 	public static float interpolate(float one, float two, float factor)
 	{
 		assert bounds(factor, 0.0f, 1.0f);
@@ -158,7 +163,7 @@ public final class MathHelper
 	{
 		for (int c = 0; c < dest.size(); c++)
 		{
-			dest.set(c, ((two.get(c) * factor) + ((1f - factor) * one.get(c))), false);
+			dest.set(c, interpolate(one.get(c), two.get(c), factor), false);
 			
 		}
 		
