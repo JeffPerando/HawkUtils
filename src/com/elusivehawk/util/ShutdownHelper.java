@@ -18,7 +18,7 @@ public final class ShutdownHelper
 		return INSTANCE;
 	}
 	
-	public void setShutdownMech(ShutdownMechanism sm)
+	public synchronized void setShutdownMech(ShutdownMechanism sm)
 	{
 		assert sm != null;
 		
@@ -28,13 +28,7 @@ public final class ShutdownHelper
 	
 	public static void exit(String err)
 	{
-		if (err == null || "".equals(err))
-		{
-			exit(0);
-			return;
-		}
-		
-		int hash = err.hashCode();
+		int hash = (err == null ? 0 : err.hashCode());
 		
 		System.err.println(String.format("Exiting with error code %s (\"%s\")", hash, err));
 		
