@@ -16,6 +16,7 @@ public final class Logger
 	
 	private Logger(){}
 	
+	@Deprecated
 	public static Logger log()
 	{
 		return INSTANCE;
@@ -29,74 +30,74 @@ public final class Logger
 		
 	}
 	
-	public boolean enableVerbosity()
+	public static boolean enableVerbosity()
 	{
-		return this.verbose;
+		return INSTANCE.verbose;
 	}
 	
-	public synchronized void setEnableVerbosity(boolean v)
+	public static synchronized void setEnableVerbosity(boolean v)
 	{
-		this.verbose = v;
+		INSTANCE.verbose = v;
 		
 	}
 	
-	public void debug(String msg, Object... info)
+	public static void debug(String msg, Object... info)
 	{
-		this.log(EnumLogType.DEBUG, msg, info);
+		log(EnumLogType.DEBUG, msg, info);
 		
 	}
 	
-	public void err(Throwable e)
+	public static void err(Throwable e)
 	{
-		this.err(null, e);
+		err(null, e);
 		
 	}
 	
-	public void err(String msg, Throwable e, Object... info)
+	public static void err(String msg, Throwable e, Object... info)
 	{
-		this.log(EnumLogType.ERROR, msg, e, info);
+		log(EnumLogType.ERROR, msg, e, info);
 		
 	}
 	
-	public void info(String msg, Object... info)
+	public static void info(String msg, Object... info)
 	{
-		this.log(EnumLogType.INFO, msg, info);
+		log(EnumLogType.INFO, msg, info);
 		
 	}
 	
-	public void verbose(String msg, Object... info)
+	public static void verbose(String msg, Object... info)
 	{
-		this.log(EnumLogType.VERBOSE, msg, info);
+		log(EnumLogType.VERBOSE, msg, info);
 		
 	}
 	
-	public void warn(String msg, Object... info)
+	public static void warn(String msg, Object... info)
 	{
-		this.log(EnumLogType.WARN, msg, info);
+		log(EnumLogType.WARN, msg, info);
 		
 	}
 	
-	public void wtf(String msg, Object... info)
+	public static void wtf(String msg, Object... info)
 	{
-		this.log(EnumLogType.WTF, msg, info);
+		log(EnumLogType.WTF, msg, info);
 		
 	}
 	
-	public void log(EnumLogType type, String msg, Object... info)
+	public static void log(EnumLogType type, String msg, Object... info)
 	{
-		this.log(type, msg, null, info);
+		log(type, msg, null, info);
 		
 	}
 	
-	public void log(EnumLogType type, String msg, Throwable e, Object... info)
+	public static void log(EnumLogType type, String msg, Throwable e, Object... info)
 	{
-		this.log(new LogInfo(type, msg, e, info));
+		log(new LogInfo(type, msg, e, info));
 		
 	}
 	
-	public void log(LogInfo info)
+	public static void log(LogInfo info)
 	{
-		this.log.log(info, this.verbose);
+		INSTANCE.log.log(info, enableVerbosity());
 		
 	}
 	
