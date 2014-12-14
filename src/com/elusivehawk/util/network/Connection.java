@@ -89,7 +89,7 @@ public class Connection implements IPacketListener
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		

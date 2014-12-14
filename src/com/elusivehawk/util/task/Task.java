@@ -47,7 +47,7 @@ public abstract class Task
 		}
 		catch (Throwable e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		

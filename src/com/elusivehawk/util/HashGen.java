@@ -34,7 +34,7 @@ public final class HashGen
 		}
 		catch (Throwable e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		

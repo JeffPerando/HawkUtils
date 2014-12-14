@@ -55,7 +55,7 @@ public class Client implements IHost
 		}
 		catch (NetworkException e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		

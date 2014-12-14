@@ -38,7 +38,7 @@ public final class ReflectionHelper
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		
@@ -98,7 +98,7 @@ public final class ReflectionHelper
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		
@@ -141,7 +141,7 @@ public final class ReflectionHelper
 			}
 			catch (Exception e)
 			{
-				Logger.log().err(e);
+				Logger.err(e);
 				
 			}
 			
@@ -166,7 +166,7 @@ public final class ReflectionHelper
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		
@@ -230,7 +230,7 @@ public final class ReflectionHelper
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		
@@ -304,7 +304,7 @@ public final class ReflectionHelper
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		

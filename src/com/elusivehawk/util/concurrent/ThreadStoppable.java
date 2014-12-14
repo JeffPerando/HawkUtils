@@ -116,7 +116,7 @@ public abstract class ThreadStoppable extends Thread implements IPausable
 	
 	public void handleException(Throwable e)
 	{
-		Logger.log().err(e);
+		Logger.err(e);
 		
 	}
 	

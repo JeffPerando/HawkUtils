@@ -48,7 +48,7 @@ public class ThreadJoinListener extends ThreadStoppable
 		}
 		catch (IOException e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			return false;
 		}
 		
@@ -82,7 +82,7 @@ public class ThreadJoinListener extends ThreadStoppable
 			}
 			catch (IOException e)
 			{
-				Logger.log().err(e);
+				Logger.err(e);
 				
 			}
 			

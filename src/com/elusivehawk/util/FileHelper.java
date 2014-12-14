@@ -406,7 +406,7 @@ public final class FileHelper
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		
@@ -435,7 +435,7 @@ public final class FileHelper
 			}
 			catch (Exception e)
 			{
-				Logger.log().err(e);
+				Logger.err(e);
 				
 			}
 			
@@ -478,7 +478,7 @@ public final class FileHelper
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		finally
@@ -492,7 +492,7 @@ public final class FileHelper
 				}
 				catch (Exception e)
 				{
-					Logger.log().err(e);
+					Logger.err(e);
 					
 				}
 				
@@ -527,7 +527,7 @@ public final class FileHelper
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 			return false;
 		}

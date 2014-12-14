@@ -64,7 +64,7 @@ public class ByteStreams implements IByteReader, IByteWriter, Closeable
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		
@@ -86,7 +86,7 @@ public class ByteStreams implements IByteReader, IByteWriter, Closeable
 			}
 			catch (Exception e)
 			{
-				Logger.log().err(e);
+				Logger.err(e);
 				
 			}
 			
@@ -106,7 +106,7 @@ public class ByteStreams implements IByteReader, IByteWriter, Closeable
 			}
 			catch (Exception e)
 			{
-				Logger.log().err(e);
+				Logger.err(e);
 				
 			}
 			
@@ -127,7 +127,7 @@ public class ByteStreams implements IByteReader, IByteWriter, Closeable
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		

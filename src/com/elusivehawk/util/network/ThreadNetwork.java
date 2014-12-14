@@ -248,7 +248,7 @@ public class ThreadNetwork extends ThreadStoppable
 			}
 			catch (IOException e)
 			{
-				Logger.log().err(e);
+				Logger.err(e);
 				
 			}
 			

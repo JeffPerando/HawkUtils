@@ -31,7 +31,7 @@ public final class Serializers
 					}
 					catch (Throwable e)
 					{
-						Logger.log().err(e);
+						Logger.err(e);
 						
 					}
 					
@@ -69,7 +69,7 @@ public final class Serializers
 						}
 						catch (Throwable e)
 						{
-							Logger.log().err(e);
+							Logger.err(e);
 							break;
 						}
 						
@@ -109,7 +109,7 @@ public final class Serializers
 						}
 						catch (Throwable e)
 						{
-							Logger.log().err(e);
+							Logger.err(e);
 							break;
 						}
 						

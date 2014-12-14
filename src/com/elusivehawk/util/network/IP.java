@@ -93,7 +93,7 @@ public final class IP
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		
@@ -122,7 +122,7 @@ public final class IP
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		

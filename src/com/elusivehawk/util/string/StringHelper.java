@@ -155,7 +155,7 @@ public final class StringHelper
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		
@@ -166,7 +166,7 @@ public final class StringHelper
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		
@@ -252,7 +252,7 @@ public final class StringHelper
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		finally
@@ -264,7 +264,7 @@ public final class StringHelper
 			}
 			catch (Exception e)
 			{
-				Logger.log().err(e);
+				Logger.err(e);
 				
 			}
 			
@@ -299,7 +299,7 @@ public final class StringHelper
 			}
 			catch (Exception e)
 			{
-				Logger.log().err(e);
+				Logger.err(e);
 				
 				return false;
 			}
@@ -308,7 +308,7 @@ public final class StringHelper
 		
 		if (!file.canWrite())
 		{
-			Logger.log().log(EnumLogType.ERROR, "File with path %s cannot be written to! This is a bug!", file);
+			Logger.log(EnumLogType.ERROR, "File with path %s cannot be written to! This is a bug!", file);
 			
 			return false;
 		}
@@ -328,7 +328,7 @@ public final class StringHelper
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		finally
@@ -340,7 +340,7 @@ public final class StringHelper
 			}
 			catch (Exception e)
 			{
-				Logger.log().err(e);
+				Logger.err(e);
 				
 			}
 			
@@ -355,7 +355,7 @@ public final class StringHelper
 		
 		if (lastIn == -1)
 		{
-			Logger.log().log(EnumLogType.ERROR, "Failed to remove last instance of %s from %s", in, str);
+			Logger.log(EnumLogType.ERROR, "Failed to remove last instance of %s from %s", in, str);
 			
 			return str;
 		}
@@ -701,7 +701,7 @@ public final class StringHelper
 		}
 		catch (Exception e)
 		{
-			Logger.log().err(e);
+			Logger.err(e);
 			
 		}
 		
