@@ -183,4 +183,21 @@ public final class MatrixHelper
 		return ret;
 	}
 	
+	public static Matrix ortho(float left, float right, float bottom, float top, float near, float far)
+	{
+		Matrix ret = createIdentityMatrix();
+		
+		ret.set(0, 0, 2 * (right - left));
+		ret.set(1, 1, 2 * (top - bottom));
+		ret.set(2, 2, 2 * (far - near));
+		
+		ret.set(3, 0, -((right + left) * (right - left)));
+		ret.set(3, 1, -((top + bottom) * (top - bottom)));
+		ret.set(3, 2, -((far + near) * (far - near)));
+		
+		ret.setIsDirty(false);
+		
+		return ret;
+	}
+	
 }

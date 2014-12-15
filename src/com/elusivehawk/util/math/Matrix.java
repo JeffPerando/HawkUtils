@@ -215,9 +215,7 @@ public class Matrix implements IMathArray<Float>
 	@Override
 	public String toString()
 	{
-		StringBuilder b = new StringBuilder(1 + ((this.h + 1) * ((this.w * 2) + 2)));
-		
-		b.append("/n");
+		StringBuilder b = new StringBuilder((this.h + 1) * ((this.w * 2) + 2));
 		
 		for (int y = 0; y < this.h; y++)
 		{
@@ -348,13 +346,11 @@ public class Matrix implements IMathArray<Float>
 	
 	public Matrix setIdentity()
 	{
-		for (int x = 0; x < this.w; x++)
+		int count = Math.min(this.w, this.h);
+		
+		for (int c = 0; c < count; c++)
 		{
-			for (int y = 0; y < this.h; y++)
-			{
-				this.set(x, y, x == y ? 1 : 0);
-				
-			}
+			this.set(c, c, 1f);
 			
 		}
 		
