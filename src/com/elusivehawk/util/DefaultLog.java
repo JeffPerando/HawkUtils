@@ -30,15 +30,13 @@ public class DefaultLog implements ILog
 		
 		if (log != null && !log.equalsIgnoreCase(""))
 		{
-			String[] strs = log.split("\n");
+			String str = String.format(log, info.args);
 			
-			for (String str : strs)
+			String[] spl = str.split("\n");
+			
+			for (String msg : spl)
 			{
-				if (!str.equalsIgnoreCase(""))
-				{
-					printString(str, thr, info);
-					
-				}
+				printString(msg, thr, info);
 				
 			}
 			
