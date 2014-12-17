@@ -15,7 +15,7 @@ public class Quaternion implements IMathArray<Float>
 {
 	protected final float[] data = new float[4];
 	
-	protected volatile boolean dirty = false, sync = false;
+	protected boolean dirty = false, sync = false, immutable = false;
 	protected List<Listener> listeners = null;
 	protected Matrix matrix = MatrixHelper.createIdentityMatrix();
 	
@@ -50,7 +50,7 @@ public class Quaternion implements IMathArray<Float>
 	}
 	
 	@Override
-	public void setIsDirty(boolean b)
+	public synchronized void setIsDirty(boolean b)
 	{
 		this.dirty = b;
 		
@@ -71,6 +71,7 @@ public class Quaternion implements IMathArray<Float>
 	@Override
 	public Quaternion set(int pos, Number num, boolean notify)
 	{
+		assert !this.isImmutable();
 		assert MathHelper.bounds(pos, 0, this.size());
 		
 		if (this.sync)
@@ -95,6 +96,20 @@ public class Quaternion implements IMathArray<Float>
 			this.onChanged();
 			
 		}
+		
+		return this;
+	}
+	
+	@Override
+	public boolean isImmutable()
+	{
+		return this.immutable;
+	}
+
+	@Override
+	public IMathArray<Float> setImmutable()
+	{
+		this.immutable = true;
 		
 		return this;
 	}

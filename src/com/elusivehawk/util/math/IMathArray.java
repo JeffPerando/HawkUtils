@@ -3,7 +3,6 @@ package com.elusivehawk.util.math;
 
 import com.elusivehawk.util.IDirty;
 import com.elusivehawk.util.storage.Buffer;
-import com.elusivehawk.util.storage.IArray;
 import com.elusivehawk.util.storage.IStorable;
 
 /**
@@ -12,8 +11,16 @@ import com.elusivehawk.util.storage.IStorable;
  * 
  * @author Elusivehawk
  */
-public interface IMathArray<T extends Number> extends IDirty, IStorable<T>, IArray<T>
+public interface IMathArray<T extends Number> extends IDirty, IStorable<T>
 {
+	T get(int index);
+	
+	int size();
+	
+	boolean isImmutable();
+	
+	IMathArray<T> setImmutable();
+	
 	IMathArray<T> set(int pos, Number num, boolean notify);
 	
 	IMathArray<T> add(IMathArray<T> obj, IMathArray<T> dest);
@@ -39,7 +46,6 @@ public interface IMathArray<T extends Number> extends IDirty, IStorable<T>, IArr
 		
 	}
 	
-	@Override
 	default IMathArray<T> set(int pos, T num)
 	{
 		return this.set(pos, num, true);

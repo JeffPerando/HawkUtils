@@ -178,13 +178,26 @@ public class ArrayHelper
 		return l;
 	}
 	
-	public static byte[] asBytes(IArray<? extends Number> nums)
+	public static byte[] asBytes(List<? extends Number> nums)
 	{
 		byte[] ret = new byte[nums.size()];
 		
-		for (int c = 0; c < ret.length; c++)
+		for (int c = 0; c < nums.size(); c++)
 		{
 			ret[c] = nums.get(c).byteValue();
+			
+		}
+		
+		return ret;
+	}
+	
+	public static byte[] asBytes(Number... nums)
+	{
+		byte[] ret = new byte[nums.length];
+		
+		for (int c = 0; c < nums.length; c++)
+		{
+			ret[c] = nums[c].byteValue();
 			
 		}
 		
@@ -205,23 +218,11 @@ public class ArrayHelper
 		return ret;
 	}
 	
-	public static byte[] asBytes(List<? extends Number> nums)
-	{
-		byte[] ret = new byte[nums.size()];
-		
-		for (int c = 0; c < nums.size(); c++)
-		{
-			ret[c] = nums.get(c).byteValue();
-			
-		}
-		
-		return ret;
-	}
-	public static double[] asDoubles(IArray<? extends Number> nums)
+	public static double[] asDoubles(List<? extends Number> nums)
 	{
 		double[] ret = new double[nums.size()];
 		
-		for (int c = 0; c < ret.length; c++)
+		for (int c = 0; c < nums.size(); c++)
 		{
 			ret[c] = nums.get(c).doubleValue();
 			
@@ -230,13 +231,13 @@ public class ArrayHelper
 		return ret;
 	}
 	
-	public static double[] asDoubles(List<? extends Number> nums)
+	public static double[] asDoubles(Number... nums)
 	{
-		double[] ret = new double[nums.size()];
+		double[] ret = new double[nums.length];
 		
-		for (int c = 0; c < nums.size(); c++)
+		for (int c = 0; c < nums.length; c++)
 		{
-			ret[c] = nums.get(c).doubleValue();
+			ret[c] = nums[c].doubleValue();
 			
 		}
 		
@@ -257,11 +258,11 @@ public class ArrayHelper
 		return ret;
 	}
 	
-	public static float[] asFloats(IArray<? extends Number> nums)
+	public static float[] asFloats(List<? extends Number> nums)
 	{
 		float[] ret = new float[nums.size()];
 		
-		for (int c = 0; c < ret.length; c++)
+		for (int c = 0; c < nums.size(); c++)
 		{
 			ret[c] = nums.get(c).floatValue();
 			
@@ -270,13 +271,13 @@ public class ArrayHelper
 		return ret;
 	}
 	
-	public static float[] asFloats(List<? extends Number> nums)
+	public static float[] asFloats(Number... nums)
 	{
-		float[] ret = new float[nums.size()];
+		float[] ret = new float[nums.length];
 		
-		for (int c = 0; c < nums.size(); c++)
+		for (int c = 0; c < nums.length; c++)
 		{
-			ret[c] = nums.get(c).floatValue();
+			ret[c] = nums[c].floatValue();
 			
 		}
 		
@@ -297,11 +298,11 @@ public class ArrayHelper
 		return ret;
 	}
 	
-	public static int[] asInts(IArray<? extends Number> nums)
+	public static int[] asInts(List<? extends Number> nums)
 	{
 		int[] ret = new int[nums.size()];
 		
-		for (int c = 0; c < ret.length; c++)
+		for (int c = 0; c < nums.size(); c++)
 		{
 			ret[c] = nums.get(c).intValue();
 			
@@ -310,13 +311,13 @@ public class ArrayHelper
 		return ret;
 	}
 	
-	public static int[] asInts(List<? extends Number> nums)
+	public static int[] asInts(Number... nums)
 	{
-		int[] ret = new int[nums.size()];
+		int[] ret = new int[nums.length];
 		
-		for (int c = 0; c < nums.size(); c++)
+		for (int c = 0; c < nums.length; c++)
 		{
-			ret[c] = nums.get(c).intValue();
+			ret[c] = nums[c].intValue();
 			
 		}
 		
@@ -337,11 +338,11 @@ public class ArrayHelper
 		return ret;
 	}
 	
-	public static long[] asLongs(IArray<? extends Number> nums)
+	public static long[] asLongs(List<? extends Number> nums)
 	{
 		long[] ret = new long[nums.size()];
 		
-		for (int c = 0; c < ret.length; c++)
+		for (int c = 0; c < nums.size(); c++)
 		{
 			ret[c] = nums.get(c).longValue();
 			
@@ -350,13 +351,13 @@ public class ArrayHelper
 		return ret;
 	}
 	
-	public static long[] asLongs(List<? extends Number> nums)
+	public static long[] asLongs(Number... nums)
 	{
-		long[] ret = new long[nums.size()];
+		long[] ret = new long[nums.length];
 		
-		for (int c = 0; c < nums.size(); c++)
+		for (int c = 0; c < nums.length; c++)
 		{
-			ret[c] = nums.get(c).longValue();
+			ret[c] = nums[c].longValue();
 			
 		}
 		
@@ -377,11 +378,11 @@ public class ArrayHelper
 		return ret;
 	}
 	
-	public static short[] asShorts(IArray<? extends Number> nums)
+	public static short[] asShorts(List<? extends Number> nums)
 	{
 		short[] ret = new short[nums.size()];
 		
-		for (int c = 0; c < ret.length; c++)
+		for (int c = 0; c < nums.size(); c++)
 		{
 			ret[c] = nums.get(c).shortValue();
 			
@@ -390,13 +391,13 @@ public class ArrayHelper
 		return ret;
 	}
 	
-	public static short[] asShorts(List<? extends Number> nums)
+	public static short[] asShorts(Number... nums)
 	{
-		short[] ret = new short[nums.size()];
+		short[] ret = new short[nums.length];
 		
-		for (int c = 0; c < nums.size(); c++)
+		for (int c = 0; c < nums.length; c++)
 		{
-			ret[c] = nums.get(c).shortValue();
+			ret[c] = nums[c].shortValue();
 			
 		}
 		

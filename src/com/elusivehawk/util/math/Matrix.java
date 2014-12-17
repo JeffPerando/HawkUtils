@@ -7,7 +7,7 @@ import com.elusivehawk.util.storage.BufferHelper;
 
 /**
  * 
- * Because LWJGL goofed theirs up!
+ * 
  * 
  * @author Elusivehawk
  */
@@ -16,7 +16,7 @@ public class Matrix implements IMathArray<Float>
 	protected final float[] data;
 	public final int w, h;
 	
-	protected boolean dirty = false;
+	private boolean dirty = false, immutable = false;;
 	
 	public Matrix()
 	{
@@ -124,6 +124,20 @@ public class Matrix implements IMathArray<Float>
 		
 		
 		return dest;
+	}
+	
+	@Override
+	public boolean isImmutable()
+	{
+		return this.immutable;
+	}
+
+	@Override
+	public IMathArray<Float> setImmutable()
+	{
+		this.immutable = true;
+		
+		return this;
 	}
 	
 	@Override

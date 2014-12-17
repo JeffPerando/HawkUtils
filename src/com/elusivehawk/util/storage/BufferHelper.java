@@ -155,6 +155,21 @@ public final class BufferHelper
 		return ret;
 	}
 	
+	public static ByteBuffer makeByteBuffer(Number... data)
+	{
+		ByteBuffer ret = createByteBuffer(data.length);
+		
+		for (Number n : data)
+		{
+			ret.put(n.byteValue());
+			
+		}
+		
+		ret.flip();
+		
+		return ret;
+	}
+	
 	public static ByteBuffer makeByteBuffer(ByteBuffer buf, int offset, int count)
 	{
 		ByteBuffer ret = createByteBuffer(count);
@@ -222,21 +237,6 @@ public final class BufferHelper
 		return ret;
 	}
 	
-	public static ByteBuffer makeByteBuffer(IArray<Byte> a)
-	{
-		ByteBuffer ret = createByteBuffer(a.size());
-		
-		for (int c = 0; c < a.size(); c++)
-		{
-			ret.put(a.get(c));
-			
-		}
-		
-		ret.flip();
-		
-		return ret;
-	}
-	
 	public static CharBuffer makeCharBuffer(char... data)
 	{
 		return (CharBuffer)createCharBuffer(data.length).put(data).flip();
@@ -295,167 +295,6 @@ public final class BufferHelper
 		return ret;
 	}
 	
-	public static CharBuffer makeCharBuffer(IArray<Character> a)
-	{
-		CharBuffer ret = createCharBuffer(a.size());
-		
-		for (int c = 0; c < a.size(); c++)
-		{
-			ret.put(a.get(c));
-			
-		}
-		
-		ret.flip();
-		
-		return ret;
-	}
-	
-	public static ShortBuffer makeShortBuffer(short... data)
-	{
-		return (ShortBuffer)createShortBuffer(data.length).put(data).flip();
-	}
-	
-	public static ShortBuffer makeShortBuffer(Collection<Short> data)
-	{
-		ShortBuffer ret = createShortBuffer(data.size());
-		
-		for (short s : data)
-		{
-			ret.put(s);
-			
-		}
-		
-		ret.flip();
-		
-		return ret;
-	}
-	
-	public static ShortBuffer makeShortBuffer(ShortBuffer buf, int offset, int count)
-	{
-		ShortBuffer ret = createShortBuffer(count);
-		
-		for (int c = 0; c < count; c++)
-		{
-			ret.put(buf.get(c + offset));
-			
-		}
-		
-		ret.flip();
-		
-		return ret;
-	}
-	
-	public static ShortBuffer makeShortBuffer(ShortBuffer... bufs)
-	{
-		int length = 0;
-		
-		for (ShortBuffer buf : bufs)
-		{
-			length += buf.remaining();
-			
-		}
-		
-		ShortBuffer ret = createShortBuffer(length);
-		
-		for (ShortBuffer buf : bufs)
-		{
-			ret.put(buf);
-			
-		}
-		
-		ret.flip();
-		
-		return ret;
-	}
-	
-	public static ShortBuffer makeShortBuffer(IArray<Short> a)
-	{
-		ShortBuffer ret = createShortBuffer(a.size());
-		
-		for (int c = 0; c < a.size(); c++)
-		{
-			ret.put(a.get(c));
-			
-		}
-		
-		ret.flip();
-		
-		return ret;
-	}
-	
-	public static IntBuffer makeIntBuffer(int... data)
-	{
-		return (IntBuffer)createIntBuffer(data.length).put(data).flip();
-	}
-	
-	public static IntBuffer makeIntBuffer(Collection<Integer> data)
-	{
-		IntBuffer ret = createIntBuffer(data.size());
-		
-		for (int i : data)
-		{
-			ret.put(i);
-			
-		}
-		
-		ret.flip();
-		
-		return ret;
-	}
-	
-	public static IntBuffer makeIntBuffer(IntBuffer buf, int offset, int count)
-	{
-		IntBuffer ret = createIntBuffer(count);
-		
-		for (int c = 0; c < count; c++)
-		{
-			ret.put(buf.get(c + offset));
-			
-		}
-		
-		ret.flip();
-		
-		return ret;
-	}
-	
-	public static IntBuffer makeIntBuffer(IntBuffer... bufs)
-	{
-		int length = 0;
-		
-		for (IntBuffer buf : bufs)
-		{
-			length += buf.remaining();
-			
-		}
-		
-		IntBuffer ret = createIntBuffer(length);
-		
-		for (IntBuffer buf : bufs)
-		{
-			ret.put(buf);
-			
-		}
-		
-		ret.flip();
-		
-		return ret;
-	}
-	
-	public static IntBuffer makeIntBuffer(IArray<Integer> a)
-	{
-		IntBuffer ret = createIntBuffer(a.size());
-		
-		for (int c = 0; c < a.size(); c++)
-		{
-			ret.put(a.get(c));
-			
-		}
-		
-		ret.flip();
-		
-		return ret;
-	}
-	
 	public static DoubleBuffer makeDoubleBuffer(double... data)
 	{
 		return (DoubleBuffer)createDoubleBuffer(data.length).put(data).flip();
@@ -468,6 +307,21 @@ public final class BufferHelper
 		for (double d : data)
 		{
 			ret.put(d);
+			
+		}
+		
+		ret.flip();
+		
+		return ret;
+	}
+	
+	public static DoubleBuffer makeDoubleBuffer(Number... data)
+	{
+		DoubleBuffer ret = createDoubleBuffer(data.length);
+		
+		for (Number n : data)
+		{
+			ret.put(n.doubleValue());
 			
 		}
 		
@@ -514,21 +368,6 @@ public final class BufferHelper
 		return ret;
 	}
 	
-	public static DoubleBuffer makeDoubleBuffer(IArray<Double> a)
-	{
-		DoubleBuffer ret = createDoubleBuffer(a.size());
-		
-		for (int c = 0; c < a.size(); c++)
-		{
-			ret.put(a.get(c));
-			
-		}
-		
-		ret.flip();
-		
-		return ret;
-	}
-	
 	public static FloatBuffer makeFloatBuffer(float... data)
 	{
 		return (FloatBuffer)createFloatBuffer(data.length).put(data).flip();
@@ -545,6 +384,19 @@ public final class BufferHelper
 		}
 		
 		ret.flip();
+		
+		return ret;
+	}
+	
+	public static FloatBuffer makeFloatBuffer(Number... data)
+	{
+		FloatBuffer ret = createFloatBuffer(data.length);
+		
+		for (Number n : data)
+		{
+			ret.put(n.floatValue());
+			
+		}
 		
 		return ret;
 	}
@@ -587,13 +439,71 @@ public final class BufferHelper
 		return ret;
 	}
 	
-	public static FloatBuffer makeFloatBuffer(IArray<Float> a)
+	public static IntBuffer makeIntBuffer(int... data)
 	{
-		FloatBuffer ret = createFloatBuffer(a.size());
+		return (IntBuffer)createIntBuffer(data.length).put(data).flip();
+	}
+	
+	public static IntBuffer makeIntBuffer(Collection<Integer> data)
+	{
+		IntBuffer ret = createIntBuffer(data.size());
 		
-		for (int c = 0; c < a.size(); c++)
+		for (int i : data)
 		{
-			ret.put(a.get(c));
+			ret.put(i);
+			
+		}
+		
+		ret.flip();
+		
+		return ret;
+	}
+	
+	public static IntBuffer makeIntBuffer(Number... data)
+	{
+		IntBuffer ret = createIntBuffer(data.length);
+		
+		for (Number n : data)
+		{
+			ret.put(n.intValue());
+			
+		}
+		
+		ret.flip();
+		
+		return ret;
+	}
+	
+	public static IntBuffer makeIntBuffer(IntBuffer buf, int offset, int count)
+	{
+		IntBuffer ret = createIntBuffer(count);
+		
+		for (int c = 0; c < count; c++)
+		{
+			ret.put(buf.get(c + offset));
+			
+		}
+		
+		ret.flip();
+		
+		return ret;
+	}
+	
+	public static IntBuffer makeIntBuffer(IntBuffer... bufs)
+	{
+		int length = 0;
+		
+		for (IntBuffer buf : bufs)
+		{
+			length += buf.remaining();
+			
+		}
+		
+		IntBuffer ret = createIntBuffer(length);
+		
+		for (IntBuffer buf : bufs)
+		{
+			ret.put(buf);
 			
 		}
 		
@@ -614,6 +524,21 @@ public final class BufferHelper
 		for (long l : data)
 		{
 			ret.put(l);
+			
+		}
+		
+		ret.flip();
+		
+		return ret;
+	}
+	
+	public static LongBuffer makeLongBuffer(Number... data)
+	{
+		LongBuffer ret = createLongBuffer(data.length);
+		
+		for (Number n : data)
+		{
+			ret.put(n.longValue());
 			
 		}
 		
@@ -660,13 +585,71 @@ public final class BufferHelper
 		return ret;
 	}
 	
-	public static LongBuffer makeLongBuffer(IArray<Long> a)
+	public static ShortBuffer makeShortBuffer(short... data)
 	{
-		LongBuffer ret = createLongBuffer(a.size());
+		return (ShortBuffer)createShortBuffer(data.length).put(data).flip();
+	}
+	
+	public static ShortBuffer makeShortBuffer(Collection<Short> data)
+	{
+		ShortBuffer ret = createShortBuffer(data.size());
 		
-		for (int c = 0; c < a.size(); c++)
+		for (short s : data)
 		{
-			ret.put(a.get(c));
+			ret.put(s);
+			
+		}
+		
+		ret.flip();
+		
+		return ret;
+	}
+	
+	public static ShortBuffer makeShortBuffer(Number... data)
+	{
+		ShortBuffer ret = createShortBuffer(data.length);
+		
+		for (Number n : data)
+		{
+			ret.put(n.shortValue());
+			
+		}
+		
+		ret.flip();
+		
+		return ret;
+	}
+	
+	public static ShortBuffer makeShortBuffer(ShortBuffer buf, int offset, int count)
+	{
+		ShortBuffer ret = createShortBuffer(count);
+		
+		for (int c = 0; c < count; c++)
+		{
+			ret.put(buf.get(c + offset));
+			
+		}
+		
+		ret.flip();
+		
+		return ret;
+	}
+	
+	public static ShortBuffer makeShortBuffer(ShortBuffer... bufs)
+	{
+		int length = 0;
+		
+		for (ShortBuffer buf : bufs)
+		{
+			length += buf.remaining();
+			
+		}
+		
+		ShortBuffer ret = createShortBuffer(length);
+		
+		for (ShortBuffer buf : bufs)
+		{
+			ret.put(buf);
 			
 		}
 		
