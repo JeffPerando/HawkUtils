@@ -15,6 +15,11 @@ public class DefaultLog implements ILog
 	@Override
 	public void log(LogInfo info, boolean verbose)
 	{
+		if (info.isRead())
+		{
+			return;
+		}
+		
 		if (!verbose && info.type == EnumLogType.VERBOSE)
 		{
 			return;
@@ -55,6 +60,8 @@ public class DefaultLog implements ILog
 			}
 			
 		}
+		
+		info.setRead();
 		
 	}
 	

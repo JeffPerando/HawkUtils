@@ -15,6 +15,8 @@ public class LogInfo
 	public final Throwable err;
 	public final Object[] args;
 	
+	private boolean read = false;
+	
 	public LogInfo(EnumLogType logType, String info)
 	{
 		this(logType, info, new Object[0]);
@@ -40,6 +42,17 @@ public class LogInfo
 		log = info;
 		err = e;
 		args = objs;
+		
+	}
+	
+	public boolean isRead()
+	{
+		return this.read;
+	}
+	
+	public void setRead()
+	{
+		this.read = true;
 		
 	}
 	
