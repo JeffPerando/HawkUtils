@@ -1,7 +1,10 @@
 
 package com.elusivehawk.util.json;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import com.elusivehawk.util.IPopulator;
 
 /**
  * 
@@ -9,26 +12,38 @@ import java.util.List;
  * 
  * @author Elusivehawk
  */
-public class JsonArray extends JsonData
+public class JsonArray extends JsonValue<List<Object>> implements Iterable<Object>
 {
-	protected final JsonData[] array;
+	private final List<Object> array = new ArrayList<Object>();
 	
-	@SuppressWarnings("unqualified-field-access")
-	public JsonArray(String name, List<JsonData> arr)
+	public JsonArray(){}
+	
+	public JsonArray(IPopulator<JsonArray> pop)
 	{
-		super(EnumJsonType.ARRAY, name, "[");
-		array = arr.toArray(new JsonData[arr.size()]);
+		pop.populate(this);
 		
 	}
 	
 	@Override
-	public String toString(int tabs, boolean format)
+	public Iterator<Object> iterator()
+	{
+		return this.array.iterator();
+	}
+	
+	@Override
+	public List<Object> getValue()
+	{
+		return this.array;
+	}
+	
+	@Override
+	public String toJson(int tabs)
 	{
 		StringBuilder b = new StringBuilder();
 		
-		b.append(super.toString(tabs, format));
+		b.append("[");
 		
-		for (int c = 0; c < this.array.length; c++)
+		for (int c = 0; c < this.array.size(); c++)
 		{
 			if (c > 0)
 			{
@@ -36,25 +51,50 @@ public class JsonArray extends JsonData
 				
 			}
 			
-			if (format) b.append("\n");
+			Object obj = this.array.get(c);
 			
-			b.append(this.array[c].toString(tabs + 1, format));
+			if (obj instanceof IJsonSerializer)
+			{
+				b.append(((IJsonSerializer)obj).toJson(tabs + 1));
+				
+			}
+			else
+			{
+				b.append(obj);
+				
+			}
 			
 		}
 		
-		b.append(format ? "\n]" : "]");
+		b.append("]");
 		
 		return b.toString();
 	}
 	
 	public int length()
 	{
-		return this.array.length;
+		return this.array.size();
 	}
 	
-	public JsonData getValue(int i)
+	public Object getValue(int i)
 	{
-		return this.array[i];
+		return this.array.get(i);
+	}
+	
+	public void add(Object obj)
+	{
+		this.array.add(obj);
+		
+	}
+	
+	public void addAll(Object... objs)
+	{
+		for (Object obj : objs)
+		{
+			this.array.add(obj);
+			
+		}
+		
 	}
 	
 }

@@ -1,5 +1,5 @@
 
-package com.elusivehawk.util.string;
+package com.elusivehawk.util.parse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,7 +117,7 @@ public class Tokenizer
 			return false;
 		}
 		
-		Pair<String> spl = StringHelper.splitFirst(rem, tkn);
+		Pair<String> spl = ParseHelper.splitFirst(rem, tkn);
 		
 		if (!spl.one.isEmpty())
 		{

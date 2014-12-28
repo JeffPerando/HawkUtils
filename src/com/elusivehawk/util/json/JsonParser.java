@@ -3,14 +3,13 @@ package com.elusivehawk.util.json;
 
 import java.io.File;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import com.elusivehawk.util.io.IOHelper;
+import com.elusivehawk.util.parse.ParseHelper;
+import com.elusivehawk.util.parse.Token;
+import com.elusivehawk.util.parse.Tokenizer;
 import com.elusivehawk.util.storage.Buffer;
-import com.elusivehawk.util.string.StringHelper;
-import com.elusivehawk.util.string.Token;
-import com.elusivehawk.util.string.Tokenizer;
+import com.elusivehawk.util.storage.Tuple;
 
 /**
  * 
@@ -20,7 +19,7 @@ import com.elusivehawk.util.string.Tokenizer;
  */
 public final class JsonParser
 {
-	public static final String[] SEPARATORS = {"\"", ":", ",", "{", "}", "[", "]", "e", "E", "+", "-"};
+	public static final String[] SEPARATORS = {"\"", ":", ",", "{", "}", "[", "]", "e", "E", "+", "-", "true", "false"};
 	
 	private JsonParser(){}
 	
@@ -32,7 +31,7 @@ public final class JsonParser
 		{
 			tkn = buf.next();
 			
-			if (!StringHelper.isWhitespace(tkn.str))
+			if (!ParseHelper.isWhitespace(tkn.str))
 			{
 				buf.rewind(1);
 				
@@ -43,17 +42,17 @@ public final class JsonParser
 		
 	}
 	
-	public static JsonData parse(File file) throws JsonParseException
+	public static JsonValue<?> parse(File file) throws JsonParseException
 	{
-		return parse(StringHelper.read(file));
+		return parse(IOHelper.readText(file));
 	}
 	
-	public static JsonData parse(Reader r) throws JsonParseException
+	public static JsonValue<?> parse(Reader r) throws JsonParseException
 	{
-		return parse(StringHelper.read(r));
+		return parse(IOHelper.readText(r));
 	}
 	
-	public static JsonData parse(List<String> strs) throws JsonParseException
+	public static JsonValue<?> parse(List<String> strs) throws JsonParseException
 	{
 		if (strs == null || strs.isEmpty())
 		{
@@ -63,15 +62,29 @@ public final class JsonParser
 		Tokenizer t = new Tokenizer();
 		
 		t.addTokens(SEPARATORS);
-		t.addTokens(StringHelper.NUMBERS);
-		t.addTokens(StringHelper.WHITESPACE);
+		t.addTokens(ParseHelper.NUMBERS);
+		t.addTokens(ParseHelper.WHITESPACE);
 		
 		Buffer<Token> buf = new Buffer<Token>(t.tokenize(strs));
 		
-		return parseContent("", buf);
+		Object ret = parseValue(buf);
+		
+		if (!(ret instanceof JsonValue))
+		{
+			throw new JsonParseException("Was expecting a JSON value (Object, array), got \"%s\"", ret);
+		}
+		
+		skipWhitespace(buf);
+		
+		if (buf.hasNext())
+		{
+			throw new JsonParseException("");
+		}
+		
+		return (JsonValue<?>)ret;
 	}
 	
-	public static JsonData parseKeypair(Buffer<Token> buf)  throws JsonParseException
+	public static Tuple<String, Object> parseKeypair(Buffer<Token> buf)  throws JsonParseException
 	{
 		skipWhitespace(buf);
 		
@@ -88,10 +101,10 @@ public final class JsonParser
 		
 		skipWhitespace(buf);
 		
-		return parseContent(name, buf);
+		return Tuple.create(name, parseValue(buf));
 	}
 	
-	public static JsonData parseContent(String name, Buffer<Token> buf) throws JsonParseException
+	public static Object parseValue(Buffer<Token> buf) throws JsonParseException
 	{
 		Token tkn = buf.next(false);
 		
@@ -104,21 +117,21 @@ public final class JsonParser
 		
 		switch (str)
 		{
-			case "\"": return new JsonData(EnumJsonType.STRING, name, parseString(buf));
-			case "{": return parseObj(name, buf);
-			case "[": return parseArray(name, buf);
-			case "null": return new JsonData(EnumJsonType.STRING, name, null);
-			case "true":
-			case "false": return new JsonData(EnumJsonType.BOOL, name, str);
+			case "\"": return parseString(buf);
+			case "{": return parseObj(buf);
+			case "[": return parseArray(buf);
+			case "null": return null;
+			case "true": return true;
+			case "false": return false;
 			
 		}
 		
-		if (StringHelper.isInt(str) || "-".equalsIgnoreCase(str))
+		if (ParseHelper.isInt(str) || "-".equalsIgnoreCase(str))
 		{
-			return parseInt(name, buf);
+			return parseInt(buf);
 		}
 		
-		throw new JsonParseException("Invalid value for key \"%s\" found at line %s, col %s: \"%s\"", name, tkn.line, tkn.col, StringHelper.sanitizeEscapeSequence(str));
+		throw new JsonParseException("Invalid value found at line %s, col %s: \"%s\"", tkn.line, tkn.col, ParseHelper.sanitizeEscapeSequence(str));
 	}
 	
 	public static String parseString(Buffer<Token> buf)
@@ -134,14 +147,14 @@ public final class JsonParser
 		
 		while (!"\"".equalsIgnoreCase((tkn = buf.next()).str))
 		{
-			b.append(StringHelper.valueOf(tkn.str));
+			b.append(ParseHelper.valueOf(tkn.str));
 			
 		}
 		
 		return b.toString();
 	}
 	
-	public static JsonObject parseObj(String name, Buffer<Token> buf) throws JsonParseException
+	public static JsonObject parseObj(Buffer<Token> buf) throws JsonParseException
 	{
 		Token tkn = buf.next();
 		
@@ -150,19 +163,17 @@ public final class JsonParser
 			throw new JsonParseException("Found \"%s\" at line %s, col %s; Was expecting \"{\"", tkn.str, tkn.line, tkn.col);
 		}
 		
-		Map<String, JsonData> m = new HashMap<String, JsonData>();
+		JsonObject ret = new JsonObject();
 		boolean kill = false;
 		
 		while (!"}".equalsIgnoreCase((tkn = buf.next(false)).str))
 		{
-			JsonData v = parseKeypair(buf);
+			Tuple<String, Object> v = parseKeypair(buf);
 			
-			if (m.containsKey(v.key))
+			if (!ret.add(v.one, v.two))
 			{
-				throw new JsonParseException("Duplicate key: %s", v.key);
+				throw new JsonParseException("Duplicate key: %s", v.one);
 			}
-			
-			m.put(v.key, v);
 			
 			skipWhitespace(buf);
 			
@@ -183,10 +194,10 @@ public final class JsonParser
 			
 		}
 		
-		return new JsonObject(name, m.values());
+		return ret;
 	}
 	
-	public static JsonArray parseArray(String name, Buffer<Token> buf) throws JsonParseException
+	public static JsonArray parseArray(Buffer<Token> buf) throws JsonParseException
 	{
 		Token tkn = buf.next();
 		
@@ -195,14 +206,14 @@ public final class JsonParser
 			throw new JsonParseException("Found \"%s\" at line %s, col %s; Was expecting \"[\"", tkn.str, tkn.line, tkn.col);
 		}
 		
-		List<JsonData> list = new ArrayList<JsonData>();
+		JsonArray ret = new JsonArray();
 		boolean kill = false;
 		
 		while (!"]".equalsIgnoreCase((tkn = buf.next(false)).str))
 		{
 			skipWhitespace(buf);
 			
-			list.add(parseContent("", buf));
+			ret.add(parseValue(buf));
 			
 			skipWhitespace(buf);
 			
@@ -210,7 +221,7 @@ public final class JsonParser
 			{
 				if (kill)
 				{
-					throw new JsonParseException("Found \"%s\" at line %s, col %s; Remove this token!", tkn.str, tkn.line, tkn.col);
+					throw new JsonParseException("Found \"%s\" at line %s, col %s; Was expecting \",\"!", tkn.str, tkn.line, tkn.col);
 				}
 				
 				kill = true;
@@ -221,10 +232,10 @@ public final class JsonParser
 			
 		}
 		
-		return new JsonArray(name, list);
+		return ret;
 	}
 	
-	public static JsonData parseInt(String name, Buffer<Token> buf) throws JsonParseException
+	public static Number parseInt(Buffer<Token> buf) throws JsonParseException
 	{
 		Token tkn = buf.next(false);
 		boolean neg = tkn.str.equalsIgnoreCase("-"), isFloat = false;
@@ -235,57 +246,64 @@ public final class JsonParser
 			
 		}
 		
-		String i = gatherInts(buf);
-		
 		StringBuilder b = new StringBuilder();
 		
-		b.append(i);
+		String i = gatherInts(buf);
 		
-		String str = buf.next().str;
+		if (i.equalsIgnoreCase(""))
+		{
+			throw new JsonParseException("Invalid integer found! what.");
+		}
 		
-		if (".".equalsIgnoreCase(str))
+		b.append(gatherInts(buf));
+		
+		tkn = buf.next();
+		
+		if (".".equalsIgnoreCase(tkn.str))
 		{
 			b.append(".");
 			
-			str = gatherInts(buf);
+			i = gatherInts(buf);
 			
-			if ("".equalsIgnoreCase(str))
+			if ("".equalsIgnoreCase(i))
 			{
-				throw new JsonParseException("Invalid floating point found on %s", name);
+				throw new JsonParseException("Invalid floating point found on line %s, column %s", tkn.line, tkn.col);
 			}
 			
-			b.append(str);
+			b.append(i);
 			
-			str = buf.next().str;
+			tkn = buf.next();
 			
 			isFloat = true;
 			
 		}
 		
-		if ("e".equalsIgnoreCase(str))
+		if ("e".equalsIgnoreCase(tkn.str))
 		{
-			b.append(str);
+			b.append(tkn.str);
 			
-			str = buf.next().str;
+			tkn = buf.next(false);
 			
-			if ("+".equalsIgnoreCase(str) || "-".equalsIgnoreCase(str))
+			if ("+".equalsIgnoreCase(tkn.str) || "-".equalsIgnoreCase(tkn.str))
 			{
-				b.append(str);
+				b.append(tkn.str);
+				
+				buf.skip(1);
 				
 			}
 			
-			str = gatherInts(buf);
+			i = gatherInts(buf);
 			
-			if ("".equalsIgnoreCase(str))
+			if (i.equalsIgnoreCase(""))
 			{
-				throw new JsonParseException("Invalid error code found on %s", name);
+				throw new JsonParseException("Invalid integer found after finding E on line %s, column %s", tkn.line, tkn.col);
 			}
 			
-			b.append(str);
+			b.append(i);
 			
 		}
 		
-		return new JsonData(isFloat ? EnumJsonType.FLOAT : EnumJsonType.INT, name, b.toString());
+		return isFloat ? Double.parseDouble(b.toString()) : Long.parseLong(b.toString());
 	}
 	
 	public static String gatherInts(Buffer<Token> buf)
@@ -294,7 +312,7 @@ public final class JsonParser
 		StringBuilder b = new StringBuilder();
 		boolean empty = true;
 		
-		while (StringHelper.isInt(tkn.str))
+		while (ParseHelper.isInt(tkn.str))
 		{
 			b.append(tkn.str);
 			empty = false;

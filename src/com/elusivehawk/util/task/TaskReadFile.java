@@ -3,7 +3,7 @@ package com.elusivehawk.util.task;
 
 import java.io.File;
 import java.util.List;
-import com.elusivehawk.util.string.StringHelper;
+import com.elusivehawk.util.io.IOHelper;
 
 /**
  * 
@@ -28,7 +28,7 @@ public class TaskReadFile extends Task
 	@Override
 	protected boolean finishTask() throws Throwable
 	{
-		this.fin = StringHelper.read(this.txt);
+		this.fin = IOHelper.readText(this.txt);
 		
 		return true;
 	}

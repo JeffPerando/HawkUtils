@@ -1,10 +1,9 @@
 
 package com.elusivehawk.util.json;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import com.elusivehawk.util.IPopulator;
 
 /**
@@ -13,96 +12,82 @@ import com.elusivehawk.util.IPopulator;
  * 
  * @author Elusivehawk
  */
-public class JsonObject extends JsonData implements Iterable<JsonData>
+public class JsonObject extends JsonValue<Map<String, Object>>
 {
-	protected final List<JsonData> jsons;
+	protected final Map<String, Object> objs = new HashMap<String, Object>();
 	
-	@SuppressWarnings("unqualified-field-access")
-	public JsonObject(String name)
-	{
-		super(EnumJsonType.OBJECT, name, "{");
-		jsons = new ArrayList<JsonData>();
-		
-	}
+	public JsonObject(){}
 	
-	@SuppressWarnings("unqualified-field-access")
-	public JsonObject(String name, Collection<JsonData> data)
+	public JsonObject(IPopulator<JsonObject> pop)
 	{
-		this(name);
-		jsons.addAll(data);
-		
-	}
-	
-	public JsonObject(String name, IPopulator<JsonObject> pop)
-	{
-		this(name);
 		pop.populate(this);
 		
 	}
 	
 	@Override
-	public Iterator<JsonData> iterator()
+	public Map<String, Object> getValue()
 	{
-		return this.jsons.iterator();
+		return this.objs;
 	}
 	
 	@Override
-	public String toString(int tabs, boolean format)
+	public String toJson(int tabs)
 	{
 		StringBuilder b = new StringBuilder();
 		
-		b.append(super.toString(tabs, format));
-		
-		for (int c = 0; c < this.jsons.size(); c++)
+		for (int c = 0; c < tabs; c++)
 		{
-			if (c > 0)
-			{
-				b.append(",");
-				
-			}
-			
-			if (format) b.append("\n");
-			b.append(this.jsons.get(c).toString(tabs + 1, format));
+			b.append("\t");
 			
 		}
 		
-		b.append(format ? "\n}" : "}");
+		tabs++;
+		
+		b.append("{");
+		
+		boolean prev = false;
+		
+		for (Entry<String, Object> entry : this.objs.entrySet())
+		{
+			if (prev)
+			{
+				b.append(", \n");
+				
+			}
+			else prev = true;
+			
+			for (int c = 0; c < tabs; c++)
+			{
+				b.append("\t");
+				
+			}
+			
+			Object obj = entry.getValue();
+			
+			b.append(String.format("\"%s\": %s", entry.getKey(), obj instanceof IJsonSerializer ? ((IJsonSerializer)obj).toJson(tabs) : obj instanceof String ? String.format("\"%s\"", obj) : obj));
+			
+		}
+		
+		b.append("\n}");
 		
 		return b.toString();
 	}
 	
-	public boolean add(JsonData data)
+	public boolean add(String name, Object data)
 	{
-		for (JsonData info : this.jsons)
+		if (this.objs.containsKey(name))
 		{
-			if (info.key.equals(data.key))
-			{
-				return false;
-			}
-			
+			return false;
 		}
 		
-		this.jsons.add(data);
+		this.objs.put(name, data);
 		
 		return true;
 	}
 	
-	public JsonData getValue(String name)
+	public Object getValue(String name)
 	{
-		if ((name != null && !"".equalsIgnoreCase(name)) && !this.jsons.isEmpty())
-		{
-			for (JsonData json : this.jsons)
-			{
-				if (name.equalsIgnoreCase(json.key))
-				{
-					return json;
-				}
-				
-			}
-			
-		}
-		
-		return null;
+		return this.objs.get(name);
 	}
 	
 }

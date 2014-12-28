@@ -1,7 +1,7 @@
 
 package com.elusivehawk.util.json;
 
-import com.elusivehawk.util.string.ParseException;
+import com.elusivehawk.util.parse.ParseException;
 
 /**
  * 

@@ -20,4 +20,22 @@ public final class RNG
 		return RNG;
 	}
 	
+	public static String randomString()
+	{
+		return randomString(1024);
+	}
+	
+	public static String randomString(int limit)
+	{
+		char[] ch = new char[rng().nextInt(limit)];
+		
+		for (int c = 0; c < ch.length; c++)
+		{
+			ch[c] = (char)(rng().nextInt() & 0xFFFF);
+			
+		}
+		
+		return new String(ch);
+	}
+	
 }

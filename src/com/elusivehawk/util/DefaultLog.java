@@ -2,7 +2,7 @@
 package com.elusivehawk.util;
 
 import java.util.Calendar;
-import com.elusivehawk.util.string.StringHelper;
+import com.elusivehawk.util.parse.ParseHelper;
 
 /**
  * 
@@ -67,7 +67,7 @@ public class DefaultLog implements ILog
 	
 	private static void printString(String str, Thread current, LogInfo info)
 	{
-		String fin = String.format("[%s] [%s] [%s] %s", info.type, current.getName(), StringHelper.parseDate(Calendar.getInstance(), "-", ":"), (info.type.err && (info.log == null || "".equals(info.log)) ? "Error caught:" : str));
+		String fin = String.format("[%s] [%s] [%s] %s", info.type, current.getName(), ParseHelper.parseDate(Calendar.getInstance(), "-", ":"), (info.type.err && (info.log == null || "".equals(info.log)) ? "Error caught:" : str));
 		
 		if (info.type.err)
 		{

@@ -7,8 +7,8 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import com.elusivehawk.util.io.ByteStreams;
+import com.elusivehawk.util.parse.ParseHelper;
 import com.elusivehawk.util.storage.Pair;
-import com.elusivehawk.util.string.StringHelper;
 
 /**
  * 
@@ -35,7 +35,7 @@ public class TaskURLRequest extends TaskURL
 	@Override
 	protected boolean finishTask() throws Throwable
 	{
-		URL url = StringHelper.asURL(this.getAddress());
+		URL url = ParseHelper.asURL(this.getAddress());
 		
 		if (url == null)
 		{

@@ -5,4 +5,4 @@
  * 
  * @author Elusivehawk
  */
-package com.elusivehawk.util.string;
+package com.elusivehawk.util.parse;

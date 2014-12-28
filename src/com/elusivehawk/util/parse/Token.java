@@ -1,5 +1,5 @@
 
-package com.elusivehawk.util.string;
+package com.elusivehawk.util.parse;
 
 import com.elusivehawk.util.MakeStruct;
 
