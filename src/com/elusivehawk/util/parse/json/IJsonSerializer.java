@@ -1,5 +1,5 @@
 
-package com.elusivehawk.util.json;
+package com.elusivehawk.util.parse.json;
 
 /**
  * 
