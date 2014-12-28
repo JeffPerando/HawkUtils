@@ -27,7 +27,7 @@ public class Tokenizer
 	{
 		for (String tk : tks)
 		{
-			if (tk == null || "".equalsIgnoreCase(tk) || this.tokens.contains(tk))
+			if (tk == null || tk.equalsIgnoreCase("") || tk.contains("\n") || this.tokens.contains(tk))
 			{
 				continue;
 			}
