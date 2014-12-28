@@ -52,10 +52,10 @@ public class Tokenizer
 			return ret;
 		}
 		
-		int l = 0;
-		
-		for (String line : str)
+		for (int l = 0; l < str.size(); l++)
 		{
+			String line = str.get(l);
+			
 			if (!line.isEmpty() && !this.tokenize(line, l, 0, ret))
 			{
 				ret.add(new Token(line, l, 0));
@@ -63,8 +63,6 @@ public class Tokenizer
 			}
 			
 			ret.add(new Token("\n", l, line.length()));
-			
-			l++;
 			
 		}
 		
