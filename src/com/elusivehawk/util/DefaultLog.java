@@ -67,7 +67,7 @@ public class DefaultLog implements ILog
 	
 	private static void printString(String str, Thread current, LogInfo info)
 	{
-		String fin = String.format("[%s] [%s] [%s] %s", info.type, current.getName(), ParseHelper.parseDate(Calendar.getInstance(), "-", ":"), (info.type.err && (str == null || "".equals(str)) ? "Error caught:" : str));
+		String fin = String.format("[%s] [%s] [%s] %s", info.type, current.getName(), ParseHelper.parseDate(Calendar.getInstance(), "-", ":"), str);
 		
 		if (info.type.err)
 		{

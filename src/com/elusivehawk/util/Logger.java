@@ -49,7 +49,7 @@ public final class Logger
 	
 	public static void err(Throwable e)
 	{
-		err(null, e);
+		err("Error caught:", e);
 		
 	}
 	
