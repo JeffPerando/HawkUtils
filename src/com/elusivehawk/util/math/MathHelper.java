@@ -142,11 +142,6 @@ public final class MathHelper
 		return ret;
 	}
 	
-	public static float interpolate(float one, float two)
-	{
-		return interpolate(one, two, 1f);
-	}
-	
 	public static float interpolate(float one, float two, float factor)
 	{
 		assert bounds(factor, 0.0f, 1.0f);
