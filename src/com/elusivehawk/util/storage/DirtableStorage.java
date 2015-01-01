@@ -12,7 +12,7 @@ import com.elusivehawk.util.IDirty;
 public class DirtableStorage<T> implements IDirty, IStorage<T>
 {
 	protected T obj;
-	protected boolean dirty = false, enableNull = true;
+	protected boolean dirty = false, sync = false, enableNull = true;
 	
 	public DirtableStorage()
 	{
@@ -56,7 +56,20 @@ public class DirtableStorage<T> implements IDirty, IStorage<T>
 		
 		if (object == null ? this.obj != object : !object.equals(this.obj))
 		{
-			this.obj = object;
+			if (this.sync)
+			{
+				synchronized (this)
+				{
+					this.obj = object;
+					
+				}
+				
+			}
+			else
+			{
+				this.obj = object;
+				
+			}
 			
 			this.setIsDirty(true);
 			
@@ -69,6 +82,13 @@ public class DirtableStorage<T> implements IDirty, IStorage<T>
 	public DirtableStorage<T> setEnableNull(boolean b)
 	{
 		this.enableNull = b;
+		
+		return this;
+	}
+	
+	public DirtableStorage<T> setSync()
+	{
+		this.sync = true;
 		
 		return this;
 	}
