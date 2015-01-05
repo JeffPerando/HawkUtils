@@ -34,7 +34,7 @@ public class DirtableStorage<T> implements IDirty, IStorage<T>
 	}
 	
 	@Override
-	public void setIsDirty(boolean b)
+	public synchronized void setIsDirty(boolean b)
 	{
 		this.dirty = b;
 		
