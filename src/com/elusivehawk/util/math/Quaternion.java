@@ -4,6 +4,7 @@ package com.elusivehawk.util.math;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import com.elusivehawk.util.parse.json.IJsonSerializer;
 
 /**
  * 
@@ -11,7 +12,7 @@ import java.util.List;
  * 
  * @author Elusivehawk
  */
-public class Quaternion implements IMathArray<Float>
+public class Quaternion implements IJsonSerializer, IMathArray<Float>
 {
 	protected final float[] data = new float[4];
 	
@@ -204,6 +205,13 @@ public class Quaternion implements IMathArray<Float>
 		dest.onChanged();
 		
 		return dest;
+	}
+	
+	@Override
+	public String toJson(int tabs)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	@Override

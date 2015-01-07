@@ -4,6 +4,8 @@ package com.elusivehawk.util.math;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import com.elusivehawk.util.parse.json.IJsonSerializer;
+import com.elusivehawk.util.parse.json.JsonArray;
 import com.elusivehawk.util.storage.Buffer;
 
 /**
@@ -12,7 +14,7 @@ import com.elusivehawk.util.storage.Buffer;
  * 
  * @author Elusivehawk
  */
-public class Vector implements IMathArray<Float>
+public class Vector implements IJsonSerializer, IMathArray<Float>
 {
 	protected final float[] data;
 	
@@ -62,6 +64,25 @@ public class Vector implements IMathArray<Float>
 		}
 		
 		setIsDirty(false);
+		
+	}
+	
+	public Vector(JsonArray json)
+	{
+		this(json.length());
+		
+		for (int c = 0; c < size(); c++)
+		{
+			Object obj = json.getValue(c);
+			
+			if (!(obj instanceof Number))
+			{
+				throw new RuntimeException(String.format("Incompatible argument in array object %s: %s", c, obj));
+			}
+			
+			set(c, (Number)obj, false);
+			
+		}
 		
 	}
 	
@@ -325,6 +346,30 @@ public class Vector implements IMathArray<Float>
 	public boolean isImmutable()
 	{
 		return this.immutable;
+	}
+	
+	@Override
+	public String toJson(int tabs)
+	{
+		StringBuilder b = new StringBuilder();
+		
+		b.append("[");
+		
+		for (int c = 0; c < this.size(); c++)
+		{
+			if (c > 0)
+			{
+				b.append(", ");
+				
+			}
+			
+			b.append(this.get(c));
+			
+		}
+		
+		b.append("]");
+		
+		return b.toString();
 	}
 	
 	public void addListener(Listener lis)

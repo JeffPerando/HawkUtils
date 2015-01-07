@@ -56,7 +56,9 @@ public class Matrix implements IMathArray<Float>
 	{
 		this(x, y);
 		
-		for (int c = 0; c < buf.remaining(); c++)
+		int size = Math.min(size(), buf.remaining());
+		
+		for (int c = 0; c < size; c++)
 		{
 			set(c, buf.next());
 			

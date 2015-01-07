@@ -2,11 +2,11 @@
 package com.elusivehawk.util.storage;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import com.elusivehawk.util.IDirty;
+import com.elusivehawk.util.IPopulator;
 import com.elusivehawk.util.math.MathHelper;
 
 /**
@@ -29,16 +29,29 @@ public class Buffer<T> implements IDirty, Collection<T>, Iterator<T>, IGettable<
 		
 	}
 	
+	public Buffer(IPopulator<Buffer<T>> pop)
+	{
+		this();
+		
+		pop.populate(this);
+		
+		rewind();
+		
+	}
+	
 	public Buffer(int limit)
 	{
 		this(new ArrayList<T>(limit));
 		
 	}
 	
-	@SafeVarargs
-	public Buffer(T... array)
+	public Buffer(int limit, IPopulator<Buffer<T>> pop)
 	{
-		this(Arrays.asList(array));
+		this(limit);
+		
+		pop.populate(this);
+		
+		rewind();
 		
 	}
 	
@@ -50,11 +63,11 @@ public class Buffer<T> implements IDirty, Collection<T>, Iterator<T>, IGettable<
 		
 	}
 	
-	public Buffer(IStorable<T> stor)
+	public Buffer(List<T> list, IPopulator<Buffer<T>> pop)
 	{
-		this();
+		this(list);
 		
-		stor.store(this);
+		pop.populate(this);
 		
 		rewind();
 		
@@ -276,6 +289,12 @@ public class Buffer<T> implements IDirty, Collection<T>, Iterator<T>, IGettable<
 	public boolean isDirty(int i)
 	{
 		return this.dirt.get(i);
+	}
+	
+	public void skip()
+	{
+		this.skip(1);
+		
 	}
 	
 	public void skip(int count)

@@ -5,14 +5,14 @@ import com.elusivehawk.util.IDirty;
 
 /**
  * 
- * Stores an object, which if modified will set off the {@link #isDirty()} flag.
+ * 
  * 
  * @author Elusivehawk
  */
-public class DirtableStorage<T> implements IDirty, IStorage<T>
+public class DirtableStorage<T> implements IDirty, IGettable<T>, ISettable<T>
 {
-	protected T obj;
-	protected boolean dirty = false, sync = false, enableNull = true;
+	private T obj;
+	private boolean dirty = false, sync = false, enableNull = true;
 	
 	public DirtableStorage()
 	{
@@ -91,6 +91,11 @@ public class DirtableStorage<T> implements IDirty, IStorage<T>
 		this.sync = true;
 		
 		return this;
+	}
+	
+	public boolean isNull()
+	{
+		return this.obj == null;
 	}
 	
 }

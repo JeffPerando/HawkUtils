@@ -2,8 +2,8 @@
 package com.elusivehawk.util.math;
 
 import com.elusivehawk.util.IDirty;
+import com.elusivehawk.util.IPopulator;
 import com.elusivehawk.util.storage.Buffer;
-import com.elusivehawk.util.storage.IStorable;
 
 /**
  * 
@@ -11,7 +11,7 @@ import com.elusivehawk.util.storage.IStorable;
  * 
  * @author Elusivehawk
  */
-public interface IMathArray<T extends Number> extends IDirty, IStorable<T>
+public interface IMathArray<T extends Number> extends IPopulator<Buffer<T>>, IDirty
 {
 	T get(int index);
 	
@@ -36,11 +36,11 @@ public interface IMathArray<T extends Number> extends IDirty, IStorable<T>
 	//Default methods
 	
 	@Override
-	default void store(Buffer<T> buf)
+	default void populate(Buffer<T> buf)
 	{
-		for (int c = 0; c < this.size(); c++)
+		for (int c = 0; c < size(); c++)
 		{
-			buf.add(this.get(c));
+			buf.add(get(c));
 			
 		}
 		
