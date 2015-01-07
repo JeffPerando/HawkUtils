@@ -29,15 +29,17 @@ public final class JsonParser
 		
 		while (buf.hasNext())
 		{
-			tkn = buf.next();
+			tkn = buf.next(false);
 			
-			if (!ParseHelper.isWhitespace(tkn.str))
+			if (ParseHelper.isWhitespace(tkn.str))
 			{
-				buf.rewind(1);
+				buf.skip();
 				
-				return;
+				continue;
+				
 			}
 			
+			return;
 		}
 		
 	}
@@ -242,7 +244,7 @@ public final class JsonParser
 		
 		if (neg)
 		{
-			buf.skip(1);
+			buf.skip();
 			
 		}
 		
@@ -288,7 +290,7 @@ public final class JsonParser
 			{
 				b.append(tkn.str);
 				
-				buf.skip(1);
+				buf.skip();
 				
 			}
 			
