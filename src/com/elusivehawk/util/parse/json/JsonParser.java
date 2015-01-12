@@ -2,14 +2,15 @@
 package com.elusivehawk.util.parse.json;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.Reader;
 import java.util.List;
+import com.elusivehawk.util.io.IByteReader;
 import com.elusivehawk.util.io.IOHelper;
 import com.elusivehawk.util.parse.ParseHelper;
 import com.elusivehawk.util.parse.Token;
 import com.elusivehawk.util.parse.Tokenizer;
 import com.elusivehawk.util.storage.Buffer;
-import com.elusivehawk.util.storage.Tuple;
 
 /**
  * 
@@ -23,7 +24,64 @@ public final class JsonParser
 	
 	private JsonParser(){}
 	
-	public static void skipWhitespace(Buffer<Token> buf)
+	public static JsonObject parse(File file) throws JsonParseException
+	{
+		return parse(IOHelper.readText(file));
+	}
+	
+	public static JsonObject parse(IByteReader r) throws JsonParseException
+	{
+		return parse(IOHelper.readText(r));
+	}
+	
+	public static JsonObject parse(InputStream in) throws JsonParseException
+	{
+		return parse(IOHelper.readText(in));
+	}
+	
+	public static JsonObject parse(Reader r) throws JsonParseException
+	{
+		return parse(IOHelper.readText(r));
+	}
+	
+	public static JsonObject parse(byte[] bs) throws JsonParseException
+	{
+		return parse(IOHelper.readText(bs));
+	}
+	
+	public static JsonObject parse(List<String> strs) throws JsonParseException
+	{
+		if (strs == null || strs.isEmpty())
+		{
+			return null;
+		}
+		
+		Tokenizer t = new Tokenizer();
+		
+		t.addTokens(SEPARATORS);
+		t.addTokens(ParseHelper.NUMBERS);
+		t.addTokens(ParseHelper.WHITESPACE);
+		
+		Buffer<Token> buf = new Buffer<Token>(t.tokenize(strs));
+		
+		Object ret = parseValue(buf);
+		
+		if (!(ret instanceof JsonObject))
+		{
+			throw new JsonParseException("Was expecting a JSON object, got \"%s\"", ret);
+		}
+		
+		skipWhitespace(buf);
+		
+		if (buf.hasNext())
+		{
+			throw new JsonParseException("");
+		}
+		
+		return (JsonObject)ret;
+	}
+	
+	private static void skipWhitespace(Buffer<Token> buf)
 	{
 		Token tkn;
 		
@@ -44,69 +102,7 @@ public final class JsonParser
 		
 	}
 	
-	public static JsonValue<?> parse(File file) throws JsonParseException
-	{
-		return parse(IOHelper.readText(file));
-	}
-	
-	public static JsonValue<?> parse(Reader r) throws JsonParseException
-	{
-		return parse(IOHelper.readText(r));
-	}
-	
-	public static JsonValue<?> parse(List<String> strs) throws JsonParseException
-	{
-		if (strs == null || strs.isEmpty())
-		{
-			return null;
-		}
-		
-		Tokenizer t = new Tokenizer();
-		
-		t.addTokens(SEPARATORS);
-		t.addTokens(ParseHelper.NUMBERS);
-		t.addTokens(ParseHelper.WHITESPACE);
-		
-		Buffer<Token> buf = new Buffer<Token>(t.tokenize(strs));
-		
-		Object ret = parseValue(buf);
-		
-		if (!(ret instanceof JsonValue))
-		{
-			throw new JsonParseException("Was expecting a JSON value (Object, array), got \"%s\"", ret);
-		}
-		
-		skipWhitespace(buf);
-		
-		if (buf.hasNext())
-		{
-			throw new JsonParseException("");
-		}
-		
-		return (JsonValue<?>)ret;
-	}
-	
-	public static Tuple<String, Object> parseKeypair(Buffer<Token> buf)  throws JsonParseException
-	{
-		skipWhitespace(buf);
-		
-		String name = parseString(buf);
-		
-		skipWhitespace(buf);
-		
-		Token tkn = buf.next();
-		
-		if (!":".equalsIgnoreCase(tkn.str))
-		{
-			throw new JsonParseException("Found \"%s\" for keypair %s at line %s, col %s; Was expecting \":\"", tkn.str, name, tkn.line, tkn.col);
-		}
-		
-		skipWhitespace(buf);
-		
-		return Tuple.create(name, parseValue(buf));
-	}
-	
-	public static Object parseValue(Buffer<Token> buf) throws JsonParseException
+	private static Object parseValue(Buffer<Token> buf) throws JsonParseException
 	{
 		Token tkn = buf.next(false);
 		
@@ -136,7 +132,7 @@ public final class JsonParser
 		throw new JsonParseException("Invalid value found at line %s, col %s: \"%s\"", tkn.line, tkn.col, ParseHelper.sanitizeEscapeSequence(str));
 	}
 	
-	public static String parseString(Buffer<Token> buf)
+	private static String parseString(Buffer<Token> buf)
 	{
 		Token tkn = buf.next();
 		
@@ -156,7 +152,7 @@ public final class JsonParser
 		return b.toString();
 	}
 	
-	public static JsonObject parseObj(Buffer<Token> buf) throws JsonParseException
+	private static JsonObject parseObj(Buffer<Token> buf) throws JsonParseException
 	{
 		Token tkn = buf.next();
 		
@@ -170,11 +166,26 @@ public final class JsonParser
 		
 		while (!"}".equalsIgnoreCase((tkn = buf.next(false)).str))
 		{
-			Tuple<String, Object> v = parseKeypair(buf);
+			skipWhitespace(buf);
 			
-			if (!ret.add(v.one, v.two))
+			String name = parseString(buf);
+			
+			skipWhitespace(buf);
+			
+			tkn = buf.next();
+			
+			if (!":".equalsIgnoreCase(tkn.str))
 			{
-				throw new JsonParseException("Duplicate key: %s", v.one);
+				throw new JsonParseException("Found \"%s\" for keypair %s at line %s, col %s; Was expecting \":\"", tkn.str, name, tkn.line, tkn.col);
+			}
+			
+			skipWhitespace(buf);
+			
+			Object data = parseValue(buf);
+			
+			if (!ret.add(name, data))
+			{
+				throw new JsonParseException("Duplicate key: %s", name);
 			}
 			
 			skipWhitespace(buf);
@@ -199,7 +210,7 @@ public final class JsonParser
 		return ret;
 	}
 	
-	public static JsonArray parseArray(Buffer<Token> buf) throws JsonParseException
+	private static JsonArray parseArray(Buffer<Token> buf) throws JsonParseException
 	{
 		Token tkn = buf.next();
 		
@@ -237,7 +248,7 @@ public final class JsonParser
 		return ret;
 	}
 	
-	public static Number parseInt(Buffer<Token> buf) throws JsonParseException
+	private static Number parseInt(Buffer<Token> buf) throws JsonParseException
 	{
 		Token tkn = buf.next(false);
 		boolean neg = tkn.str.equalsIgnoreCase("-"), isFloat = false;
@@ -308,7 +319,7 @@ public final class JsonParser
 		return isFloat ? Double.parseDouble(b.toString()) : Long.parseLong(b.toString());
 	}
 	
-	public static String gatherInts(Buffer<Token> buf)
+	private static String gatherInts(Buffer<Token> buf)
 	{
 		Token tkn = buf.next();
 		StringBuilder b = new StringBuilder();
