@@ -81,6 +81,24 @@ public class JsonArray extends JsonValue<List<Object>> implements Iterable<Objec
 		return this.array.get(i);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <T> T getValue(int i, Class<T> clazz)
+	{
+		Object obj = this.getValue(i);
+		
+		if (obj == null)
+		{
+			return null;
+		}
+		
+		if (!clazz.isInstance(obj))
+		{
+			throw new ClassCastException(String.format("Cannot convert %s to %s", obj.getClass(), clazz));
+		}
+		
+		return (T)obj;
+	}
+	
 	public void add(Object obj)
 	{
 		this.array.add(obj);

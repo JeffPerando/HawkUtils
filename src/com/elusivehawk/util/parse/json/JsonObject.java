@@ -90,4 +90,27 @@ public class JsonObject extends JsonValue<Map<String, Object>>
 		return this.objs.get(name);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <T> T getValue(String name, Class<T> clazz)
+	{
+		Object obj = this.getValue(name);
+		
+		if (obj == null)
+		{
+			return null;
+		}
+		
+		if (!clazz.isInstance(obj))
+		{
+			throw new ClassCastException(String.format("Cannot convert %s to %s", obj.getClass(), clazz));
+		}
+		
+		return (T)obj;
+	}
+	
+	public boolean hasKey(String name)
+	{
+		return this.objs.containsKey(name);
+	}
+	
 }
