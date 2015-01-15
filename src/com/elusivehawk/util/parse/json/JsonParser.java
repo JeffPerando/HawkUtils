@@ -295,15 +295,14 @@ public final class JsonParser
 		{
 			b.append(tkn.str);
 			
-			tkn = buf.next(false);
+			tkn = buf.next();
 			
 			if ("+".equalsIgnoreCase(tkn.str) || "-".equalsIgnoreCase(tkn.str))
 			{
 				b.append(tkn.str);
 				
-				buf.skip();
-				
 			}
+			else throw new JsonParseException("Expecting + or -, got %s on line %s, column %s", tkn.str, tkn.line, tkn.col);
 			
 			i = gatherInts(buf);
 			

@@ -115,4 +115,17 @@ public class JsonArray extends JsonValue<List<Object>> implements Iterable<Objec
 		
 	}
 	
+	public <T> T[] toArray(T[] ret, Class<T> clazz)
+	{
+		assert ret.length != this.length();
+		
+		for (int c = 0; c < this.length(); c++)
+		{
+			ret[c] = this.getValue(c, clazz);
+			
+		}
+		
+		return ret;
+	}
+	
 }
