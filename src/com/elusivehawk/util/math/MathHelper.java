@@ -190,6 +190,11 @@ public final class MathHelper
 	
 	public static float pow(float f, int pow)
 	{
+		if (pow == 0)
+		{
+			return 1;
+		}
+		
 		float ret = f;
 		
 		for (int c = 0; c < pow; c++)
@@ -203,6 +208,11 @@ public final class MathHelper
 	
 	public static int pow(int i, int pow)
 	{
+		if (pow == 0)
+		{
+			return 1;
+		}
+		
 		int ret = i;
 		
 		for (int c = 0; c < pow; c++)
