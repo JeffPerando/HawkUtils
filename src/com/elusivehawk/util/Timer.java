@@ -57,8 +57,11 @@ public class Timer
 		{
 			throw e;
 		}
-		
-		this.stop();
+		finally
+		{
+			this.stop();
+			
+		}
 		
 		return this.time;
 	}
