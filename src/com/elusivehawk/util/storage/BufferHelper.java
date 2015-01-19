@@ -144,11 +144,7 @@ public final class BufferHelper
 	{
 		ByteBuffer ret = createByteBuffer(data.size());
 		
-		for (byte b : data)
-		{
-			ret.put(b);
-			
-		}
+		data.forEach(ret::put);
 		
 		ret.flip();
 		
@@ -246,11 +242,7 @@ public final class BufferHelper
 	{
 		CharBuffer ret = createCharBuffer(data.size());
 		
-		for (Character c : data)
-		{
-			ret.put(c);
-			
-		}
+		data.forEach(ret::put);
 		
 		ret.flip();
 		
@@ -304,11 +296,7 @@ public final class BufferHelper
 	{
 		DoubleBuffer ret = createDoubleBuffer(data.size());
 		
-		for (double d : data)
-		{
-			ret.put(d);
-			
-		}
+		data.forEach(ret::put);
 		
 		ret.flip();
 		
@@ -377,11 +365,7 @@ public final class BufferHelper
 	{
 		FloatBuffer ret = createFloatBuffer(data.size());
 		
-		for (float f : data)
-		{
-			ret.put(f);
-			
-		}
+		data.forEach(ret::put);
 		
 		ret.flip();
 		
@@ -448,11 +432,7 @@ public final class BufferHelper
 	{
 		IntBuffer ret = createIntBuffer(data.size());
 		
-		for (int i : data)
-		{
-			ret.put(i);
-			
-		}
+		data.forEach(ret::put);
 		
 		ret.flip();
 		
@@ -521,11 +501,7 @@ public final class BufferHelper
 	{
 		LongBuffer ret = createLongBuffer(data.size());
 		
-		for (long l : data)
-		{
-			ret.put(l);
-			
-		}
+		data.forEach(ret::put);
 		
 		ret.flip();
 		
@@ -594,11 +570,7 @@ public final class BufferHelper
 	{
 		ShortBuffer ret = createShortBuffer(data.size());
 		
-		for (short s : data)
-		{
-			ret.put(s);
-			
-		}
+		data.forEach(ret::put);
 		
 		ret.flip();
 		
