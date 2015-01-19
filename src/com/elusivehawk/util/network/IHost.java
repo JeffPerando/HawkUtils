@@ -17,6 +17,18 @@ import com.elusivehawk.util.storage.SemiFinalStorage;
  */
 public interface IHost extends IPacketHandler, Closeable, IPausable
 {
+	UUID connect(AbstractSelectableChannel ch);
+	
+	void beginComm();
+	
+	void forEveryConnection(IConnectionUser user);
+	
+	int getMaxPlayerCount();
+	
+	int getPlayerCount();
+	
+	void onHandshake(Connection connection, Packet pkt);
+	
 	/**
 	 * 
 	 * Called when something wants to send packets.
@@ -133,17 +145,5 @@ public interface IHost extends IPacketHandler, Closeable, IPausable
 	{
 		return this.connect(ip.toChannel(type));
 	}
-	
-	UUID connect(AbstractSelectableChannel ch);
-	
-	void beginComm();
-	
-	void forEveryConnection(IConnectionUser user);
-	
-	int getMaxPlayerCount();
-	
-	int getPlayerCount();
-	
-	void onHandshake(Connection connection, Packet pkt);
 	
 }
