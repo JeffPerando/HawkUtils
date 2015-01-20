@@ -12,6 +12,7 @@ import java.nio.ShortBuffer;
 import java.util.Collection;
 import com.elusivehawk.util.Logger;
 import com.elusivehawk.util.io.IByteReader;
+import com.elusivehawk.util.math.Vector;
 
 /**
  * 
@@ -622,6 +623,60 @@ public final class BufferHelper
 		for (ShortBuffer buf : bufs)
 		{
 			ret.put(buf);
+			
+		}
+		
+		ret.flip();
+		
+		return ret;
+	}
+	
+	public static FloatBuffer makeVecFloatBufferf(Collection<Vector> data)
+	{
+		int size = 0;
+		
+		for (Vector vec : data)
+		{
+			size += vec.size();
+			
+		}
+		
+		FloatBuffer ret = createFloatBuffer(size);
+		
+		data.forEach(((vec) ->
+		{
+			for (int c = 0; c < vec.size(); c++)
+			{
+				ret.put(vec.get(c));
+				
+			}
+			
+		}));
+		
+		ret.flip();
+		
+		return ret;
+	}
+	
+	public static FloatBuffer makeVecFloatBufferf(Vector... data)
+	{
+		int size = 0;
+		
+		for (Vector vec : data)
+		{
+			size += vec.size();
+			
+		}
+		
+		FloatBuffer ret = createFloatBuffer(size);
+		
+		for (Vector vec : data)
+		{
+			for (int c = 0; c < vec.size(); c++)
+			{
+				ret.put(vec.get(c));
+				
+			}
 			
 		}
 		
