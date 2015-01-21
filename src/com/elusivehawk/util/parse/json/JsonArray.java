@@ -81,14 +81,19 @@ public class JsonArray extends JsonValue<List<Object>> implements Iterable<Objec
 		return this.array.get(i);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T> T getValue(int i, Class<T> clazz)
+	{
+		return this.getValue(i, clazz, null);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getValue(int i, Class<T> clazz, T dflt)
 	{
 		Object obj = this.getValue(i);
 		
 		if (obj == null)
 		{
-			return null;
+			return dflt;
 		}
 		
 		if (!clazz.isInstance(obj))

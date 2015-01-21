@@ -90,14 +90,19 @@ public class JsonObject extends JsonValue<Map<String, Object>>
 		return this.objs.get(name);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T> T getValue(String name, Class<T> clazz)
+	{
+		return this.getValue(name, clazz, null);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getValue(String name, Class<T> clazz, T dflt)
 	{
 		Object obj = this.getValue(name);
 		
 		if (obj == null)
 		{
-			return null;
+			return dflt;
 		}
 		
 		if (!clazz.isInstance(obj))
