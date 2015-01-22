@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import com.elusivehawk.util.IPopulator;
+import com.elusivehawk.util.Logger;
 
 /**
  * 
@@ -96,12 +97,29 @@ public class JsonArray extends JsonValue<List<Object>> implements Iterable<Objec
 			return dflt;
 		}
 		
-		if (!clazz.isInstance(obj))
+		if (clazz.isInstance(obj))
 		{
-			throw new ClassCastException(String.format("Cannot convert %s to %s", obj.getClass(), clazz));
+			return (T)obj;
 		}
 		
-		return (T)obj;
+		try
+		{
+			T ret = clazz.getConstructor(obj.getClass()).newInstance(obj);
+			
+			if (ret == null)
+			{
+				return dflt;
+			}
+			
+			return ret;
+		}
+		catch (Throwable e)
+		{
+			Logger.err(e);
+			
+		}
+		
+		throw new ClassCastException(String.format("Cannot convert %s to %s", obj.getClass(), clazz));
 	}
 	
 	public void add(Object obj)

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import com.elusivehawk.util.IPopulator;
+import com.elusivehawk.util.Logger;
 
 /**
  * 
@@ -105,12 +106,29 @@ public class JsonObject extends JsonValue<Map<String, Object>>
 			return dflt;
 		}
 		
-		if (!clazz.isInstance(obj))
+		if (clazz.isInstance(obj))
 		{
-			throw new ClassCastException(String.format("Cannot convert %s to %s", obj.getClass(), clazz));
+			return (T)obj;
 		}
 		
-		return (T)obj;
+		try
+		{
+			T ret = clazz.getConstructor(obj.getClass()).newInstance(obj);
+			
+			if (ret == null)
+			{
+				return dflt;
+			}
+			
+			return ret;
+		}
+		catch (Throwable e)
+		{
+			Logger.err(e);
+			
+		}
+		
+		throw new ClassCastException(String.format("Cannot convert %s to %s", obj.getClass(), clazz));
 	}
 	
 	public boolean hasKey(String name)
