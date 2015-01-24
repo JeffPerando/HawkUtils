@@ -93,9 +93,4 @@ public class DirtableStorage<T> implements IDirty, IGettable<T>, ISettable<T>
 		return this;
 	}
 	
-	public boolean isNull()
-	{
-		return this.obj == null;
-	}
-	
 }

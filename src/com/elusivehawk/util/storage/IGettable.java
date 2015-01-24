@@ -12,4 +12,9 @@ public interface IGettable<T>
 {
 	T get();
 	
+	default boolean isNull()
+	{
+		return this.get() == null;
+	}
+	
 }
