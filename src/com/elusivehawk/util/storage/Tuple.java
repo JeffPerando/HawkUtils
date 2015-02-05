@@ -7,13 +7,13 @@ package com.elusivehawk.util.storage;
  * 
  * @author Elusivehawk
  */
-public class Tuple<O, T>
+public class Tuple<A, B>
 {
-	public O one;
-	public T two;
+	public A one;
+	public B two;
 	
 	@SuppressWarnings("unqualified-field-access")
-	public Tuple(O first, T second)
+	public Tuple(A first, B second)
 	{
 		one = first;
 		two = second;
@@ -21,9 +21,9 @@ public class Tuple<O, T>
 	}
 	
 	@Override
-	public Tuple<O, T> clone()
+	public Tuple<A, B> clone()
 	{
-		return new Tuple<O, T>(this.one, this.two);
+		return new Tuple<A, B>(this.one, this.two);
 	}
 	
 	@SuppressWarnings("rawtypes")

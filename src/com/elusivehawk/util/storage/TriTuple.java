@@ -7,12 +7,12 @@ package com.elusivehawk.util.storage;
  * 
  * @author Elusivehawk
  */
-public class TriTuple<O, T, TH> extends Tuple<O, T>
+public class TriTuple<A, B, C> extends Tuple<A, B>
 {
-	public TH three;
+	public C three;
 	
 	@SuppressWarnings("unqualified-field-access")
-	public TriTuple(O first, T second, TH third)
+	public TriTuple(A first, B second, C third)
 	{
 		super(first, second);
 		three = third;
@@ -20,9 +20,9 @@ public class TriTuple<O, T, TH> extends Tuple<O, T>
 	}
 	
 	@Override
-	public TriTuple<O, T, TH> clone()
+	public TriTuple<A, B, C> clone()
 	{
-		return new TriTuple<O, T, TH>(this.one, this.two, this.three);
+		return new TriTuple<A, B, C>(this.one, this.two, this.three);
 	}
 	
 	@SuppressWarnings("rawtypes")
