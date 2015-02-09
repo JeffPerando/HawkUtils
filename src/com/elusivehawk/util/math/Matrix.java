@@ -13,7 +13,7 @@ import com.elusivehawk.util.storage.BufferHelper;
  */
 public class Matrix implements IMathArray<Float>
 {
-	protected final float[] data;
+	private final float[] data;
 	public final int w, h;
 	
 	private boolean dirty = false, immutable = false;;
@@ -87,7 +87,7 @@ public class Matrix implements IMathArray<Float>
 	}
 	
 	@Override
-	public void setIsDirty(boolean b)
+	public synchronized void setIsDirty(boolean b)
 	{
 		this.dirty = b;
 		
@@ -124,6 +124,7 @@ public class Matrix implements IMathArray<Float>
 	{
 		assert !dest.isImmutable();
 		
+		//FIXME
 		
 		return dest;
 	}
@@ -325,6 +326,8 @@ public class Matrix implements IMathArray<Float>
 	{
 		this.data[x + (y * this.h)] = f;
 		
+		this.setIsDirty(true);
+		
 		if (notify)
 		{
 			this.onChanged();
@@ -349,15 +352,22 @@ public class Matrix implements IMathArray<Float>
 	
 	public Matrix setRow(int r, Vector vec)
 	{
-		int i = Math.min(this.w, vec.size());
+		return this.setRow(r, vec, true);
+	}
+	
+	public Matrix setRow(int r, Vector vec, boolean local)
+	{
+		Matrix ret = local ? this : new Matrix(this);
+		
+		int i = Math.min(ret.w, vec.size());
 		
 		for (int c = 0; c < i; c++)
 		{
-			this.set(c, r, vec.get(c));
+			ret.set(c, r, vec.get(c));
 			
 		}
 		
-		return this;
+		return ret;
 	}
 	
 	public Matrix setIdentity()
@@ -378,6 +388,11 @@ public class Matrix implements IMathArray<Float>
 		return this.add(x, y, f, this);
 	}
 	
+	public Matrix add(int x, int y, float f, boolean local)
+	{
+		return this.add(x, y, f, local ? this : new Matrix(this));
+	}
+	
 	public Matrix add(int x, int y, float f, Matrix dest)
 	{
 		dest.set(x, y, this.get(x, y) + f);
@@ -388,6 +403,11 @@ public class Matrix implements IMathArray<Float>
 	public Matrix sub(int x, int y, float f)
 	{
 		return this.sub(x, y, f, this);
+	}
+	
+	public Matrix sub(int x, int y, float f, boolean local)
+	{
+		return this.sub(x, y, f, local ? this : new Matrix(this));
 	}
 	
 	public Matrix sub(int x, int y, float f, Matrix dest)
@@ -402,6 +422,11 @@ public class Matrix implements IMathArray<Float>
 		return this.div(x, y, f, this);
 	}
 	
+	public Matrix div(int x, int y, float f, boolean local)
+	{
+		return this.div(x, y, f, local ? this : new Matrix(this));
+	}
+	
 	public Matrix div(int x, int y, float f, Matrix dest)
 	{
 		dest.set(x, y, this.get(x, y) / f);
@@ -412,6 +437,11 @@ public class Matrix implements IMathArray<Float>
 	public Matrix mul(int x, int y, float f)
 	{
 		return this.mul(x, y, f, this);
+	}
+	
+	public Matrix mul(int x, int y, float f, boolean local)
+	{
+		return this.mul(x, y, f, local ? this : new Matrix(this));
 	}
 	
 	public Matrix mul(int x, int y, float f, Matrix dest)
@@ -426,14 +456,26 @@ public class Matrix implements IMathArray<Float>
 		return this.invert(this);
 	}
 	
-	public Matrix invert(Matrix m)//FIXME
+	public Matrix invert(boolean local)
 	{
-		return m;
+		return this.invert(local ? this : new Matrix(this.w, this.h));
+	}
+	
+	public Matrix invert(Matrix ret)//FIXME
+	{
+		
+		
+		return ret;
 	}
 	
 	public Matrix transpose()
 	{
 		return this.transpose(this);
+	}
+	
+	public Matrix transpose(boolean local)
+	{
+		return this.transpose(local ? this : new Matrix(this.w, this.h));
 	}
 	
 	public Matrix transpose(Matrix m)
@@ -461,6 +503,11 @@ public class Matrix implements IMathArray<Float>
 		return this.transform(vec, vec);
 	}
 	
+	public Vector transform(Vector vec, boolean local)
+	{
+		return this.transform(vec, local ? vec : new Vector(vec.size()));
+	}
+	
 	public Vector transform(Vector vec, Vector dest)
 	{
 		float[] fl = new float[dest.size()];
@@ -478,6 +525,66 @@ public class Matrix implements IMathArray<Float>
 		dest.set(fl);
 		
 		return dest;
+	}
+	
+	public Matrix rotate(float radians, Vector axis)
+	{
+		return this.rotate(radians, axis, this);
+	}
+	
+	public Matrix rotate(float radians, Vector axis, boolean local)
+	{
+		return this.rotate(radians, axis, local ? this : new Matrix(this.w, this.h));
+	}
+	
+	public Matrix rotate(float radians, Vector axis, Matrix ret)
+	{
+		return this.rotate(radians, axis.get(0), axis.get(1), axis.get(2), ret);
+	}
+	
+	public Matrix rotate(float radians, float x, float y, float z)
+	{
+		return this.rotate(radians, x, y, z, this);
+	}
+	
+	public Matrix rotate(float radians, float x, float y, float z, boolean local)
+	{
+		return this.rotate(radians, x, y, z, local ? this : MatrixHelper.identity());
+	}
+	
+	public Matrix rotate(float radians, float x, float y, float z, Matrix ret)
+	{
+		float c = (float)Math.cos(radians);
+		float s = (float)Math.sin(radians);
+		float omc = 1.0f - c;
+		
+		float xy = x * y;
+		float yz = y * z;
+		float xz = x * z;
+		float xs = x * s;
+		float ys = y * s;
+		float zs = z * s;
+		
+		float[][] calc = new float[][]
+				{{x * x * omc + c,	xy * omc + zs,		xz * omc - ys},
+				{xy * omc - zs,		y * y * omc + c,	yz * omc + xs},
+				{xz * omc + ys,		yz * omc - xs,		z * z * omc + c}};
+		
+		Matrix tmp = new Matrix(ret.w, ret.h);
+		
+		for (int ix = 0; x < tmp.w - 1; ix++)
+		{
+			for (int iy = 0; y < tmp.h - 1; iy++)
+			{
+				tmp.set(ix, iy, this.get(0, iy) * calc[ix][0] + this.get(1, iy) * calc[ix][1] + this.get(2, iy) * calc[ix][2]);
+				
+			}
+			
+		}
+		
+		ret.set(tmp);
+		
+		return ret;
 	}
 	
 }

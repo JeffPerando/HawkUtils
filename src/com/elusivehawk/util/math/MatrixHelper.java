@@ -14,22 +14,22 @@ public final class MatrixHelper
 {
 	private MatrixHelper(){}
 	
-	public static Matrix createIdentityMatrix()
+	public static Matrix identity()
 	{
 		return new Matrix(4, 4).setIdentity();
 	}
 	
-	public static Matrix createHomogenousMatrix(Vector rot, Vector scl, Vector trans)
+	public static Matrix homogenous(Vector rot, Vector scl, Vector trans)
 	{
-		return (Matrix)createRotationMatrix(rot).mul(createScalingMatrix(scl)).mul(createTranslationMatrix(trans));
+		return (Matrix)rotate(rot).mul(scale(scl)).mul(translate(trans));
 	}
 	
-	public static Matrix createHomogenousMatrix(Quaternion rot, Vector scl, Vector trans)
+	public static Matrix homogenous(Quaternion rot, Vector scl, Vector trans)
 	{
-		return (Matrix)createRotationMatrix(rot).mul(createScalingMatrix(scl)).mul(createTranslationMatrix(trans));
+		return (Matrix)rotate(rot).mul(scale(scl)).mul(translate(trans));
 	}
 	
-	public static Matrix createProjectionMatrix(float fov, float aspect, float zFar, float zNear)
+	public static Matrix projection(float fov, float aspect, float zFar, float zNear)
 	{
 		float[] ret = new float[16];
 		
@@ -46,7 +46,7 @@ public final class MatrixHelper
 		return new Matrix(ret);
 	}
 	
-	public static Matrix createRotationMatrix(Vector vec)
+	public static Matrix rotate(Vector vec)
 	{
 		Matrix ret = new Matrix(4, 4);
 		
@@ -55,7 +55,7 @@ public final class MatrixHelper
 		return ret;
 	}
 	
-	public static Matrix createRotationMatrix(float x, float y, float z)
+	public static Matrix rotate(float x, float y, float z)
 	{
 		return setEulerZYX(new Matrix(), x, y, z);
 	}
@@ -86,12 +86,12 @@ public final class MatrixHelper
 		return m;
 	}
 	
-	public static Matrix createRotationMatrix(Quaternion q)
+	public static Matrix rotate(Quaternion q)
 	{
-		return createRotationMatrix(q, createIdentityMatrix());
+		return rotate(q, identity());
 	}
 	
-	public static Matrix createRotationMatrix(Quaternion q, Matrix dest)//TODO Convert into algorithm
+	public static Matrix rotate(Quaternion q, Matrix dest)//TODO Convert into algorithm
 	{
 		q.normalize();
 		
@@ -107,21 +107,19 @@ public final class MatrixHelper
 		
 		dest.set(0, 2, s * (q.get(X) * q.get(Z) + q.get(W) * q.get(Y)), false);
 		dest.set(1, 2, s * (q.get(Y) * q.get(Z) - q.get(W) * q.get(X)), false);
-		dest.set(2, 2, 1 - s * (square(q.get(X)) + square(q.get(Y))), false);
-		
-		dest.onChanged();
+		dest.set(2, 2, 1 - s * (square(q.get(X)) + square(q.get(Y))));
 		
 		return dest;
 	}
 	
-	public static Matrix createScalingMatrix(Vector vec)
+	public static Matrix scale(Vector vec)
 	{
-		return createScalingMatrix(vec.get(X), vec.get(Y), vec.get(Z));
+		return scale(vec.get(X), vec.get(Y), vec.get(Z));
 	}
 	
-	public static Matrix createScalingMatrix(float x, float y, float z)
+	public static Matrix scale(float x, float y, float z)
 	{
-		Matrix ret = createIdentityMatrix();
+		Matrix ret = identity();
 		
 		ret.set(0, x);
 		ret.set(5, y);
@@ -130,14 +128,14 @@ public final class MatrixHelper
 		return ret;
 	}
 	
-	public static Matrix createTranslationMatrix(Vector vec)
+	public static Matrix translate(Vector vec)
 	{
-		return createTranslationMatrix(vec.get(X), vec.get(Y), vec.get(Z));
+		return translate(vec.get(X), vec.get(Y), vec.get(Z));
 	}
 	
-	public static Matrix createTranslationMatrix(float x, float y, float z)
+	public static Matrix translate(float x, float y, float z)
 	{
-		Matrix ret = createIdentityMatrix();
+		Matrix ret = identity();
 		
 		ret.set(3, x);
 		ret.set(7, y);
@@ -173,11 +171,12 @@ public final class MatrixHelper
 		
 		MathHelper.cross(up0, side, forward);
 		
-		Matrix ret = createIdentityMatrix();
+		Matrix ret = identity();
 		
 		ret.setRow(0, side);
 		ret.setRow(1, up0);
 		ret.setRow(2, forward.negate());
+		
 		ret.invert();
 		
 		return ret;
@@ -185,7 +184,7 @@ public final class MatrixHelper
 	
 	public static Matrix ortho(float left, float right, float bottom, float top, float near, float far)
 	{
-		Matrix ret = createIdentityMatrix();
+		Matrix ret = identity();
 		
 		ret.set(0, 0, 2 * (right - left));
 		ret.set(1, 1, 2 * (top - bottom));
