@@ -105,7 +105,7 @@ public final class ReflectionHelper
 		return null;
 	}
 	
-	public static Object invokeConstructor(Class<?> c, Object... args)
+	public static Object newInstance(Class<?> c, Object... args)
 	{
 		for (Constructor<?> con : c.getDeclaredConstructors())
 		{
@@ -152,7 +152,12 @@ public final class ReflectionHelper
 	
 	public static Object newInstance(String clazz)
 	{
-		return newInstance(clazz, (Class<?>[])null, null);
+		return newInstance(clazz, null, null);
+	}
+	
+	public static Object newInstance(String clazz, Class<?>[] assign)
+	{
+		return newInstance(clazz, assign, null);
 	}
 	
 	public static Object newInstance(String clazz, Class<?>[] assign, Class<? extends Annotation>[] annot)
@@ -176,6 +181,16 @@ public final class ReflectionHelper
 		}
 		
 		return newInstance(cl, assign, annot);
+	}
+	
+	public static Object newInstance(Class<?> clazz)
+	{
+		return newInstance(clazz, null, null);
+	}
+	
+	public static Object newInstance(Class<?> clazz, Class<?>... assign)
+	{
+		return newInstance(clazz, assign, null);
 	}
 	
 	public static Object newInstance(Class<?> clazz, Class<?>[] assign, Class<? extends Annotation>[] annot)
