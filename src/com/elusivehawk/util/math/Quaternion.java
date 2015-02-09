@@ -18,7 +18,7 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 	
 	protected boolean dirty = false, sync = false, immutable = false;
 	protected List<Listener> listeners = null;
-	protected Matrix matrix = MatrixHelper.createIdentityMatrix();
+	protected Matrix matrix = MatrixHelper.identity();
 	
 	public Quaternion()
 	{
@@ -257,12 +257,7 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 	
 	public Quaternion setIdentity()
 	{
-		return this.setIdentity(true);
-	}
-	
-	public Quaternion setIdentity(boolean local)
-	{
-		return (Quaternion)((local ? this : this.clone()).setAll(0f).set(4, 1f));
+		return (Quaternion)this.setAll(0f).set(3, 1f);
 	}
 	
 	public Quaternion conjugate()
@@ -322,14 +317,14 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 			
 		}
 		
-		dest.set(4, (float)Math.cos(radian));
+		dest.set(3, (float)Math.cos(radian));
 		
 		return (Quaternion)dest.normalize();
 	}
 	
 	public Vector rotateVec(Vector vec)
 	{
-		return this.rotateVec(vec, true);
+		return this.rotateVec(vec, !vec.isImmutable());
 	}
 	
 	public Vector rotateVec(Vector vec, boolean local)
@@ -340,12 +335,12 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 	public Vector rotateVec(Vector vec, Vector dest)
 	{
 		Quaternion conj = this.conjugate(false);
-		Quaternion vQuat = (Quaternion)new Quaternion().set(vec).set(4, 1f);
+		Quaternion vQuat = (Quaternion)new Quaternion().set(vec).set(3, 1f);
 		
 		vQuat.mul(this);
 		vQuat.mul(conj, dest);
 		
-		return vec;
+		return dest;
 	}
 	
 	public Quaternion setSync()
@@ -357,12 +352,20 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 	
 	public Matrix asMatrix()
 	{
-		return this.asMatrix(MatrixHelper.createIdentityMatrix());
+		return this.asMatrix(MatrixHelper.identity());
 	}
 	
 	public Matrix asMatrix(Matrix dest)
 	{
-		return MatrixHelper.createRotationMatrix(this, dest);
+		if (this.dirty)
+		{
+			this.matrix = MatrixHelper.rotate(this, dest);
+			
+			this.setIsDirty(false);
+			
+		}
+		
+		return this.matrix;
 	}
 	
 	public Quaternion into(FloatBuffer buf, int[] order)
