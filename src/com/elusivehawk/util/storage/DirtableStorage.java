@@ -1,7 +1,7 @@
 
 package com.elusivehawk.util.storage;
 
-import com.elusivehawk.util.IDirty;
+import com.elusivehawk.util.Dirtable;
 
 /**
  * 
@@ -9,10 +9,10 @@ import com.elusivehawk.util.IDirty;
  * 
  * @author Elusivehawk
  */
-public class DirtableStorage<T> implements IDirty, IGettable<T>, ISettable<T>
+public class DirtableStorage<T> extends Dirtable implements IGettable<T>, ISettable<T>
 {
 	private T obj;
-	private boolean dirty = false, sync = false, enableNull = true;
+	private boolean sync = false, enableNull = true;
 	
 	public DirtableStorage()
 	{
@@ -24,19 +24,6 @@ public class DirtableStorage<T> implements IDirty, IGettable<T>, ISettable<T>
 	public DirtableStorage(T object)
 	{
 		obj = object;
-		
-	}
-	
-	@Override
-	public boolean isDirty()
-	{
-		return this.dirty;
-	}
-	
-	@Override
-	public synchronized void setIsDirty(boolean b)
-	{
-		this.dirty = b;
 		
 	}
 	
