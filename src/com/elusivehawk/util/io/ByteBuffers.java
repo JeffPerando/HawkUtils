@@ -40,9 +40,6 @@ public class ByteBuffers implements IByteReader, IByteWriter
 	}
 	
 	@Override
-	public void flush(){}
-	
-	@Override
 	public int write(byte... bytes)
 	{
 		int pos = this.out.position();

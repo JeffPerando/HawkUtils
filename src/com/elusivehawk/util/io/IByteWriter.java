@@ -13,9 +13,9 @@ import com.elusivehawk.util.Logger;
  */
 public interface IByteWriter
 {
-	void flush();
-	
 	int write(byte... bytes);
+	
+	default void flush(){}
 	
 	default int write(ByteBuffer bb)
 	{

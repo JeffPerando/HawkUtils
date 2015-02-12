@@ -72,6 +72,43 @@ public class ByteStreams implements IByteReader, IByteWriter, Closeable
 	}
 	
 	@Override
+	public int write(byte... bytes)
+	{
+		int written = 0;
+		
+		try
+		{
+			this.out.write(bytes);
+			written = bytes.length;
+			
+		}
+		catch (Exception e)
+		{
+			Logger.err(e);
+			
+		}
+		
+		return written;
+	}
+	
+	@Override
+	public void close() throws IOException
+	{
+		if (this.in != null)
+		{
+			this.in.close();
+			
+		}
+		
+		if (this.out != null)
+		{
+			this.out.close();
+			
+		}
+		
+	}
+	
+	@Override
 	public byte[] readAll()
 	{
 		int rem = this.remaining();
@@ -109,43 +146,6 @@ public class ByteStreams implements IByteReader, IByteWriter, Closeable
 				Logger.err(e);
 				
 			}
-			
-		}
-		
-	}
-	
-	@Override
-	public int write(byte... bytes)
-	{
-		int written = 0;
-		
-		try
-		{
-			this.out.write(bytes);
-			written = bytes.length;
-			
-		}
-		catch (Exception e)
-		{
-			Logger.err(e);
-			
-		}
-		
-		return written;
-	}
-	
-	@Override
-	public void close() throws IOException
-	{
-		if (this.in != null)
-		{
-			this.in.close();
-			
-		}
-		
-		if (this.out != null)
-		{
-			this.out.close();
 			
 		}
 		
