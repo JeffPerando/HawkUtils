@@ -13,6 +13,9 @@ import com.elusivehawk.util.parse.ParseHelper;
 public class DefaultLog implements ILog
 {
 	@Override
+	public void close(){}
+	
+	@Override
 	public void log(LogInfo info, boolean verbose)
 	{
 		if (info.isRead())
