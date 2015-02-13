@@ -16,7 +16,7 @@ public class Matrix implements IMathArray<Float>
 	private final float[] data;
 	public final int w, h;
 	
-	private boolean dirty = false, immutable = false;;
+	private boolean dirty = false, immutable = false;
 	
 	public Matrix()
 	{

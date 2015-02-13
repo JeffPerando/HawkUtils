@@ -31,19 +31,22 @@ public final class MatrixHelper
 	
 	public static Matrix projection(float fov, float aspect, float zFar, float zNear)
 	{
-		float[] ret = new float[16];
-		
+		return projection(fov, aspect, zFar, zNear, new Matrix(4, 4));
+	}
+	
+	public static Matrix projection(float fov, float aspect, float zFar, float zNear, Matrix dest)
+	{
 		float yScale = 1 / (float)Math.tan(toRadians(fov / 2f));
 		float xScale = yScale / aspect;
 		float frustumLength = zFar - zNear;
 		
-		ret[0] = xScale;
-		ret[5] = yScale;
-		ret[10] = -((zFar + zNear) / frustumLength);
-		ret[11] = -((2 * zFar * zNear) / frustumLength);
-		ret[14] = -1;
+		dest.set(0, xScale);
+		dest.set(5, yScale);
+		dest.set(10, -((zFar + zNear) / frustumLength));
+		dest.set(11, -((2 * zFar * zNear) / frustumLength));
+		dest.set(14, -1f);
 		
-		return new Matrix(ret);
+		return dest;
 	}
 	
 	public static Matrix rotate(Vector vec)
