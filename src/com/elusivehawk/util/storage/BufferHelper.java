@@ -12,6 +12,7 @@ import java.nio.ShortBuffer;
 import java.util.Collection;
 import com.elusivehawk.util.Logger;
 import com.elusivehawk.util.io.IByteReader;
+import com.elusivehawk.util.io.Serializers;
 import com.elusivehawk.util.math.Vector;
 
 /**
@@ -681,6 +682,96 @@ public final class BufferHelper
 		}
 		
 		ret.flip();
+		
+		return ret;
+	}
+	
+	public static ByteBuffer toByteBuffer(DoubleBuffer buf)
+	{
+		ByteBuffer ret = createByteBuffer(buf.remaining() * 8);
+		
+		for (int c = buf.position(); c < buf.capacity(); c++)
+		{
+			Serializers.DOUBLE.toBytes(buf.get(c), ((bs) ->
+			{
+				ret.put(bs);
+				
+				return 8;
+			}));
+			
+		}
+		
+		return ret;
+	}
+	
+	public static ByteBuffer toByteBuffer(FloatBuffer buf)
+	{
+		ByteBuffer ret = createByteBuffer(buf.remaining() * 4);
+		
+		for (int c = buf.position(); c < buf.capacity(); c++)
+		{
+			Serializers.FLOAT.toBytes(buf.get(c), ((bs) ->
+			{
+				ret.put(bs);
+				
+				return 4;
+			}));
+			
+		}
+		
+		return ret;
+	}
+	
+	public static ByteBuffer toByteBuffer(IntBuffer buf)
+	{
+		ByteBuffer ret = createByteBuffer(buf.remaining() * 4);
+		
+		for (int c = buf.position(); c < buf.capacity(); c++)
+		{
+			Serializers.INTEGER.toBytes(buf.get(c), ((bs) ->
+			{
+				ret.put(bs);
+				
+				return 4;
+			}));
+			
+		}
+		
+		return ret;
+	}
+	
+	public static ByteBuffer toByteBuffer(LongBuffer buf)
+	{
+		ByteBuffer ret = createByteBuffer(buf.remaining() * 8);
+		
+		for (int c = buf.position(); c < buf.capacity(); c++)
+		{
+			Serializers.LONG.toBytes(buf.get(c), ((bs) ->
+			{
+				ret.put(bs);
+				
+				return 4;
+			}));
+			
+		}
+		
+		return ret;
+	}
+	
+	public static ByteBuffer toByteBuffer(ShortBuffer buf)
+	{
+		ByteBuffer ret = createByteBuffer(buf.remaining() * 2);
+		
+		for (int c = buf.position(); c < buf.capacity(); c++)
+		{
+			Serializers.SHORT.toBytes(buf.get(c), ((bs) ->
+			{
+				ret.put(bs);
+				
+				return 4;
+			}));
+			
+		}
 		
 		return ret;
 	}
