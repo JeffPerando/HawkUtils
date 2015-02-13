@@ -17,7 +17,7 @@ public final class Serializers
 	public static final Serializer<Short> SHORT = new Serializer<Short>()
 			{
 				@Override
-				public int toBytes(IByteWriter w, Short s)
+				public int toBytes(Short s, IByteWriter w)
 				{
 					return w.write((byte)(s & 255), (byte)((s >> 8) & 255));
 				}
@@ -42,7 +42,7 @@ public final class Serializers
 	public static final Serializer<Integer> INTEGER = new Serializer<Integer>()
 			{
 				@Override
-				public int toBytes(IByteWriter w, Integer i)
+				public int toBytes(Integer i, IByteWriter w)
 				{
 					byte[] bytes = new byte[4];
 					
@@ -82,7 +82,7 @@ public final class Serializers
 	public static final Serializer<Long> LONG  = new Serializer<Long>()
 			{
 				@Override
-				public int toBytes(IByteWriter w, Long l)
+				public int toBytes(Long l, IByteWriter w)
 				{
 					byte[] bytes = new byte[8];
 					
@@ -122,9 +122,9 @@ public final class Serializers
 	public static final Serializer<Float> FLOAT = new Serializer<Float>()
 			{
 				@Override
-				public int toBytes(IByteWriter w, Float f)
+				public int toBytes(Float f, IByteWriter w)
 				{
-					return INTEGER.toBytes(w, Float.floatToRawIntBits(f));
+					return INTEGER.toBytes(Float.floatToRawIntBits(f), w);
 				}
 				
 				@Override
@@ -137,9 +137,9 @@ public final class Serializers
 	public static final Serializer<Double> DOUBLE = new Serializer<Double>()
 			{
 				@Override
-				public int toBytes(IByteWriter w, Double d)
+				public int toBytes(Double d, IByteWriter w)
 				{
-					return LONG.toBytes(w, Double.doubleToRawLongBits(d));
+					return LONG.toBytes(Double.doubleToRawLongBits(d), w);
 				}
 				
 				@Override
@@ -152,13 +152,13 @@ public final class Serializers
 	public static final Serializer<String> STRING = new Serializer<String>()
 			{
 				@Override
-				public int toBytes(IByteWriter w, String str)
+				public int toBytes(String str, IByteWriter w)
 				{
-					INTEGER.toBytes(w, str.length());
+					INTEGER.toBytes(str.length(), w);
 					
 					for (int c = 0; c < str.length(); c++)
 					{
-						SHORT.toBytes(w, (short)str.charAt(c));
+						SHORT.toBytes((short)str.charAt(c), w);
 						
 					}
 					
@@ -183,9 +183,9 @@ public final class Serializers
 	public static final Serializer<UUID> UUID = new Serializer<UUID>()
 			{
 				@Override
-				public int toBytes(IByteWriter w, UUID uuid)
+				public int toBytes(UUID uuid, IByteWriter w)
 				{
-					return LONG.toBytes(w, uuid.getMostSignificantBits()) + LONG.toBytes(w, uuid.getLeastSignificantBits());
+					return LONG.toBytes(uuid.getMostSignificantBits(), w) + LONG.toBytes(uuid.getLeastSignificantBits(), w);
 				}
 				
 				@Override

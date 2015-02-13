@@ -61,42 +61,42 @@ public interface IByteWriter
 	
 	default void writeDouble(double d)
 	{
-		Serializers.DOUBLE.toBytes(this, d);
+		Serializers.DOUBLE.toBytes(d, this);
 		
 	}
 	
 	default void writeFloat(float f)
 	{
-		Serializers.FLOAT.toBytes(this, f);
+		Serializers.FLOAT.toBytes(f, this);
 	}
 	
 	default void writeInt(int i)
 	{
-		Serializers.INTEGER.toBytes(this, i);
+		Serializers.INTEGER.toBytes(i, this);
 		
 	}
 	
 	default void writeLong(long l)
 	{
-		Serializers.LONG.toBytes(this, l);
+		Serializers.LONG.toBytes(l, this);
 		
 	}
 	
 	default void writeShort(short s)
 	{
-		Serializers.SHORT.toBytes(this, s);
+		Serializers.SHORT.toBytes(s, this);
 		
 	}
 	
 	default void writeString(String str)
 	{
-		Serializers.STRING.toBytes(this, str);
+		Serializers.STRING.toBytes(str, this);
 		
 	}
 	
 	default void writeUUID(UUID uuid)
 	{
-		Serializers.UUID.toBytes(this, uuid);
+		Serializers.UUID.toBytes(uuid, this);
 		
 	}
 	
