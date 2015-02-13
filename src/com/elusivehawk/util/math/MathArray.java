@@ -11,32 +11,25 @@ import com.elusivehawk.util.storage.Buffer;
  * 
  * @author Elusivehawk
  */
-public interface IMathArray<T extends Number> extends IPopulator<Buffer<T>>, IDirty
+public abstract class MathArray<T extends Number> implements IPopulator<Buffer<T>>, IDirty
 {
-	T get(int index);
-	
-	int size();
-	
-	boolean isImmutable();
-	
-	IMathArray<T> setImmutable();
-	
-	IMathArray<T> set(int pos, Number num, boolean notify);
-	
-	IMathArray<T> add(IMathArray<T> obj, IMathArray<T> dest);
-	
-	IMathArray<T> div(IMathArray<T> obj, IMathArray<T> dest);
-	
-	IMathArray<T> mul(IMathArray<T> obj, IMathArray<T> dest);
-	
-	IMathArray<T> sub(IMathArray<T> obj, IMathArray<T> dest);
-	
-	IMathArray<T> normalize(IMathArray<T> dest);
-	
-	//Default methods
+	private boolean dirty = false, immutable = false, sync = false;
 	
 	@Override
-	default void populate(Buffer<T> buf)
+	public boolean isDirty()
+	{
+		return this.dirty;
+	}
+	
+	@Override
+	public synchronized void setIsDirty(boolean b)
+	{
+		this.dirty = b;
+		
+	}
+	
+	@Override
+	public void populate(Buffer<T> buf)
 	{
 		for (int c = 0; c < size(); c++)
 		{
@@ -46,12 +39,36 @@ public interface IMathArray<T extends Number> extends IPopulator<Buffer<T>>, IDi
 		
 	}
 	
-	default IMathArray<T> set(int pos, T num)
+	public boolean isImmutable()
+	{
+		return this.immutable;
+	}
+	
+	public MathArray<T> setImmutable()
+	{
+		this.immutable = true;
+		
+		return this;
+	}
+	
+	public boolean doSync()
+	{
+		return this.sync;
+	}
+	
+	public MathArray<T> setSync()
+	{
+		this.sync = true;
+		
+		return this;
+	}
+	
+	public MathArray<T> set(int pos, T num)
 	{
 		return this.set(pos, num, true);
 	}
 	
-	default IMathArray<T> setAll(T num)
+	public MathArray<T> setAll(T num)
 	{
 		for (int c = 0; c < this.size(); c++)
 		{
@@ -64,12 +81,12 @@ public interface IMathArray<T extends Number> extends IPopulator<Buffer<T>>, IDi
 		return this;
 	}
 	
-	default IMathArray<T> normalize()
+	public MathArray<T> normalize()
 	{
 		return this.normalize(this);
 	}
 	
-	default Number[] multiget(int bitmask)
+	public Number[] multiget(int bitmask)
 	{
 		int count = 0;
 		
@@ -104,7 +121,7 @@ public interface IMathArray<T extends Number> extends IPopulator<Buffer<T>>, IDi
 		return ret;
 	}
 	
-	default IMathArray<T> set(IMathArray<T> obj)
+	public MathArray<T> set(MathArray<T> obj)
 	{
 		int l = Math.min(this.size(), obj.size());
 		
@@ -119,32 +136,32 @@ public interface IMathArray<T extends Number> extends IPopulator<Buffer<T>>, IDi
 		return this;
 	}
 	
-	default IMathArray<T> add(IMathArray<T> obj)
+	public MathArray<T> add(MathArray<T> obj)
 	{
 		return this.add(obj, this);
 	}
 	
-	default IMathArray<T> div(IMathArray<T> obj)
+	public MathArray<T> div(MathArray<T> obj)
 	{
 		return this.div(obj, this);
 	}
 	
-	default IMathArray<T> mul(IMathArray<T> obj)
+	public MathArray<T> mul(MathArray<T> obj)
 	{
 		return this.mul(obj, this);
 	}
 	
-	default IMathArray<T> sub(IMathArray<T> obj)
+	public MathArray<T> sub(MathArray<T> obj)
 	{
 		return this.sub(obj, this);
 	}
 	
-	default IMathArray<T> cos()
+	public MathArray<T> cos()
 	{
 		return this.cos(this);
 	}
 	
-	default IMathArray<T> cos(IMathArray<T> dest)
+	public MathArray<T> cos(MathArray<T> dest)
 	{
 		int i = Math.min(this.size(), dest.size());
 	
@@ -159,12 +176,12 @@ public interface IMathArray<T extends Number> extends IPopulator<Buffer<T>>, IDi
 		return dest;
 	}
 	
-	default IMathArray<T> sin()
+	public MathArray<T> sin()
 	{
 		return this.sin(this);
 	}
 	
-	default IMathArray<T> sin(IMathArray<T> dest)
+	public MathArray<T> sin(MathArray<T> dest)
 	{
 		int i = Math.min(this.size(), dest.size());
 		
@@ -179,6 +196,22 @@ public interface IMathArray<T extends Number> extends IPopulator<Buffer<T>>, IDi
 		return dest;
 	}
 	
-	default void onChanged(){}
+	public void onChanged(){}
+	
+	public abstract T get(int index);
+	
+	public abstract int size();
+	
+	public abstract MathArray<T> set(int pos, Number num, boolean notify);
+	
+	public abstract MathArray<T> add(MathArray<T> obj, MathArray<T> dest);
+	
+	public abstract MathArray<T> div(MathArray<T> obj, MathArray<T> dest);
+	
+	public abstract MathArray<T> mul(MathArray<T> obj, MathArray<T> dest);
+	
+	public abstract MathArray<T> sub(MathArray<T> obj, MathArray<T> dest);
+	
+	public abstract MathArray<T> normalize(MathArray<T> dest);
 	
 }

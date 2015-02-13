@@ -11,12 +11,10 @@ import com.elusivehawk.util.storage.BufferHelper;
  * 
  * @author Elusivehawk
  */
-public class Matrix implements IMathArray<Float>
+public class Matrix extends MathArray<Float>
 {
 	private final float[] data;
 	public final int w, h;
-	
-	private boolean dirty = false, immutable = false;
 	
 	public Matrix()
 	{
@@ -81,19 +79,6 @@ public class Matrix implements IMathArray<Float>
 	}
 	
 	@Override
-	public boolean isDirty()
-	{
-		return this.dirty;
-	}
-	
-	@Override
-	public synchronized void setIsDirty(boolean b)
-	{
-		this.dirty = b;
-		
-	}
-	
-	@Override
 	public int size()
 	{
 		return this.w * this.h;
@@ -120,7 +105,7 @@ public class Matrix implements IMathArray<Float>
 	}
 	
 	@Override
-	public IMathArray<Float> normalize(IMathArray<Float> dest)
+	public MathArray<Float> normalize(MathArray<Float> dest)
 	{
 		assert !dest.isImmutable();
 		
@@ -130,21 +115,7 @@ public class Matrix implements IMathArray<Float>
 	}
 	
 	@Override
-	public boolean isImmutable()
-	{
-		return this.immutable;
-	}
-
-	@Override
-	public IMathArray<Float> setImmutable()
-	{
-		this.immutable = true;
-		
-		return this;
-	}
-	
-	@Override
-	public IMathArray<Float> add(IMathArray<Float> obj, IMathArray<Float> dest)
+	public MathArray<Float> add(MathArray<Float> obj, MathArray<Float> dest)
 	{
 		Buffer<Float> buf = new Buffer<Float>(obj);
 		
@@ -164,7 +135,7 @@ public class Matrix implements IMathArray<Float>
 	}
 	
 	@Override
-	public IMathArray<Float> div(IMathArray<Float> obj, IMathArray<Float> dest)
+	public MathArray<Float> div(MathArray<Float> obj, MathArray<Float> dest)
 	{
 		Buffer<Float> buf = new Buffer<Float>(obj);
 		
@@ -184,7 +155,7 @@ public class Matrix implements IMathArray<Float>
 	}
 	
 	@Override
-	public IMathArray<Float> sub(IMathArray<Float> obj, IMathArray<Float> dest)
+	public MathArray<Float> sub(MathArray<Float> obj, MathArray<Float> dest)
 	{
 		Buffer<Float> buf = new Buffer<Float>(obj);
 		
@@ -204,7 +175,7 @@ public class Matrix implements IMathArray<Float>
 	}
 	
 	@Override
-	public IMathArray<Float> mul(IMathArray<Float> obj, IMathArray<Float> dest)
+	public MathArray<Float> mul(MathArray<Float> obj, MathArray<Float> dest)
 	{
 		Buffer<Float> buf = new Buffer<Float>(obj);
 		
@@ -264,7 +235,7 @@ public class Matrix implements IMathArray<Float>
 	}
 	
 	@Override
-	public Matrix set(IMathArray<Float> obj)
+	public Matrix set(MathArray<Float> obj)
 	{
 		Buffer<Float> buf = new Buffer<Float>(obj);
 		

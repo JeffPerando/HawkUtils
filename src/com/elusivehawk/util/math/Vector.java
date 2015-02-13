@@ -14,16 +14,12 @@ import com.elusivehawk.util.storage.Buffer;
  * 
  * @author Elusivehawk
  */
-public class Vector implements IJsonSerializer, IMathArray<Float>
+public class Vector extends MathArray<Float> implements IJsonSerializer
 {
 	protected final float[] data;
 	
 	protected List<Listener> listeners = null;
 	protected String name = null;
-	protected volatile boolean
-			dirty = false,
-			immutable = false,
-			sync = false;
 	
 	public Vector()
 	{
@@ -115,19 +111,6 @@ public class Vector implements IJsonSerializer, IMathArray<Float>
 	}
 	
 	@Override
-	public boolean isDirty()
-	{
-		return this.dirty;
-	}
-	
-	@Override
-	public void setIsDirty(boolean b)
-	{
-		this.dirty = b;
-		
-	}
-	
-	@Override
 	public int size()
 	{
 		return this.data.length;
@@ -146,7 +129,7 @@ public class Vector implements IJsonSerializer, IMathArray<Float>
 		
 		if (this.data[pos] != num.floatValue())
 		{
-			if (this.sync)
+			if (this.doSync())
 			{
 				synchronized (this)
 				{
@@ -161,7 +144,7 @@ public class Vector implements IJsonSerializer, IMathArray<Float>
 				
 			}
 			
-			this.dirty = true;
+			this.setIsDirty(true);
 			
 			if (notify)
 			{
@@ -175,7 +158,7 @@ public class Vector implements IJsonSerializer, IMathArray<Float>
 	}
 	
 	@Override
-	public IMathArray<Float> normalize(IMathArray<Float> dest)
+	public MathArray<Float> normalize(MathArray<Float> dest)
 	{
 		assert !dest.isImmutable();
 		
@@ -195,7 +178,7 @@ public class Vector implements IJsonSerializer, IMathArray<Float>
 	}
 	
 	@Override
-	public IMathArray<Float> add(IMathArray<Float> obj, IMathArray<Float> dest)
+	public MathArray<Float> add(MathArray<Float> obj, MathArray<Float> dest)
 	{
 		assert !dest.isImmutable();
 		
@@ -213,7 +196,7 @@ public class Vector implements IJsonSerializer, IMathArray<Float>
 	}
 	
 	@Override
-	public IMathArray<Float> div(IMathArray<Float> obj, IMathArray<Float> dest)
+	public MathArray<Float> div(MathArray<Float> obj, MathArray<Float> dest)
 	{
 		assert !dest.isImmutable();
 		
@@ -231,7 +214,7 @@ public class Vector implements IJsonSerializer, IMathArray<Float>
 	}
 	
 	@Override
-	public IMathArray<Float> sub(IMathArray<Float> obj, IMathArray<Float> dest)
+	public MathArray<Float> sub(MathArray<Float> obj, MathArray<Float> dest)
 	{
 		assert !dest.isImmutable();
 		
@@ -249,7 +232,7 @@ public class Vector implements IJsonSerializer, IMathArray<Float>
 	}
 	
 	@Override
-	public IMathArray<Float> mul(IMathArray<Float> obj, IMathArray<Float> dest)
+	public MathArray<Float> mul(MathArray<Float> obj, MathArray<Float> dest)
 	{
 		assert !dest.isImmutable();
 		
@@ -335,20 +318,6 @@ public class Vector implements IJsonSerializer, IMathArray<Float>
 	}
 	
 	@Override
-	public Vector setImmutable()
-	{
-		this.immutable = true;
-		
-		return this;
-	}
-	
-	@Override
-	public boolean isImmutable()
-	{
-		return this.immutable;
-	}
-	
-	@Override
 	public String toJson(int tabs)
 	{
 		StringBuilder b = new StringBuilder();
@@ -399,13 +368,6 @@ public class Vector implements IJsonSerializer, IMathArray<Float>
 	public Vector setName(String str)
 	{
 		this.name = str;
-		
-		return this;
-	}
-	
-	public Vector setSync()
-	{
-		this.sync = true;
 		
 		return this;
 	}
@@ -604,7 +566,7 @@ public class Vector implements IJsonSerializer, IMathArray<Float>
 		return this;
 	}
 	
-	public Vector add(IMathArray<Float> obj, boolean local)
+	public Vector add(MathArray<Float> obj, boolean local)
 	{
 		return (Vector)this.add(obj, local ? this : new Vector(this.size()));
 	}
@@ -621,7 +583,7 @@ public class Vector implements IJsonSerializer, IMathArray<Float>
 		return this;
 	}
 	
-	public Vector div(IMathArray<Float> obj, boolean local)
+	public Vector div(MathArray<Float> obj, boolean local)
 	{
 		return (Vector)this.div(obj, local ? this : new Vector(this.size()));
 	}
@@ -638,7 +600,7 @@ public class Vector implements IJsonSerializer, IMathArray<Float>
 		return this;
 	}
 	
-	public Vector mul(IMathArray<Float> obj, boolean local)
+	public Vector mul(MathArray<Float> obj, boolean local)
 	{
 		return (Vector)this.mul(obj, local ? this : new Vector(this.size()));
 	}
@@ -655,7 +617,7 @@ public class Vector implements IJsonSerializer, IMathArray<Float>
 		return this;
 	}
 	
-	public Vector sub(IMathArray<Float> obj, boolean local)
+	public Vector sub(MathArray<Float> obj, boolean local)
 	{
 		return (Vector)this.sub(obj, local ? this : new Vector(this.size()));
 	}

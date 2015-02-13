@@ -12,11 +12,10 @@ import com.elusivehawk.util.parse.json.IJsonSerializer;
  * 
  * @author Elusivehawk
  */
-public class Quaternion implements IJsonSerializer, IMathArray<Float>
+public class Quaternion extends MathArray<Float> implements IJsonSerializer
 {
 	protected final float[] data = new float[4];
 	
-	protected boolean dirty = false, sync = false, immutable = false;
 	protected List<Listener> listeners = null;
 	protected Matrix matrix = MatrixHelper.identity();
 	
@@ -45,19 +44,6 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 	}
 	
 	@Override
-	public boolean isDirty()
-	{
-		return this.dirty;
-	}
-	
-	@Override
-	public synchronized void setIsDirty(boolean b)
-	{
-		this.dirty = b;
-		
-	}
-	
-	@Override
 	public int size()
 	{
 		return 4;
@@ -75,7 +61,7 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 		assert !this.isImmutable();
 		assert MathHelper.bounds(pos, 0, this.size());
 		
-		if (this.sync)
+		if (this.doSync())
 		{
 			synchronized (this)
 			{
@@ -90,7 +76,7 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 			
 		}
 		
-		this.dirty = true;
+		this.setIsDirty(true);
 		
 		if (notify)
 		{
@@ -102,21 +88,7 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 	}
 	
 	@Override
-	public boolean isImmutable()
-	{
-		return this.immutable;
-	}
-
-	@Override
-	public IMathArray<Float> setImmutable()
-	{
-		this.immutable = true;
-		
-		return this;
-	}
-	
-	@Override
-	public IMathArray<Float> normalize(IMathArray<Float> dest)
+	public MathArray<Float> normalize(MathArray<Float> dest)
 	{
 		assert !dest.isImmutable();
 		
@@ -136,7 +108,7 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 	}
 	
 	@Override
-	public IMathArray<Float> add(IMathArray<Float> obj, IMathArray<Float> dest)
+	public MathArray<Float> add(MathArray<Float> obj, MathArray<Float> dest)
 	{
 		assert !dest.isImmutable();
 		
@@ -154,7 +126,7 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 	}
 	
 	@Override
-	public IMathArray<Float> div(IMathArray<Float> obj, IMathArray<Float> dest)
+	public MathArray<Float> div(MathArray<Float> obj, MathArray<Float> dest)
 	{
 		assert !dest.isImmutable();
 		
@@ -172,7 +144,7 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 	}
 	
 	@Override
-	public IMathArray<Float> sub(IMathArray<Float> obj, IMathArray<Float> dest)
+	public MathArray<Float> sub(MathArray<Float> obj, MathArray<Float> dest)
 	{
 		assert !dest.isImmutable();
 		
@@ -190,7 +162,7 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 	}
 	
 	@Override
-	public IMathArray<Float> mul(IMathArray<Float> obj, IMathArray<Float> dest)
+	public MathArray<Float> mul(MathArray<Float> obj, MathArray<Float> dest)
 	{
 		assert !dest.isImmutable();
 		
@@ -343,13 +315,6 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 		return dest;
 	}
 	
-	public Quaternion setSync()
-	{
-		this.sync = true;
-		
-		return this;
-	}
-	
 	public Matrix asMatrix()
 	{
 		return this.asMatrix(MatrixHelper.identity());
@@ -357,7 +322,7 @@ public class Quaternion implements IJsonSerializer, IMathArray<Float>
 	
 	public Matrix asMatrix(Matrix dest)
 	{
-		if (this.dirty)
+		if (this.isDirty())
 		{
 			this.matrix = MatrixHelper.rotate(this, dest);
 			
