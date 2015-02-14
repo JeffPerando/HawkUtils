@@ -32,11 +32,11 @@ public final class MathConst
 	public static final int XYZ =	X_BITMASK | Y_BITMASK | Z_BITMASK;
 	public static final int XYZW =	X_BITMASK | Y_BITMASK | Z_BITMASK | W_BITMASK;
 	
-	public static final Vector X_AXIS = (Vector)new Vector(1f, 0f, 0f).setImmutable();
-	public static final Vector Y_AXIS = (Vector)new Vector(0f, 1f, 0f).setImmutable();
-	public static final Vector Z_AXIS = (Vector)new Vector(0f, 0f, 1f).setImmutable();
+	public static final VectorF X_AXIS = (VectorF)new VectorF(1f, 0f, 0f).setImmutable();
+	public static final VectorF Y_AXIS = (VectorF)new VectorF(0f, 1f, 0f).setImmutable();
+	public static final VectorF Z_AXIS = (VectorF)new VectorF(0f, 0f, 1f).setImmutable();
 	
-	public static final Vector[] AXES = new Vector[]{X_AXIS, Y_AXIS, Z_AXIS};
+	public static final VectorF[] AXES = new VectorF[]{X_AXIS, Y_AXIS, Z_AXIS};
 	
 	private MathConst(){}
 	

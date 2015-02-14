@@ -5,7 +5,7 @@ package com.elusivehawk.util.math;
  * 
  * Compatibility class for porting over math libraries.
  * <p>
- * NOTICE: Always deprecated; Refactor your code to use more flexible {@link Vector}s!
+ * NOTICE: Always deprecated; Refactor your code to use more flexible {@link VectorF}s!
  * 
  * @author Elusivehawk
  */
@@ -35,7 +35,7 @@ public class Vector4f extends Vector3f
 	}
 	
 	@Override
-	public Float get(int pos)
+	public float get(int pos)
 	{
 		if (pos == 3)
 		{
@@ -46,11 +46,11 @@ public class Vector4f extends Vector3f
 	}
 	
 	@Override
-	public Vector4f set(int pos, Float f)
+	public Vector4f set(int pos, float f)
 	{
 		if (pos == 3)
 		{
-			this.w = f.floatValue();
+			this.w = f;
 			
 		}
 		else

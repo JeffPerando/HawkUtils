@@ -10,6 +10,7 @@ import com.elusivehawk.util.Logger;
  * 
  * @author Elusivehawk
  */
+@SuppressWarnings("boxing")
 public interface IByteReader
 {
 	int remaining();

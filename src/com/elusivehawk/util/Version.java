@@ -36,7 +36,7 @@ public class Version
 		this(RELEASE, mj, mn, p, b);
 	}
 	
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings({"unqualified-field-access", "boxing"})
 	public Version(String type, int mj, int mn, int p, int b)
 	{
 		release = type;

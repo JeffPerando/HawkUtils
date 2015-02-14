@@ -217,13 +217,14 @@ public class ParseHelper
 		return b.toString();
 	}
 	
+	@SuppressWarnings("boxing")
 	public static String valueOf(String str)
 	{
 		String ret = str;
 		
 		if (str.startsWith("\\u"))
 		{
-			ret = ((Character)((char)Short.parseShort(String.format("0x%s", str.substring(3))))).toString();
+			ret = ((Character)((char)Short.parseShort(String.format("0x%s", str.substring(2))))).toString();
 			
 		}
 		else

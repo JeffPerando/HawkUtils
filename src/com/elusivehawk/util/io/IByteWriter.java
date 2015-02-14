@@ -11,6 +11,7 @@ import com.elusivehawk.util.Logger;
  * 
  * @author Elusivehawk
  */
+@SuppressWarnings("boxing")
 public interface IByteWriter
 {
 	int write(byte... bytes);

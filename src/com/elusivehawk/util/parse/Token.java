@@ -68,6 +68,7 @@ public class Token
 		return ret;
 	}
 	
+	@SuppressWarnings("boxing")
 	@Override
 	public String toString()
 	{

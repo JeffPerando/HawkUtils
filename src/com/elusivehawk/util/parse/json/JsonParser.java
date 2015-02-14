@@ -18,6 +18,7 @@ import com.elusivehawk.util.storage.Buffer;
  * 
  * @author Elusivehawk
  */
+@SuppressWarnings("boxing")
 public final class JsonParser
 {
 	public static final String[] SEPARATORS = {"\"", ":", ",", "{", "}", "[", "]", "e", "E", "+", "-", "true", "false"};

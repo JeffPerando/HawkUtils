@@ -13,7 +13,7 @@ import java.util.Collection;
 import com.elusivehawk.util.Logger;
 import com.elusivehawk.util.io.IByteReader;
 import com.elusivehawk.util.io.Serializers;
-import com.elusivehawk.util.math.Vector;
+import com.elusivehawk.util.math.VectorF;
 
 /**
  * 
@@ -23,6 +23,7 @@ import com.elusivehawk.util.math.Vector;
  * 
  * @author Elusivehawk
  */
+@SuppressWarnings("boxing")
 public final class BufferHelper
 {
 	private BufferHelper(){}
@@ -632,11 +633,11 @@ public final class BufferHelper
 		return ret;
 	}
 	
-	public static FloatBuffer makeVecFloatBufferf(Collection<Vector> data)
+	public static FloatBuffer makeVecFloatBufferf(Collection<VectorF> data)
 	{
 		int size = 0;
 		
-		for (Vector vec : data)
+		for (VectorF vec : data)
 		{
 			size += vec.size();
 			
@@ -659,11 +660,11 @@ public final class BufferHelper
 		return ret;
 	}
 	
-	public static FloatBuffer makeVecFloatBufferf(Vector... data)
+	public static FloatBuffer makeVecFloatBufferf(VectorF... data)
 	{
 		int size = 0;
 		
-		for (Vector vec : data)
+		for (VectorF vec : data)
 		{
 			size += vec.size();
 			
@@ -671,7 +672,7 @@ public final class BufferHelper
 		
 		FloatBuffer ret = createFloatBuffer(size);
 		
-		for (Vector vec : data)
+		for (VectorF vec : data)
 		{
 			for (int c = 0; c < vec.size(); c++)
 			{

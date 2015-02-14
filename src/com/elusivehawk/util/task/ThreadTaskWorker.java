@@ -16,9 +16,11 @@ public class ThreadTaskWorker extends ThreadStoppable
 {
 	protected final SyncList<Task> tasks = new SyncList<Task>();
 	
+	@SuppressWarnings("boxing")
 	ThreadTaskWorker(int core)
 	{
 		super(String.format("Worker-%s", core));
+		
 		setDaemon(true);
 		
 	}

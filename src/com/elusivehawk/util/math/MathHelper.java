@@ -31,7 +31,7 @@ public final class MathHelper
 		return l >= min && l <= max;
 	}
 	
-	public static boolean bounds(Vector v, Vector min, Vector max)
+	public static boolean bounds(VectorF v, VectorF min, VectorF max)
 	{
 		int size = min(v.size(), min.size(), max.size());
 		
@@ -47,9 +47,9 @@ public final class MathHelper
 		return true;
 	}
 	
-	public static Vector calcNormal(Vector one, Vector two, Vector three)
+	public static VectorF calcNormal(VectorF one, VectorF two, VectorF three)
 	{
-		return (Vector)cross(one.sub(two, false), one.sub(three, false)).normalize();
+		return cross(one.sub(two, false), one.sub(three, false)).normalize();
 	}
 	
 	public static float clamp(float f, float min, float max)
@@ -67,31 +67,31 @@ public final class MathHelper
 		return Math.min(max, Math.max(l, min));
 	}
 	
-	public static Vector clamp(Vector v, Vector min, Vector max)
+	public static VectorF clamp(VectorF v, VectorF min, VectorF max)
 	{
 		int size = min(v.size(), min.size(), max.size());
 		
-		Vector ret = new Vector(size);
+		VectorF ret = new VectorF(size);
 		
 		for (int c = 0; c < size; c++)
 		{
-			ret.set(c, clamp(v.get(c), min.get(c), max.get(c)), false);
+			ret.set(c, clamp(v.get(c), min.get(c), max.get(c)));
 			
 		}
 		
 		return ret;
 	}
 	
-	public static Vector cross(Vector one, Vector two)
+	public static VectorF cross(VectorF one, VectorF two)
 	{
-		Vector ret = new Vector();
+		VectorF ret = new VectorF();
 		
 		cross(ret, one, two);
 		
 		return ret;
 	}
 	
-	public static void cross(Vector ret, Vector one, Vector two)
+	public static void cross(VectorF ret, VectorF one, VectorF two)
 	{
 		assert one.size() <= 3 && two.size() <= 3 && ret.size() <= 3;
 		
@@ -103,18 +103,18 @@ public final class MathHelper
 		float by = two.get(Y);
 		float bz = two.get(Z);
 		
-		ret.set(0, (ay * bz) - (az * by), false);
-		ret.set(1, (az * bx) - (ax * bz), false);
+		ret.set(0, (ay * bz) - (az * by));
+		ret.set(1, (az * bx) - (ax * bz));
 		ret.set(2, (ax * by) - (ay * bx));
 		
 	}
 	
-	public static float dist(Vector from, Vector to)
+	public static float dist(VectorF from, VectorF to)
 	{
 		return (float)Math.sqrt(distSquared(from, to));
 	}
 	
-	public static float distSquared(Vector from, Vector to)
+	public static float distSquared(VectorF from, VectorF to)
 	{
 		int size = Math.min(from.size(), to.size());
 		float ret = 0f;
@@ -128,7 +128,7 @@ public final class MathHelper
 		return ret;
 	}
 	
-	public static float dot(Vector one, Vector two)
+	public static float dot(VectorF one, VectorF two)
 	{
 		int size = Math.min(one.size(), two.size());
 		float ret = 0f;
@@ -149,16 +149,16 @@ public final class MathHelper
 		return ((two * factor) + ((1f - factor) * one));
 	}
 	
-	public static Vector interpolate(Vector one, Vector two, float factor)
+	public static VectorF interpolate(VectorF one, VectorF two, float factor)
 	{
-		return interpolate(one, two, factor, new Vector(Math.min(one.size(), two.size())));
+		return interpolate(one, two, factor, new VectorF(Math.min(one.size(), two.size())));
 	}
 	
-	public static Vector interpolate(Vector one, Vector two, float factor, Vector dest)
+	public static VectorF interpolate(VectorF one, VectorF two, float factor, VectorF dest)
 	{
 		for (int c = 0; c < dest.size(); c++)
 		{
-			dest.set(c, interpolate(one.get(c), two.get(c), factor), false);
+			dest.set(c, interpolate(one.get(c), two.get(c), factor));
 			
 		}
 		
@@ -170,13 +170,18 @@ public final class MathHelper
 		return (i & 1) == 1;
 	}
 	
-	public static float length(MathArray<Float> m)
+	public static float length(FloatArithmetic v)
+	{
+		return (float)Math.sqrt(lengthSquared(v));
+	}
+	
+	public static float lengthSquared(FloatArithmetic v)
 	{
 		float ret = 0f;
 		
-		for (int c = 0; c < m.size(); c++)
+		for (int c = 0; c < v.size(); c++)
 		{
-			ret += square(m.get(c));
+			ret += square(v.get(c));
 			
 		}
 		
@@ -249,13 +254,13 @@ public final class MathHelper
 		return (degree * PI) / 180;
 	}
 	
-	public static Vector toRadians(Vector vec)
+	public static VectorF toRadians(VectorF vec)
 	{
-		Vector ret = new Vector(vec);
+		VectorF ret = new VectorF(vec);
 		
 		for (int c = 0; c < ret.size(); c++)
 		{
-			ret.set(c, toRadians(ret.get(c)), false);
+			ret.set(c, toRadians(ret.get(c)));
 			
 		}
 		

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import com.elusivehawk.util.IDirty;
+import com.elusivehawk.util.Dirtable;
 import com.elusivehawk.util.IPopulator;
 import com.elusivehawk.util.math.MathHelper;
 
@@ -17,10 +17,9 @@ import com.elusivehawk.util.math.MathHelper;
  * 
  * @author Elusivehawk
  */
-public class Buffer<T> implements IDirty, Collection<T>, Iterator<T>, IGettable<T>
+public class Buffer<T> extends Dirtable implements Collection<T>, Iterator<T>, IGettable<T>
 {
 	protected final List<T> l;
-	protected final List<Boolean> dirt;
 	protected int pos = 0, mark = 0;
 	
 	public Buffer()
@@ -59,7 +58,6 @@ public class Buffer<T> implements IDirty, Collection<T>, Iterator<T>, IGettable<
 	public Buffer(List<T> list)
 	{
 		l = list;
-		dirt = new ArrayList<Boolean>(list.size());
 		
 	}
 	
@@ -99,7 +97,6 @@ public class Buffer<T> implements IDirty, Collection<T>, Iterator<T>, IGettable<
 	@Override
 	public void remove()
 	{
-		this.dirt.remove(this.pos);
 		this.l.remove(this.pos);
 		
 	}
@@ -112,7 +109,6 @@ public class Buffer<T> implements IDirty, Collection<T>, Iterator<T>, IGettable<
 			return false;
 		}
 		
-		this.dirt.add(true);
 		this.pos++;
 		
 		return true;
@@ -134,19 +130,6 @@ public class Buffer<T> implements IDirty, Collection<T>, Iterator<T>, IGettable<
 	public int size()
 	{
 		return this.l.size();
-	}
-	
-	@Override
-	public boolean isDirty()
-	{
-		return this.isDirty(this.pos);
-	}
-	
-	@Override
-	public void setIsDirty(boolean b)
-	{
-		this.dirt.add(this.pos, b);
-		
 	}
 	
 	@Override
@@ -266,12 +249,6 @@ public class Buffer<T> implements IDirty, Collection<T>, Iterator<T>, IGettable<
 	{
 		this.mark = 0;
 		
-		for (int c = 0; c < this.dirt.size(); c++)
-		{
-			this.dirt.set(c, false);
-			
-		}
-		
 	}
 	
 	public int remaining()
@@ -284,11 +261,6 @@ public class Buffer<T> implements IDirty, Collection<T>, Iterator<T>, IGettable<
 		this.pos = this.mark;
 		this.mark = 0;
 		
-	}
-	
-	public boolean isDirty(int i)
-	{
-		return this.dirt.get(i);
 	}
 	
 	public void skip()

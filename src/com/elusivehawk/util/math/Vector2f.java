@@ -5,12 +5,12 @@ package com.elusivehawk.util.math;
  * 
  * Compatibility class for porting over math libraries.
  * <p>
- * NOTICE: Always deprecated; Refactor your code to use more flexible {@link Vector}s!
+ * NOTICE: Always deprecated; Refactor your code to use more flexible {@link VectorF}s!
  * 
  * @author Elusivehawk
  */
 @Deprecated
-public class Vector2f extends Vector
+public class Vector2f extends VectorF
 {
 	public float x = 0f, y = 0f;
 	
@@ -41,7 +41,7 @@ public class Vector2f extends Vector
 	}
 	
 	@Override
-	public Float get(int pos)
+	public float get(int pos)
 	{
 		switch (pos)
 		{
@@ -53,12 +53,12 @@ public class Vector2f extends Vector
 	}
 	
 	@Override
-	public Vector2f set(int pos, Float f)
+	public Vector2f set(int pos, float f)
 	{
 		switch (pos)
 		{
-			case 0: this.x = f.floatValue();
-			case 1: this.y = f.floatValue();
+			case 0: this.x = f;
+			case 1: this.y = f;
 			
 		}
 		

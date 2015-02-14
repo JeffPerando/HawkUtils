@@ -26,6 +26,7 @@ public final class ShutdownHelper
 		
 	}
 	
+	@SuppressWarnings("boxing")
 	public static void exit(String err)
 	{
 		int hash = (err == null ? 0 : err.hashCode());
@@ -36,6 +37,7 @@ public final class ShutdownHelper
 		
 	}
 	
+	@SuppressWarnings("boxing")
 	public static void exit(int err)
 	{
 		(err == 0 ? System.out : System.err).println(String.format("Exiting with error code #%s", err));
