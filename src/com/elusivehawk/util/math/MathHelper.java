@@ -16,6 +16,11 @@ public final class MathHelper
 	
 	private MathHelper(){}
 	
+	public static boolean bounds(double d, double min, double max)
+	{
+		return d >= min && d <= max;
+	}
+	
 	public static boolean bounds(float f, float min, float max)
 	{
 		return f >= min && f <= max;
@@ -31,11 +36,23 @@ public final class MathHelper
 		return l >= min && l <= max;
 	}
 	
+	public static boolean bounds(VectorD d, VectorD min, VectorD max)
+	{
+		for (int c = 0; c < d.size(); c++)
+		{
+			if (!bounds(d.get(c), min.get(c), max.get(c)))
+			{
+				return false;
+			}
+			
+		}
+		
+		return true;
+	}
+	
 	public static boolean bounds(VectorF v, VectorF min, VectorF max)
 	{
-		int size = min(v.size(), min.size(), max.size());
-		
-		for (int c = 0; c < size; c++)
+		for (int c = 0; c < v.size(); c++)
 		{
 			if (!bounds(v.get(c), min.get(c), max.get(c)))
 			{
@@ -50,6 +67,11 @@ public final class MathHelper
 	public static VectorF calcNormal(VectorF one, VectorF two, VectorF three)
 	{
 		return cross(one.sub(two, false), one.sub(three, false)).normalize();
+	}
+	
+	public static double clamp(double f, double min, double max)
+	{
+		return Math.min(max, Math.max(f, min));
 	}
 	
 	public static float clamp(float f, float min, float max)
@@ -67,13 +89,11 @@ public final class MathHelper
 		return Math.min(max, Math.max(l, min));
 	}
 	
-	public static VectorF clamp(VectorF v, VectorF min, VectorF max)
+	public static VectorD clamp(VectorD v, VectorD min, VectorD max)
 	{
-		int size = min(v.size(), min.size(), max.size());
+		VectorD ret = new VectorD(v.size());
 		
-		VectorF ret = new VectorF(size);
-		
-		for (int c = 0; c < size; c++)
+		for (int c = 0; c < v.size(); c++)
 		{
 			ret.set(c, clamp(v.get(c), min.get(c), max.get(c)));
 			
@@ -82,16 +102,49 @@ public final class MathHelper
 		return ret;
 	}
 	
-	public static VectorF cross(VectorF one, VectorF two)
+	public static VectorF clamp(VectorF v, VectorF min, VectorF max)
 	{
-		VectorF ret = new VectorF();
+		VectorF ret = new VectorF(v.size());
 		
-		cross(ret, one, two);
+		for (int c = 0; c < v.size(); c++)
+		{
+			ret.set(c, clamp(v.get(c), min.get(c), max.get(c)));
+			
+		}
 		
 		return ret;
 	}
 	
-	public static void cross(VectorF ret, VectorF one, VectorF two)
+	public static VectorD cross(VectorD one, VectorD two)
+	{
+		return cross(one, two, new VectorD());
+	}
+	
+	public static VectorD cross(VectorD one, VectorD two, VectorD ret)
+	{
+		assert one.size() <= 3 && two.size() <= 3 && ret.size() <= 3;
+		
+		double ax = one.get(X);
+		double ay = one.get(Y);
+		double az = one.get(Z);
+		
+		double bx = two.get(X);
+		double by = two.get(Y);
+		double bz = two.get(Z);
+		
+		ret.set(0, (ay * bz) - (az * by));
+		ret.set(1, (az * bx) - (ax * bz));
+		ret.set(2, (ax * by) - (ay * bx));
+		
+		return ret;
+	}
+	
+	public static VectorF cross(VectorF one, VectorF two)
+	{
+		return cross(one, two, new VectorF());
+	}
+	
+	public static VectorF cross(VectorF one, VectorF two, VectorF ret)
 	{
 		assert one.size() <= 3 && two.size() <= 3 && ret.size() <= 3;
 		
@@ -107,6 +160,27 @@ public final class MathHelper
 		ret.set(1, (az * bx) - (ax * bz));
 		ret.set(2, (ax * by) - (ay * bx));
 		
+		return ret;
+	}
+	
+	public static double dist(VectorD from, VectorD to)
+	{
+		return Math.sqrt(distSquared(from, to));
+	}
+	
+	public static double distSquared(VectorD from, VectorD to)
+	{
+		assert from.size() == to.size();
+		
+		double ret = 0f;
+		
+		for (int c = 0; c < to.size(); c++)
+		{
+			ret += square(to.get(c) - from.get(c));
+			
+		}
+		
+		return ret;
 	}
 	
 	public static float dist(VectorF from, VectorF to)
@@ -116,12 +190,27 @@ public final class MathHelper
 	
 	public static float distSquared(VectorF from, VectorF to)
 	{
-		int size = Math.min(from.size(), to.size());
+		assert from.size() == to.size();
+		
+		float ret = 0f;
+		
+		for (int c = 0; c < to.size(); c++)
+		{
+			ret += square(to.get(c) - from.get(c));
+			
+		}
+		
+		return ret;
+	}
+	
+	public static double dot(VectorD one, VectorD two)
+	{
+		int size = Math.min(one.size(), two.size());
 		float ret = 0f;
 		
 		for (int c = 0; c < size; c++)
 		{
-			ret += square(to.get(c) - from.get(c));
+			ret += one.get(c) * two.get(c);
 			
 		}
 		
@@ -142,6 +231,13 @@ public final class MathHelper
 		return ret;
 	}
 	
+	public static double interpolate(double one, double two, double factor)
+	{
+		assert bounds(factor, 0.0, 1.0);
+		
+		return ((two * factor) + ((1f - factor) * one));
+	}
+	
 	public static float interpolate(float one, float two, float factor)
 	{
 		assert bounds(factor, 0.0f, 1.0f);
@@ -149,9 +245,25 @@ public final class MathHelper
 		return ((two * factor) + ((1f - factor) * one));
 	}
 	
+	public static VectorD interpolate(VectorD one, VectorD two, double factor)
+	{
+		return interpolate(one, two, factor, new VectorD(two.size()));
+	}
+	
+	public static VectorD interpolate(VectorD one, VectorD two, double factor, VectorD dest)
+	{
+		for (int c = 0; c < dest.size(); c++)
+		{
+			dest.set(c, interpolate(one.get(c), two.get(c), factor));
+			
+		}
+		
+		return dest;
+	}
+	
 	public static VectorF interpolate(VectorF one, VectorF two, float factor)
 	{
-		return interpolate(one, two, factor, new VectorF(Math.min(one.size(), two.size())));
+		return interpolate(one, two, factor, new VectorF(two.size()));
 	}
 	
 	public static VectorF interpolate(VectorF one, VectorF two, float factor, VectorF dest)
@@ -170,9 +282,27 @@ public final class MathHelper
 		return (i & 1) == 1;
 	}
 	
+	public static double length(DoubleArithmetic d)
+	{
+		return Math.sqrt(lengthSquared(d));
+	}
+	
 	public static float length(FloatArithmetic v)
 	{
 		return (float)Math.sqrt(lengthSquared(v));
+	}
+	
+	public static double lengthSquared(DoubleArithmetic v)
+	{
+		double ret = 0f;
+		
+		for (int c = 0; c < v.size(); c++)
+		{
+			ret += square(v.get(c));
+			
+		}
+		
+		return ret;
 	}
 	
 	public static float lengthSquared(FloatArithmetic v)
@@ -191,6 +321,24 @@ public final class MathHelper
 	public static int percent(int i, int max)
 	{
 		return (int)(((float)i / max) * 100);
+	}
+	
+	public static double pow(double d, int pow)
+	{
+		if (pow == 0)
+		{
+			return 1;
+		}
+		
+		double ret = d;
+		
+		for (int c = 0; c < pow; c++)
+		{
+			ret *= d;
+			
+		}
+		
+		return ret;
 	}
 	
 	public static float pow(float f, int pow)
@@ -234,6 +382,11 @@ public final class MathHelper
 		return weight > RNG.rng().nextFloat();
 	}
 	
+	public static double square(double d)
+	{
+		return d * d;
+	}
+	
 	public static float square(float f)
 	{
 		return f * f;
@@ -244,14 +397,37 @@ public final class MathHelper
 		return i * i;
 	}
 	
+	public static double toDegrees(double radian)
+	{
+		return (radian * 180) / Math.PI;
+	}
+	
 	public static float toDegrees(float radian)
 	{
 		return (radian * 180) / PI;
 	}
 	
+	public static double toRadians(double degree)
+	{
+		return (degree * Math.PI) / 180;
+	}
+	
 	public static float toRadians(float degree)
 	{
 		return (degree * PI) / 180;
+	}
+	
+	public static VectorD toRadians(VectorD vec)
+	{
+		VectorD ret = new VectorD(vec);
+		
+		for (int c = 0; c < ret.size(); c++)
+		{
+			ret.set(c, toRadians(ret.get(c)));
+			
+		}
+		
+		return ret;
 	}
 	
 	public static VectorF toRadians(VectorF vec)
@@ -263,8 +439,6 @@ public final class MathHelper
 			ret.set(c, toRadians(ret.get(c)));
 			
 		}
-		
-		ret.onChanged();
 		
 		return ret;
 	}

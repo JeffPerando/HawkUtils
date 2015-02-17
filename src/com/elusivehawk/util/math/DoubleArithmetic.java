@@ -2,6 +2,7 @@
 package com.elusivehawk.util.math;
 
 import java.nio.DoubleBuffer;
+import com.elusivehawk.util.parse.json.IJsonSerializer;
 import com.elusivehawk.util.storage.BufferHelper;
 
 /**
@@ -10,7 +11,7 @@ import com.elusivehawk.util.storage.BufferHelper;
  * 
  * @author Elusivehawk
  */
-public class DoubleArithmetic extends Arithmetic
+public class DoubleArithmetic extends Arithmetic implements IJsonSerializer
 {
 	private final double[] data;
 	
@@ -52,6 +53,30 @@ public class DoubleArithmetic extends Arithmetic
 	public final int size()
 	{
 		return this.data.length;
+	}
+	
+	@Override
+	public String toJson(int tabs)
+	{
+		StringBuilder b = new StringBuilder();
+		
+		b.append("[");
+		
+		for (int c = 0; c < this.size(); c++)
+		{
+			if (c > 0)
+			{
+				b.append(", ");
+				
+			}
+			
+			b.append(this.get(c));
+			
+		}
+		
+		b.append("]");
+		
+		return b.toString();
 	}
 	
 	@Override

@@ -11,36 +11,36 @@ import com.elusivehawk.util.parse.json.JsonArray;
  * 
  * @author Elusivehawk
  */
-public class VectorF extends FloatArithmetic
+public class VectorD extends DoubleArithmetic
 {
 	private List<Listener> listeners = null;
 	
-	public VectorF()
+	public VectorD()
 	{
 		this(3);
 		
 	}
 	
-	public VectorF(int length)
+	public VectorD(int length)
 	{
 		super(length);
 		
 	}
 	
-	public VectorF(float... info)
+	public VectorD(double... info)
 	{
 		super(info);
 		
 	}
 	
-	public VectorF(VectorF vec)
+	public VectorD(VectorD vec)
 	{
 		super(vec);
 		
 	}
 	
 	@SuppressWarnings("boxing")
-	public VectorF(JsonArray json)
+	public VectorD(JsonArray json)
 	{
 		this(json.length());
 		
@@ -60,9 +60,9 @@ public class VectorF extends FloatArithmetic
 	}
 	
 	@Override
-	public VectorF clone()
+	public VectorD clone()
 	{
-		return new VectorF(this);
+		return new VectorD(this);
 	}
 	
 	@Override
@@ -92,12 +92,12 @@ public class VectorF extends FloatArithmetic
 	@Override
 	public boolean equals(Object obj)
 	{
-		if (!(obj instanceof VectorF))
+		if (!(obj instanceof VectorD))
 		{
 			return false;
 		}
 		
-		VectorF vec = (VectorF)obj;
+		VectorD vec = (VectorD)obj;
 		
 		if (vec.size() != this.size())
 		{
@@ -150,30 +150,30 @@ public class VectorF extends FloatArithmetic
 		
 	}
 	
-	public VectorF cross(VectorF other)
+	public VectorD cross(VectorD other)
 	{
 		this.cross(other, this);
 		
 		return this;
 	}
 	
-	public void cross(VectorF other, VectorF dest)
+	public void cross(VectorD other, VectorD dest)
 	{
 		dest.set(MathHelper.cross(this, other));
 		
 	}
 	
-	public float dot(VectorF other)
+	public double dot(VectorD other)
 	{
 		return MathHelper.dot(this, other);
 	}
 	
-	public float length()
+	public double length()
 	{
 		return MathHelper.length(this);
 	}
 	
-	public VectorF scale(float f, VectorF dest)
+	public VectorD scale(double f, VectorD dest)
 	{
 		for (int c = 0; c < this.size(); c++)
 		{
@@ -184,12 +184,12 @@ public class VectorF extends FloatArithmetic
 		return dest;
 	}
 	
-	public VectorF absolute()
+	public VectorD absolute()
 	{
 		return this.absolute(this);
 	}
 	
-	public VectorF absolute(VectorF dest)
+	public VectorD absolute(VectorD dest)
 	{
 		int i = Math.min(this.size(), dest.size());
 		
@@ -202,17 +202,17 @@ public class VectorF extends FloatArithmetic
 		return dest;
 	}
 	
-	public VectorF negate()
+	public VectorD negate()
 	{
 		return this.negate(this);
 	}
 	
-	public VectorF negate(boolean local)
+	public VectorD negate(boolean local)
 	{
-		return this.negate(local ? this : new VectorF(this.size()));
+		return this.negate(local ? this : new VectorD(this.size()));
 	}
 	
-	public VectorF negate(VectorF dest)
+	public VectorD negate(VectorD dest)
 	{
 		int length = Math.min(this.size(), dest.size());
 		
@@ -225,16 +225,16 @@ public class VectorF extends FloatArithmetic
 		return dest;
 	}
 	
-	public VectorF normalize()
+	public VectorD normalize()
 	{
 		return this.normalize(this);
 	}
 	
-	public VectorF normalize(VectorF dest)
+	public VectorD normalize(VectorD dest)
 	{
 		assert !dest.isImmutable();
 		
-		float f = MathHelper.length(this);
+		double f = MathHelper.length(this);
 		
 		int length = Math.min(this.size(), dest.size());
 		
@@ -247,38 +247,38 @@ public class VectorF extends FloatArithmetic
 		return dest;
 	}
 	
-	public VectorF scaleAdd(float f, VectorF vec, VectorF dest)//FIXME
+	public VectorD scaleAdd(double f, VectorD vec, VectorD dest)//FIXME
 	{
 		return dest;
 	}
 	
-	public VectorF add(FloatArithmetic obj, boolean local)
+	public VectorD add(DoubleArithmetic obj, boolean local)
 	{
-		return (VectorF)this.add(obj, local ? this : new VectorF(this.size()));
+		return (VectorD)this.add(obj, local ? this : new VectorD(this.size()));
 	}
 	
-	public VectorF div(FloatArithmetic obj, boolean local)
+	public VectorD div(DoubleArithmetic obj, boolean local)
 	{
-		return (VectorF)this.div(obj, local ? this : new VectorF(this.size()));
+		return (VectorD)this.div(obj, local ? this : new VectorD(this.size()));
 	}
 	
-	public VectorF mul(FloatArithmetic obj, boolean local)
+	public VectorD mul(DoubleArithmetic obj, boolean local)
 	{
-		return (VectorF)this.mul(obj, local ? this : new VectorF(this.size()));
+		return (VectorD)this.mul(obj, local ? this : new VectorD(this.size()));
 	}
 	
-	public VectorF sub(FloatArithmetic obj, boolean local)
+	public VectorD sub(DoubleArithmetic obj, boolean local)
 	{
-		return (VectorF)this.sub(obj, local ? this : new VectorF(this.size()));
+		return (VectorD)this.sub(obj, local ? this : new VectorD(this.size()));
 	}
 	
-	public VectorD toVecD()
+	public VectorF toVecF()
 	{
-		VectorD ret = new VectorD(this.size());
+		VectorF ret = new VectorF(this.size());
 		
 		for (int c = 0; c < this.size(); c++)
 		{
-			ret.set(c, this.get(c));
+			ret.set(c, (float)this.get(c));
 			
 		}
 		
@@ -290,7 +290,7 @@ public class VectorF extends FloatArithmetic
 	@FunctionalInterface
 	public static interface Listener
 	{
-		void onVecChanged(VectorF vec);
+		void onVecChanged(VectorD vec);
 		
 	}
 	

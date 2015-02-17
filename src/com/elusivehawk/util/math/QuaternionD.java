@@ -10,12 +10,12 @@ import java.util.List;
  * 
  * @author Elusivehawk
  */
-public class QuaternionF extends FloatArithmetic
+public class QuaternionD extends DoubleArithmetic
 {
 	private List<Listener> listeners = null;
-	private MatrixF matrix = new MatrixF();
+	private MatrixD matrix = new MatrixD();
 	
-	public QuaternionF()
+	public QuaternionD()
 	{
 		super(4);
 		
@@ -23,19 +23,19 @@ public class QuaternionF extends FloatArithmetic
 		
 	}
 	
-	public QuaternionF(float... angles)
+	public QuaternionD(double... angles)
 	{
 		this();
 		
 		for (int c = 0; c < size(); c++)
 		{
-			rotateAxis(MathConst.AXES_F[c], angles[c]);
+			rotateAxis(MathConst.AXES_D[c], angles[c]);
 			
 		}
 		
 	}
 	
-	public QuaternionF(QuaternionF q)
+	public QuaternionD(QuaternionD q)
 	{
 		this();
 		
@@ -44,9 +44,9 @@ public class QuaternionF extends FloatArithmetic
 	}
 	
 	@Override
-	public QuaternionF clone()
+	public QuaternionD clone()
 	{
-		return new QuaternionF(this);
+		return new QuaternionD(this);
 	}
 	
 	public void addListener(Listener lis)
@@ -83,22 +83,22 @@ public class QuaternionF extends FloatArithmetic
 		
 	}
 	
-	public QuaternionF setIdentity()
+	public QuaternionD setIdentity()
 	{
-		return (QuaternionF)this.setAll(0f).set(3, 1f);
+		return (QuaternionD)this.setAll(0f).set(3, 1f);
 	}
 	
-	public QuaternionF conjugate()
+	public QuaternionD conjugate()
 	{
 		return this.conjugate(this);
 	}
 	
-	public QuaternionF conjugate(boolean local)
+	public QuaternionD conjugate(boolean local)
 	{
-		return this.conjugate(local ? this : new QuaternionF());
+		return this.conjugate(local ? this : new QuaternionD());
 	}
 	
-	public QuaternionF conjugate(QuaternionF dest)
+	public QuaternionD conjugate(QuaternionD dest)
 	{
 		for (int c = 0; c < 3; c++)
 		{
@@ -111,16 +111,16 @@ public class QuaternionF extends FloatArithmetic
 		return dest;
 	}
 	
-	public QuaternionF normalize()
+	public QuaternionD normalize()
 	{
 		return this.normalize(this);
 	}
 	
-	public QuaternionF normalize(QuaternionF dest)
+	public QuaternionD normalize(QuaternionD dest)
 	{
 		assert !dest.isImmutable();
 		
-		float f = MathHelper.length(this);
+		double f = MathHelper.length(this);
 		
 		for (int c = 0; c < this.size(); c++)
 		{
@@ -131,19 +131,19 @@ public class QuaternionF extends FloatArithmetic
 		return dest;
 	}
 	
-	public QuaternionF rotateAxis(VectorF axis, float angle)
+	public QuaternionD rotateAxis(VectorD axis, double angle)
 	{
 		return rotateAxis(axis, angle, this);
 	}
 	
-	public QuaternionF rotateAxis(VectorF axis, float angle, boolean local)
+	public QuaternionD rotateAxis(VectorD axis, double angle, boolean local)
 	{
-		return rotateAxis(axis, angle, local ? this : new QuaternionF());
+		return rotateAxis(axis, angle, local ? this : new QuaternionD());
 	}
 	
-	public static QuaternionF rotateAxis(VectorF axis, float angle, QuaternionF dest)
+	public static QuaternionD rotateAxis(VectorD axis, double angle, QuaternionD dest)
 	{
-		float l = axis.length();
+		double l = axis.length();
 		
 		if (l == 0)
 		{
@@ -152,8 +152,8 @@ public class QuaternionF extends FloatArithmetic
 		
 		l = 1 / l;
 		
-		float radian = MathHelper.toRadians(angle / 2);
-		float sin = (float)Math.sin(radian);
+		double radian = MathHelper.toRadians(angle / 2);
+		double sin = Math.sin(radian);
 		
 		for (int c = 0; c < 3; c++)
 		{
@@ -165,25 +165,25 @@ public class QuaternionF extends FloatArithmetic
 			
 		}
 		
-		dest.set(3, (float)Math.cos(radian));
+		dest.set(3, Math.cos(radian));
 		
 		return dest.normalize();
 	}
 	
-	public VectorF rotateVec(VectorF vec)
+	public VectorD rotateVec(VectorD vec)
 	{
 		return this.rotateVec(vec, !vec.isImmutable());
 	}
 	
-	public VectorF rotateVec(VectorF vec, boolean local)
+	public VectorD rotateVec(VectorD vec, boolean local)
 	{
-		return this.rotateVec(vec, local ? vec : new VectorF());
+		return this.rotateVec(vec, local ? vec : new VectorD());
 	}
 	
-	public VectorF rotateVec(VectorF vec, VectorF dest)
+	public VectorD rotateVec(VectorD vec, VectorD dest)
 	{
-		QuaternionF conj = this.conjugate(false);
-		QuaternionF vQuat = (QuaternionF)new QuaternionF().set(vec).set(3, 1f);
+		QuaternionD conj = this.conjugate(false);
+		QuaternionD vQuat = (QuaternionD)new QuaternionD().set(vec).set(3, 1f);
 		
 		vQuat.mul(this);
 		vQuat.mul(conj, dest);
@@ -191,11 +191,11 @@ public class QuaternionF extends FloatArithmetic
 		return dest;
 	}
 	
-	public MatrixF asMatrix()
+	public MatrixD asMatrix()
 	{
 		if (this.isDirty())
 		{
-			this.matrix = new MatrixF().rotate(this);
+			this.matrix = new MatrixD().rotate(this);
 			
 			this.setIsDirty(false);
 			
@@ -204,13 +204,13 @@ public class QuaternionF extends FloatArithmetic
 		return this.matrix;
 	}
 	
-	public QuaternionD toQuatF()
+	public QuaternionF toQuatF()
 	{
-		QuaternionD ret = new QuaternionD(this.size());
+		QuaternionF ret = new QuaternionF(this.size());
 		
 		for (int c = 0; c < this.size(); c++)
 		{
-			ret.set(c, this.get(c));
+			ret.set(c, (float)this.get(c));
 			
 		}
 		
@@ -220,7 +220,7 @@ public class QuaternionF extends FloatArithmetic
 	@FunctionalInterface
 	public static interface Listener
 	{
-		void onQuatChanged(QuaternionF q);
+		void onQuatChanged(QuaternionD q);
 		
 	}
 	

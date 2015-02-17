@@ -32,11 +32,17 @@ public final class MathConst
 	public static final int XYZ =	X_BITMASK | Y_BITMASK | Z_BITMASK;
 	public static final int XYZW =	X_BITMASK | Y_BITMASK | Z_BITMASK | W_BITMASK;
 	
-	public static final VectorF X_AXIS = (VectorF)new VectorF(1f, 0f, 0f).setImmutable();
-	public static final VectorF Y_AXIS = (VectorF)new VectorF(0f, 1f, 0f).setImmutable();
-	public static final VectorF Z_AXIS = (VectorF)new VectorF(0f, 0f, 1f).setImmutable();
+	public static final VectorD X_AXIS_D = (VectorD)new VectorD(1, 0, 0).setImmutable();
+	public static final VectorF X_AXIS_F = (VectorF)new VectorF(1f, 0f, 0f).setImmutable();
 	
-	public static final VectorF[] AXES = new VectorF[]{X_AXIS, Y_AXIS, Z_AXIS};
+	public static final VectorD Y_AXIS_D = (VectorD)new VectorD(0, 1, 0).setImmutable();
+	public static final VectorF Y_AXIS_F = (VectorF)new VectorF(0f, 1f, 0f).setImmutable();
+	
+	public static final VectorD Z_AXIS_D = (VectorD)new VectorD(0, 0, 1).setImmutable();
+	public static final VectorF Z_AXIS_F = (VectorF)new VectorF(0f, 0f, 1f).setImmutable();
+	
+	public static final VectorD[] AXES_D = new VectorD[]{X_AXIS_D, Y_AXIS_D, Z_AXIS_D};
+	public static final VectorF[] AXES_F = new VectorF[]{X_AXIS_F, Y_AXIS_F, Z_AXIS_F};
 	
 	private MathConst(){}
 	

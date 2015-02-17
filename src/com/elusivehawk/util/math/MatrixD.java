@@ -7,7 +7,7 @@ import static com.elusivehawk.util.math.MathConst.Y;
 import static com.elusivehawk.util.math.MathConst.Z;
 import static com.elusivehawk.util.math.MathHelper.square;
 import static com.elusivehawk.util.math.MathHelper.toRadians;
-import java.nio.FloatBuffer;
+import java.nio.DoubleBuffer;
 
 /**
  * 
@@ -15,18 +15,18 @@ import java.nio.FloatBuffer;
  * 
  * @author Elusivehawk
  */
-public class MatrixF extends FloatArithmetic
+public class MatrixD extends DoubleArithmetic
 {
 	private final int sizeSqrt;
 	
-	public MatrixF()
+	public MatrixD()
 	{
 		this(4);
 		
 	}
 	
 	@SuppressWarnings("unqualified-field-access")
-	public MatrixF(int s)
+	public MatrixD(int s)
 	{
 		super(s * s);
 		
@@ -36,7 +36,7 @@ public class MatrixF extends FloatArithmetic
 		
 	}
 	
-	public MatrixF(float... info)
+	public MatrixD(double... info)
 	{
 		this((int)Math.sqrt(info.length));
 		
@@ -44,7 +44,7 @@ public class MatrixF extends FloatArithmetic
 		
 	}
 	
-	public MatrixF(int size, FloatBuffer buf)
+	public MatrixD(int size, DoubleBuffer buf)
 	{
 		this(size);
 		
@@ -53,7 +53,7 @@ public class MatrixF extends FloatArithmetic
 	}
 	
 	@SuppressWarnings("unqualified-field-access")
-	public MatrixF(MatrixF m)
+	public MatrixD(MatrixD m)
 	{
 		super(m);
 		
@@ -66,17 +66,17 @@ public class MatrixF extends FloatArithmetic
 		return this.sizeSqrt;
 	}
 	
-	public float get(int x, int y)
+	public double get(int x, int y)
 	{
 		return this.get(x + (y * this.sizeSqrt));
 	}
 	
-	public MatrixF set(int x, int y, float f)
+	public MatrixD set(int x, int y, double f)
 	{
-		return (MatrixF)this.set(x + (y * this.sizeSqrt), f);
+		return (MatrixD)this.set(x + (y * this.sizeSqrt), f);
 	}
 	
-	public MatrixF setRow(int r, float... fs)
+	public MatrixD setRow(int r, double... fs)
 	{
 		int i = Math.min(this.sizeSqrt, fs.length);
 		
@@ -89,14 +89,14 @@ public class MatrixF extends FloatArithmetic
 		return this;
 	}
 	
-	public MatrixF setRow(int r, VectorF vec)
+	public MatrixD setRow(int r, VectorD vec)
 	{
 		return this.setRow(r, vec, true);
 	}
 	
-	public MatrixF setRow(int r, VectorF vec, boolean local)
+	public MatrixD setRow(int r, VectorD vec, boolean local)
 	{
-		MatrixF ret = local ? this : new MatrixF(this);
+		MatrixD ret = local ? this : new MatrixD(this);
 		
 		int i = Math.min(ret.sizeSqrt, vec.size());
 		
@@ -109,7 +109,7 @@ public class MatrixF extends FloatArithmetic
 		return ret;
 	}
 	
-	public MatrixF setIdentity()
+	public MatrixD setIdentity()
 	{
 		for (int c = 0; c < this.sizeSqrt; c++)
 		{
@@ -120,13 +120,13 @@ public class MatrixF extends FloatArithmetic
 		return this;
 	}
 	
-	public MatrixF resetIdentity()
+	public MatrixD resetIdentity()
 	{
 		for (int x = 0; x < this.sizeSqrt; x++)
 		{
 			for (int y = 0; y < this.sizeSqrt; y++)
 			{
-				float f = x == y ? 0f : 1f;
+				double f = x == y ? 0f : 1f;
 				
 				if (this.get(x, y) != f)
 				{
@@ -141,106 +141,106 @@ public class MatrixF extends FloatArithmetic
 		return this;
 	}
 	
-	public MatrixF add(int x, int y, float f)
+	public MatrixD add(int x, int y, double f)
 	{
 		return this.add(x, y, f, this);
 	}
 	
-	public MatrixF add(int x, int y, float f, boolean local)
+	public MatrixD add(int x, int y, double f, boolean local)
 	{
-		return this.add(x, y, f, local ? this : new MatrixF(this));
+		return this.add(x, y, f, local ? this : new MatrixD(this));
 	}
 	
-	public MatrixF add(int x, int y, float f, MatrixF dest)
+	public MatrixD add(int x, int y, double f, MatrixD dest)
 	{
 		dest.set(x, y, this.get(x, y) + f);
 		
 		return dest;
 	}
 	
-	public MatrixF sub(int x, int y, float f)
+	public MatrixD sub(int x, int y, double f)
 	{
 		return this.sub(x, y, f, this);
 	}
 	
-	public MatrixF sub(int x, int y, float f, boolean local)
+	public MatrixD sub(int x, int y, double f, boolean local)
 	{
-		return this.sub(x, y, f, local ? this : new MatrixF(this));
+		return this.sub(x, y, f, local ? this : new MatrixD(this));
 	}
 	
-	public MatrixF sub(int x, int y, float f, MatrixF dest)
+	public MatrixD sub(int x, int y, double f, MatrixD dest)
 	{
 		dest.set(x, y, this.get(x, y) - f);
 		
 		return dest;
 	}
 	
-	public MatrixF div(int x, int y, float f)
+	public MatrixD div(int x, int y, double f)
 	{
 		return this.div(x, y, f, this);
 	}
 	
-	public MatrixF div(int x, int y, float f, boolean local)
+	public MatrixD div(int x, int y, double f, boolean local)
 	{
-		return this.div(x, y, f, local ? this : new MatrixF(this));
+		return this.div(x, y, f, local ? this : new MatrixD(this));
 	}
 	
-	public MatrixF div(int x, int y, float f, MatrixF dest)
+	public MatrixD div(int x, int y, double f, MatrixD dest)
 	{
 		dest.set(x, y, this.get(x, y) / f);
 		
 		return dest;
 	}
 	
-	public MatrixF mul(int x, int y, float f)
+	public MatrixD mul(int x, int y, double f)
 	{
 		return this.mul(x, y, f, this);
 	}
 	
-	public MatrixF mul(int x, int y, float f, boolean local)
+	public MatrixD mul(int x, int y, double f, boolean local)
 	{
-		return this.mul(x, y, f, local ? this : new MatrixF(this));
+		return this.mul(x, y, f, local ? this : new MatrixD(this));
 	}
 	
-	public MatrixF mul(int x, int y, float f, MatrixF dest)
+	public MatrixD mul(int x, int y, double f, MatrixD dest)
 	{
 		dest.set(x, y, this.get(x, y) * f);
 		
 		return dest;
 	}
 	
-	public MatrixF invert()
+	public MatrixD invert()
 	{
 		return this.invert(this);
 	}
 	
-	public MatrixF invert(boolean local)
+	public MatrixD invert(boolean local)
 	{
-		return this.invert(local ? this : new MatrixF(this.sizeSqrt));
+		return this.invert(local ? this : new MatrixD(this.sizeSqrt));
 	}
 	
-	public MatrixF invert(MatrixF ret)//FIXME
+	public MatrixD invert(MatrixD ret)//FIXME
 	{
 		
 		
 		return ret;
 	}
 	
-	public MatrixF transpose()
+	public MatrixD transpose()
 	{
 		return this.transpose(this);
 	}
 	
-	public MatrixF transpose(boolean local)
+	public MatrixD transpose(boolean local)
 	{
-		return this.transpose(local ? this : new MatrixF(this.sizeSqrt));
+		return this.transpose(local ? this : new MatrixD(this.sizeSqrt));
 	}
 	
-	public MatrixF transpose(MatrixF m)
+	public MatrixD transpose(MatrixD m)
 	{
 		int s = Math.min(this.sizeSqrt, m.sizeSqrt);
 		
-		MatrixF tmp = new MatrixF(m);
+		MatrixD tmp = new MatrixD(m);
 		
 		for (int a = 0; a < s; a++)
 		{
@@ -255,17 +255,17 @@ public class MatrixF extends FloatArithmetic
 		return m;
 	}
 	
-	public VectorF transform(VectorF vec)
+	public VectorD transform(VectorD vec)
 	{
 		return this.transform(vec, vec);
 	}
 	
-	public VectorF transform(VectorF vec, boolean local)
+	public VectorD transform(VectorD vec, boolean local)
 	{
-		return this.transform(vec, local ? vec : new VectorF(vec.size()));
+		return this.transform(vec, local ? vec : new VectorD(vec.size()));
 	}
 	
-	public VectorF transform(VectorF vec, VectorF dest)
+	public VectorD transform(VectorD vec, VectorD dest)
 	{
 		for (int x = 0; x < this.sizeSqrt; x++)
 		{
@@ -280,24 +280,24 @@ public class MatrixF extends FloatArithmetic
 		return dest;
 	}
 	
-	public MatrixF euler(VectorF euler)
+	public MatrixD euler(VectorD euler)
 	{
 		return euler(euler.get(X), euler.get(Y), euler.get(Z));
 	}
 	
-	public MatrixF euler(float eulerX, float eulerY, float eulerZ)
+	public MatrixD euler(double eulerX, double eulerY, double eulerZ)
 	{
-		float cx = (float)Math.cos(eulerX);
-		float cy = (float)Math.cos(eulerY);
-		float cz = (float)Math.cos(eulerZ);
-		float sx = (float)Math.sin(eulerX);
-		float sy = (float)Math.sin(eulerY);
-		float sz = (float)Math.sin(eulerZ);
+		double cx = Math.cos(eulerX);
+		double cy = Math.cos(eulerY);
+		double cz = Math.cos(eulerZ);
+		double sx = Math.sin(eulerX);
+		double sy = Math.sin(eulerY);
+		double sz = Math.sin(eulerZ);
 		
-		float cxz = cx * cz;
-		float cxsz = cx * sz;
-		float sxcz = sx * cz;
-		float sxz = sx * sz;
+		double cxz = cx * cz;
+		double cxsz = cx * sz;
+		double sxcz = sx * cz;
+		double sxz = sx * sz;
 		
 		this.setRow(0, cy * cz, sy * sxcz - cxsz, sy * cxz + sxz);
 		this.setRow(1, cy * sz, sy * sxz + cxz, sy * cxsz - sxcz);
@@ -306,50 +306,50 @@ public class MatrixF extends FloatArithmetic
 		return this;
 	}
 	
-	public MatrixF rotate(float radians, VectorF axis)
+	public MatrixD rotate(double radians, VectorD axis)
 	{
 		return this.rotate(radians, axis, this);
 	}
 	
-	public MatrixF rotate(float radians, VectorF axis, boolean local)
+	public MatrixD rotate(double radians, VectorD axis, boolean local)
 	{
-		return this.rotate(radians, axis, local ? this : new MatrixF(this.sizeSqrt));
+		return this.rotate(radians, axis, local ? this : new MatrixD(this.sizeSqrt));
 	}
 	
-	public MatrixF rotate(float radians, VectorF axis, MatrixF ret)
+	public MatrixD rotate(double radians, VectorD axis, MatrixD ret)
 	{
 		return this.rotate(radians, axis.get(0), axis.get(1), axis.get(2), ret);
 	}
 	
-	public MatrixF rotate(float radians, float x, float y, float z)
+	public MatrixD rotate(double radians, double x, double y, double z)
 	{
 		return this.rotate(radians, x, y, z, this);
 	}
 	
-	public MatrixF rotate(float radians, float x, float y, float z, boolean local)
+	public MatrixD rotate(double radians, double x, double y, double z, boolean local)
 	{
-		return this.rotate(radians, x, y, z, local ? this : new MatrixF(this.sizeSqrt));
+		return this.rotate(radians, x, y, z, local ? this : new MatrixD(this.sizeSqrt));
 	}
 	
-	public MatrixF rotate(float radians, float x, float y, float z, MatrixF ret)
+	public MatrixD rotate(double radians, double x, double y, double z, MatrixD ret)
 	{
-		float c = (float)Math.cos(radians);
-		float s = (float)Math.sin(radians);
-		float omc = 1.0f - c;
+		double c = Math.cos(radians);
+		double s = Math.sin(radians);
+		double omc = 1.0f - c;
 		
-		float xy = x * y;
-		float yz = y * z;
-		float xz = x * z;
-		float xs = x * s;
-		float ys = y * s;
-		float zs = z * s;
+		double xy = x * y;
+		double yz = y * z;
+		double xz = x * z;
+		double xs = x * s;
+		double ys = y * s;
+		double zs = z * s;
 		
-		float[][] calc = new float[][]
+		double[][] calc = new double[][]
 				{{x * x * omc + c,	xy * omc + zs,		xz * omc - ys},
 				{xy * omc - zs,		y * y * omc + c,	yz * omc + xs},
 				{xz * omc + ys,		yz * omc - xs,		z * z * omc + c}};
 		
-		MatrixF tmp = new MatrixF(this.size());
+		MatrixD tmp = new MatrixD(this.size());
 		
 		for (int ix = 0; x < tmp.sizeSqrt - 1; ix++)
 		{
@@ -366,11 +366,11 @@ public class MatrixF extends FloatArithmetic
 		return ret;
 	}
 	
-	public MatrixF rotate(QuaternionF q)//TODO Convert into algorithm
+	public MatrixD rotate(QuaternionD q)//TODO Convert into algorithm
 	{
-		QuaternionF quat = q.normalize(new QuaternionF());
+		QuaternionD quat = q.normalize(new QuaternionD());
 		
-		float s = 2f / MathHelper.length(quat);
+		double s = 2f / MathHelper.length(quat);
 		
 		this.set(0, 0, 1 - s * (square(quat.get(Y)) + square(quat.get(Z))));
 		this.set(1, 0, s * (quat.get(X) * quat.get(Y) + quat.get(W) * quat.get(Z)));
@@ -387,12 +387,12 @@ public class MatrixF extends FloatArithmetic
 		return this;
 	}
 	
-	public MatrixF scale(VectorF vec)
+	public MatrixD scale(VectorD vec)
 	{
 		return this.scale(vec.get(X), vec.get(Y), vec.get(Z));
 	}
 	
-	public MatrixF scale(float x, float y, float z)
+	public MatrixD scale(double x, double y, double z)
 	{
 		this.set(0, x);
 		this.set(5, y);
@@ -401,19 +401,19 @@ public class MatrixF extends FloatArithmetic
 		return this;
 	}
 	
-	public MatrixF lookAt(VectorF pos, VectorF lookAt)
+	public MatrixD lookAt(VectorD pos, VectorD lookAt)
 	{
-		return this.lookAt(pos, lookAt, MathConst.Y_AXIS_F);
+		return this.lookAt(pos, lookAt, MathConst.Y_AXIS_D);
 	}
 	
-	public MatrixF lookAt(VectorF pos, VectorF target, VectorF up)
+	public MatrixD lookAt(VectorD pos, VectorD target, VectorD up)
 	{
 		assert pos.size() == 3 : "Position size is not 3";
 		assert target.size() == 3 : "Size of target vector is not size 3";
 		assert up.size() == 3 : "Upwards vector size is not 3";
 		
-		VectorF up0 = up.clone();
-		VectorF forward = new VectorF(4);
+		VectorD up0 = up.clone();
+		VectorD forward = new VectorD(4);
 		
 		for (int c = 0; c < 3; c++)
 		{
@@ -423,7 +423,7 @@ public class MatrixF extends FloatArithmetic
 		
 		forward.normalize();
 		
-		VectorF side = MathHelper.cross(forward, up0);
+		VectorD side = MathHelper.cross(forward, up0);
 		side.normalize();
 		
 		MathHelper.cross(up0, side, forward);
@@ -437,12 +437,12 @@ public class MatrixF extends FloatArithmetic
 		return this;
 	}
 	
-	public MatrixF translate(VectorF vec)
+	public MatrixD translate(VectorD vec)
 	{
 		return this.translate(vec.get(X), vec.get(Y), vec.get(Z));
 	}
 	
-	public MatrixF translate(float x, float y, float z)
+	public MatrixD translate(double x, double y, double z)
 	{
 		this.set(3, x);
 		this.set(7, y);
@@ -451,11 +451,11 @@ public class MatrixF extends FloatArithmetic
 		return this;
 	}
 	
-	public MatrixF projection(float fov, float aspect, float zFar, float zNear)
+	public MatrixD projection(double fov, double aspect, double zFar, double zNear)
 	{
-		float yScale = 1 / (float)Math.tan(toRadians(fov / 2f));
-		float xScale = yScale / aspect;
-		float frustumLength = zFar - zNear;
+		double yScale = 1 / Math.tan(toRadians(fov / 2f));
+		double xScale = yScale / aspect;
+		double frustumLength = zFar - zNear;
 		
 		this.set(0, xScale);
 		this.set(5, yScale);
@@ -466,7 +466,7 @@ public class MatrixF extends FloatArithmetic
 		return this;
 	}
 	
-	public MatrixF ortho(float left, float right, float bottom, float top, float near, float far)
+	public MatrixD ortho(double left, double right, double bottom, double top, double near, double far)
 	{
 		this.set(0, 0, 2 * (right - left));
 		this.set(1, 1, 2 * (top - bottom));
@@ -479,22 +479,22 @@ public class MatrixF extends FloatArithmetic
 		return this;
 	}
 	
-	public MatrixF homogenous(VectorF euler, VectorF scale, VectorF trans)
+	public MatrixD homogenous(VectorD euler, VectorD scale, VectorD trans)
 	{
-		MatrixF r = new MatrixF().euler(euler);
-		MatrixF s = new MatrixF().scale(scale);
-		MatrixF t = new MatrixF().translate(trans);
+		MatrixD r = new MatrixD().euler(euler);
+		MatrixD s = new MatrixD().scale(scale);
+		MatrixD t = new MatrixD().translate(trans);
 		
-		return (MatrixF)r.mul(s).mul(t, this);
+		return (MatrixD)r.mul(s).mul(t, this);
 	}
 	
-	public MatrixF homogenous(QuaternionF rot, VectorF scale, VectorF trans)
+	public MatrixD homogenous(QuaternionD rot, VectorD scale, VectorD trans)
 	{
-		MatrixF r = new MatrixF().rotate(rot);
-		MatrixF s = new MatrixF().scale(scale);
-		MatrixF t = new MatrixF().translate(trans);
+		MatrixD r = new MatrixD().rotate(rot);
+		MatrixD s = new MatrixD().scale(scale);
+		MatrixD t = new MatrixD().translate(trans);
 		
-		return (MatrixF)r.mul(s).mul(t, this);
+		return (MatrixD)r.mul(s).mul(t, this);
 	}
 	
 	public MatrixD toMatD()
