@@ -70,7 +70,7 @@ public class VectorD extends DoubleArithmetic
 	{
 		StringBuilder b = new StringBuilder(1 + (this.size() * 2));
 		
-		b.append(String.format("%s:[vector"));
+		b.append("vector:[");
 		
 		for (int c = 0; c < this.size(); c++)
 		{
