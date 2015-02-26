@@ -16,7 +16,7 @@ public final class CompInfo
 	private CompInfo(){}
 	
 	public static final boolean
-			IS_64_BIT = System.getProperty("os.arch").contains("86"),
+			IS_64_BIT = System.getProperty("os.arch").endsWith("64"),
 			DEBUG = ManagementFactory.getRuntimeMXBean().getInputArguments().toString().contains("-agentlib:jdwp");
 	
 	public static final String
