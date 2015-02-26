@@ -53,6 +53,12 @@ public final class Logger
 		
 	}
 	
+	public static void err(String msg, Object... info)
+	{
+		log(EnumLogType.ERROR, msg, info);
+		
+	}
+	
 	public static void err(String msg, Throwable e, Object... info)
 	{
 		log(EnumLogType.ERROR, msg, e, info);
