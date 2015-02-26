@@ -464,6 +464,8 @@ public class IOHelper
 		
 		BufferedWriter writer = new BufferedWriter(FileHelper.createWriter(file, true, append));
 		
+		boolean ret = false;
+		
 		try
 		{
 			for (String line : text)
@@ -473,7 +475,8 @@ public class IOHelper
 				
 			}
 			
-			return true;
+			ret = true;
+			
 		}
 		catch (Exception e)
 		{
@@ -495,7 +498,7 @@ public class IOHelper
 			
 		}
 		
-		return false;
+		return ret;
 	}
 	
 	public static void filter(File txt, IObjFilter<String> filter)
@@ -521,20 +524,37 @@ public class IOHelper
 		
 		BufferedOutputStream out = new BufferedOutputStream(fos);
 		
+		boolean ret = false;
+		
 		try
 		{
 			out.write(bytes);
 			out.flush();
+			
+			ret = true;
 			
 		}
 		catch (Exception e)
 		{
 			Logger.err(e);
 			
-			return false;
+		}
+		finally
+		{
+			try
+			{
+				out.close();
+				
+			}
+			catch (Exception e)
+			{
+				Logger.err(e);
+				
+			}
+			
 		}
 		
-		return true;
+		return ret;
 	}
 	
 	public static class FilenameFilterWrapper implements FileFilter
