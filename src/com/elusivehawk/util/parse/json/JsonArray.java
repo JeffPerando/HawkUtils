@@ -13,7 +13,7 @@ import com.elusivehawk.util.Logger;
  * 
  * @author Elusivehawk
  */
-public class JsonArray extends JsonValue<List<Object>> implements Iterable<Object>
+public class JsonArray implements IJsonSerializer, Iterable<Object>
 {
 	private final List<Object> array = new ArrayList<Object>();
 	
@@ -29,12 +29,6 @@ public class JsonArray extends JsonValue<List<Object>> implements Iterable<Objec
 	public Iterator<Object> iterator()
 	{
 		return this.array.iterator();
-	}
-	
-	@Override
-	public List<Object> getValue()
-	{
-		return this.array;
 	}
 	
 	@Override
@@ -75,6 +69,55 @@ public class JsonArray extends JsonValue<List<Object>> implements Iterable<Objec
 	public int length()
 	{
 		return this.array.size();
+	}
+	
+	public boolean getBool(int i)
+	{
+		Object v = this.getValue(i);
+		
+		return (v instanceof Boolean) ? ((Boolean)v).booleanValue() : false;
+	}
+	
+	public byte getByte(int i)
+	{
+		Object v = this.getValue(i);
+		
+		return (v instanceof Number) ? ((Number)v).byteValue() : 0;
+	}
+	
+	public double getDouble(int i)
+	{
+		Object v = this.getValue(i);
+		
+		return (v instanceof Number) ? ((Number)v).doubleValue() : 0;
+	}
+	
+	public float getFloat(int i)
+	{
+		Object v = this.getValue(i);
+		
+		return (v instanceof Number) ? ((Number)v).floatValue() : 0;
+	}
+	
+	public int getInt(int i)
+	{
+		Object v = this.getValue(i);
+		
+		return (v instanceof Number) ? ((Number)v).intValue() : 0;
+	}
+	
+	public long getLong(int i)
+	{
+		Object v = this.getValue(i);
+		
+		return (v instanceof Number) ? ((Number)v).longValue() : 0;
+	}
+	
+	public short getShort(int i)
+	{
+		Object v = this.getValue(i);
+		
+		return (v instanceof Number) ? ((Number)v).shortValue() : 0;
 	}
 	
 	public Object getValue(int i)

@@ -116,6 +116,17 @@ public final class JsonParser
 		
 		switch (str)
 		{
+			case "-":
+			case "0":
+			case "1":
+			case "2":
+			case "3":
+			case "4":
+			case "5":
+			case "6":
+			case "7":
+			case "8":
+			case "9": return parseInt(buf);
 			case "\"": return parseString(buf);
 			case "{": return parseObj(buf);
 			case "[": return parseArray(buf);
@@ -123,11 +134,6 @@ public final class JsonParser
 			case "true": return true;
 			case "false": return false;
 			
-		}
-		
-		if (ParseHelper.isInt(str) || "-".equalsIgnoreCase(str))
-		{
-			return parseInt(buf);
 		}
 		
 		throw new JsonParseException("Invalid value found at line %s, col %s: \"%s\"", tkn.line, tkn.col, ParseHelper.sanitizeEscapeSequence(str));

@@ -13,9 +13,9 @@ import com.elusivehawk.util.Logger;
  * 
  * @author Elusivehawk
  */
-public class JsonObject extends JsonValue<Map<String, Object>>
+public class JsonObject implements IJsonSerializer
 {
-	protected final Map<String, Object> objs = new HashMap<String, Object>();
+	private final Map<String, Object> objs = new HashMap<String, Object>();
 	
 	public JsonObject(){}
 	
@@ -23,12 +23,6 @@ public class JsonObject extends JsonValue<Map<String, Object>>
 	{
 		pop.populate(this);
 		
-	}
-	
-	@Override
-	public Map<String, Object> getValue()
-	{
-		return this.objs;
 	}
 	
 	@Override
@@ -74,16 +68,53 @@ public class JsonObject extends JsonValue<Map<String, Object>>
 		return b.toString();
 	}
 	
-	public boolean add(String name, Object data)
+	public boolean getBool(String name)
 	{
-		if (this.objs.containsKey(name))
-		{
-			return false;
-		}
+		Object v = this.getValue(name);
 		
-		this.objs.put(name, data);
+		return (v instanceof Boolean) ? ((Boolean)v).booleanValue() : false;
+	}
+	
+	public byte getByte(String name)
+	{
+		Object v = this.getValue(name);
 		
-		return true;
+		return (v instanceof Number) ? ((Number)v).byteValue() : 0;
+	}
+	
+	public double getDouble(String name)
+	{
+		Object v = this.getValue(name);
+		
+		return (v instanceof Number) ? ((Number)v).doubleValue() : 0;
+	}
+	
+	public float getFloat(String name)
+	{
+		Object v = this.getValue(name);
+		
+		return (v instanceof Number) ? ((Number)v).floatValue() : 0;
+	}
+	
+	public int getInt(String name)
+	{
+		Object v = this.getValue(name);
+		
+		return (v instanceof Number) ? ((Number)v).intValue() : 0;
+	}
+	
+	public long getLong(String name)
+	{
+		Object v = this.getValue(name);
+		
+		return (v instanceof Number) ? ((Number)v).longValue() : 0;
+	}
+	
+	public short getShort(String name)
+	{
+		Object v = this.getValue(name);
+		
+		return (v instanceof Number) ? ((Number)v).shortValue() : 0;
 	}
 	
 	public Object getValue(String name)
@@ -129,6 +160,18 @@ public class JsonObject extends JsonValue<Map<String, Object>>
 		}
 		
 		throw new ClassCastException(String.format("Cannot convert %s to %s", obj.getClass(), clazz));
+	}
+	
+	public boolean add(String name, Object data)
+	{
+		if (this.objs.containsKey(name))
+		{
+			return false;
+		}
+		
+		this.objs.put(name, data);
+		
+		return true;
 	}
 	
 	public boolean hasKey(String name)
