@@ -12,7 +12,7 @@ import com.elusivehawk.util.Logger;
 public abstract class Task
 {
 	private final ITaskListener listener;
-	private int tries = 0;
+	private int triesLeft = 0;
 	private boolean complete = false, tryAgain = true;
 	
 	public Task()
@@ -35,14 +35,16 @@ public abstract class Task
 			return true;
 		}
 		
-		if (this.tries == 5)
+		if (this.triesLeft == 0)
 		{
 			return true;
 		}
 		
+		boolean finish = false;
+		
 		try
 		{
-			this.complete = this.finishTask();
+			finish = this.finishTask();
 			
 		}
 		catch (Throwable e)
@@ -51,8 +53,14 @@ public abstract class Task
 			
 		}
 		
-		if (this.complete)
+		if (finish)
 		{
+			synchronized (this)
+			{
+				this.complete = true;
+				
+			}
+			
 			if (this.listener != null)
 			{
 				this.listener.onTaskComplete(this);
@@ -64,12 +72,12 @@ public abstract class Task
 		{
 			if (this.doTryAgain())
 			{
-				this.tries++;
+				this.triesLeft--;
 				
 			}
 			else
 			{
-				this.tries = 5;
+				this.triesLeft = 0;
 				
 			}
 			
@@ -81,6 +89,11 @@ public abstract class Task
 	public boolean doTryAgain()
 	{
 		return this.tryAgain;
+	}
+	
+	public boolean isFinished()
+	{
+		return this.complete;
 	}
 	
 	protected abstract boolean finishTask() throws Throwable;
