@@ -70,51 +70,86 @@ public class JsonObject implements IJsonSerializer
 	
 	public boolean getBool(String name)
 	{
+		return this.getBool(name, false);
+	}
+	
+	public boolean getBool(String name, boolean dflt)
+	{
 		Object v = this.getValue(name);
 		
-		return (v instanceof Boolean) ? ((Boolean)v).booleanValue() : false;
+		return (v instanceof Boolean) ? ((Boolean)v).booleanValue() : dflt;
 	}
 	
 	public byte getByte(String name)
 	{
+		return this.getByte(name, (byte)0);
+	}
+	
+	public byte getByte(String name, byte dflt)
+	{
 		Object v = this.getValue(name);
 		
-		return (v instanceof Number) ? ((Number)v).byteValue() : 0;
+		return (v instanceof Number) ? ((Number)v).byteValue() : dflt;
 	}
 	
 	public double getDouble(String name)
 	{
+		return this.getDouble(name, 0d);
+	}
+	
+	public double getDouble(String name, double dflt)
+	{
 		Object v = this.getValue(name);
 		
-		return (v instanceof Number) ? ((Number)v).doubleValue() : 0;
+		return (v instanceof Number) ? ((Number)v).doubleValue() : dflt;
 	}
 	
 	public float getFloat(String name)
 	{
+		return this.getFloat(name, 0f);
+	}
+	
+	public float getFloat(String name, float dflt)
+	{
 		Object v = this.getValue(name);
 		
-		return (v instanceof Number) ? ((Number)v).floatValue() : 0;
+		return (v instanceof Number) ? ((Number)v).floatValue() : dflt;
 	}
 	
 	public int getInt(String name)
 	{
+		return this.getInt(name, 0);
+	}
+	
+	public int getInt(String name, int dflt)
+	{
 		Object v = this.getValue(name);
 		
-		return (v instanceof Number) ? ((Number)v).intValue() : 0;
+		return (v instanceof Number) ? ((Number)v).intValue() : dflt;
 	}
 	
 	public long getLong(String name)
 	{
+		return this.getLong(name, 0L);
+	}
+	
+	public long getLong(String name, long dflt)
+	{
 		Object v = this.getValue(name);
 		
-		return (v instanceof Number) ? ((Number)v).longValue() : 0;
+		return (v instanceof Number) ? ((Number)v).longValue() : dflt;
 	}
 	
 	public short getShort(String name)
 	{
+		return this.getShort(name, (short)0);
+	}
+	
+	public short getShort(String name, short dflt)
+	{
 		Object v = this.getValue(name);
 		
-		return (v instanceof Number) ? ((Number)v).shortValue() : 0;
+		return (v instanceof Number) ? ((Number)v).shortValue() : dflt;
 	}
 	
 	public Object getValue(String name)
