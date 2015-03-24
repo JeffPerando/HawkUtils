@@ -152,6 +152,18 @@ public class JsonObject implements IJsonSerializer
 		return (v instanceof Number) ? ((Number)v).shortValue() : dflt;
 	}
 	
+	public String getString(String name)
+	{
+		return this.getString(name, null);
+	}
+	
+	public String getString(String name, String dflt)
+	{
+		Object v = this.getValue(name);
+		
+		return (v instanceof String) ? (String)v : dflt;
+	}
+	
 	public Object getValue(String name)
 	{
 		return this.objs.get(name);

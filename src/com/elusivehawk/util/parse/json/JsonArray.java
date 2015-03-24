@@ -155,6 +155,18 @@ public class JsonArray implements IJsonSerializer, Iterable<Object>
 		return (v instanceof Number) ? ((Number)v).shortValue() : dflt;
 	}
 	
+	public String getString(int i)
+	{
+		return this.getString(i, null);
+	}
+	
+	public String getString(int i, String dflt)
+	{
+		Object v = this.getValue(i);
+		
+		return (v instanceof String) ? (String)v : dflt;
+	}
+	
 	public Object getValue(int i)
 	{
 		return this.array.get(i);
