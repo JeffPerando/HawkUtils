@@ -18,22 +18,22 @@ public final class MathHelper
 	
 	public static boolean bounds(double d, double min, double max)
 	{
-		return d >= min && d <= max;
+		return d >= min && d < max;
 	}
 	
 	public static boolean bounds(float f, float min, float max)
 	{
-		return f >= min && f <= max;
+		return f >= min && f < max;
 	}
 	
 	public static boolean bounds(int i, int min, int max)
 	{
-		return i >= min && i <= max;
+		return i >= min && i < max;
 	}
 	
 	public static boolean bounds(long l, long min, long max)
 	{
-		return l >= min && l <= max;
+		return l >= min && l < max;
 	}
 	
 	public static boolean bounds(VectorD d, VectorD min, VectorD max)
