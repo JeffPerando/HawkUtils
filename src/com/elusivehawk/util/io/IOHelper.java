@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -21,7 +22,6 @@ import java.util.List;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import com.elusivehawk.util.EnumLogType;
 import com.elusivehawk.util.IObjFilter;
 import com.elusivehawk.util.Logger;
 
@@ -64,16 +64,16 @@ public class IOHelper
 		
 	}
 	
-	public static void readZip(File file, IZipScanner sc)
+	public static void readZip(File file, IZipScanner sc) throws IOException
 	{
 		if (!FileHelper.canRead(file))
 		{
-			return;
+			throw new IOException(String.format("Cannot read file %s", file));
 		}
 		
 		if (file.isDirectory())
 		{
-			return;
+			throw new IOException(String.format("File %s is a directory", file));
 		}
 		
 		String ext = FileHelper.getExtension(file);
@@ -147,7 +147,7 @@ public class IOHelper
 	{
 		if (is == null)
 		{
-			return new byte[0];
+			throw new NullPointerException("Reader is null");
 		}
 		
 		BufferedInputStream in = (is instanceof BufferedInputStream) ? (BufferedInputStream)is : new BufferedInputStream(is);
@@ -287,7 +287,7 @@ public class IOHelper
 	{
 		if (r == null)
 		{
-			return null;
+			throw new NullPointerException("Reader is null");
 		}
 		
 		List<String> text = new ArrayList<String>();
@@ -376,7 +376,7 @@ public class IOHelper
 	{
 		if (r == null)
 		{
-			return null;
+			throw new NullPointerException("Reader is null");
 		}
 		
 		StringBuilder b = new StringBuilder();
@@ -422,49 +422,37 @@ public class IOHelper
 		return b.toString();
 	}
 	
-	public static boolean write(String path, boolean append, boolean makeFileIfNotFound, String... text)
+	public static void write(String path, boolean append, boolean makeFileIfNotFound, String... text) throws IOException
 	{
-		return write(FileHelper.createFile(path), append, makeFileIfNotFound, text);
+		write(FileHelper.createFile(path), append, makeFileIfNotFound, text);
 	}
 	
-	public static boolean write(String path, List<String> text, boolean append, boolean makeFileIfNotFound)
+	public static void write(String path, List<String> text, boolean append, boolean makeFileIfNotFound) throws IOException
 	{
-		return write(FileHelper.createFile(path), text, append, makeFileIfNotFound);
+		write(FileHelper.createFile(path), text, append, makeFileIfNotFound);
+		
 	}
 	
-	public static boolean write(File file, boolean append, boolean makeFileIfNotFound, String... text)
+	public static void write(File file, boolean append, boolean makeFileIfNotFound, String... text) throws IOException
 	{
-		return write(file, Arrays.asList(text), append, makeFileIfNotFound);
+		write(file, Arrays.asList(text), append, makeFileIfNotFound);
+		
 	}
 	
-	public static boolean write(File file, List<String> text, boolean append, boolean makeFileIfNotFound)
+	public static void write(File file, List<String> text, boolean append, boolean makeFileIfNotFound) throws IOException
 	{
 		if (!file.exists() && makeFileIfNotFound)
 		{
-			try
-			{
-				file.createNewFile();
-				
-			}
-			catch (Exception e)
-			{
-				Logger.err(e);
-				
-				return false;
-			}
+			file.createNewFile();
 			
 		}
 		
 		if (!file.canWrite())
 		{
-			Logger.log(EnumLogType.ERROR, "File with path %s cannot be written to! This is a bug!", file);
-			
-			return false;
+			throw new IOException(String.format("Cannot write to file %s", file));
 		}
 		
 		BufferedWriter writer = new BufferedWriter(FileHelper.createWriter(file, true, append));
-		
-		boolean ret = false;
 		
 		try
 		{
@@ -474,8 +462,6 @@ public class IOHelper
 				writer.newLine();
 				
 			}
-			
-			ret = true;
 			
 		}
 		catch (Exception e)
@@ -498,7 +484,6 @@ public class IOHelper
 			
 		}
 		
-		return ret;
 	}
 	
 	public static void filter(File txt, IObjFilter<String> filter)
@@ -507,31 +492,36 @@ public class IOHelper
 		
 		if (text != null)
 		{
-			write(txt, text, false, false);
+			try
+			{
+				write(txt, text, false, false);
+				
+			}
+			catch (IOException e)
+			{
+				Logger.err(e);
+				
+			}
 			
 		}
 		
 	}
 	
-	public static boolean write(byte[] bytes, File dest)
+	public static void write(byte[] bytes, File dest) throws IOException
 	{
 		FileOutputStream fos = FileHelper.createOutStream(dest, true);
 		
 		if (fos == null)
 		{
-			return false;
+			throw new NullPointerException();
 		}
 		
 		BufferedOutputStream out = new BufferedOutputStream(fos);
-		
-		boolean ret = false;
 		
 		try
 		{
 			out.write(bytes);
 			out.flush();
-			
-			ret = true;
 			
 		}
 		catch (Exception e)
@@ -554,7 +544,6 @@ public class IOHelper
 			
 		}
 		
-		return ret;
 	}
 	
 	public static class FilenameFilterWrapper implements FileFilter

@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,39 +122,17 @@ public final class FileHelper
 		return ret;
 	}
 	
-	public static FileOutputStream createOutStream(File file, boolean create)
+	public static FileOutputStream createOutStream(File file, boolean create) throws IOException
 	{
 		if (file == null)
 		{
-			return null;
+			throw new NullPointerException();
 		}
 		
-		if (!file.exists() && create)
-		{
-			try
-			{
-				if (!file.createNewFile())
-				{
-					return null;
-				}
-				
-			}
-			catch (Exception e)
-			{
-				return null;
-			}
-			
-		}
+		assert file.isFile();
+		assert file.canWrite();
 		
-		if (!file.isFile())
-		{
-			return null;
-		}
-		
-		if (!file.canWrite())
-		{
-			return null;
-		}
+		file.createNewFile();
 		
 		FileOutputStream ret = null;
 		
@@ -167,43 +146,24 @@ public final class FileHelper
 		return ret;
 	}
 	
-	public static FileWriter createWriter(File file, boolean create)
+	public static FileWriter createWriter(File file, boolean create) throws IOException
 	{
 		return createWriter(file, create, false);
 	}
 	
-	public static FileWriter createWriter(File file, boolean create, boolean append)
+	public static FileWriter createWriter(File file, boolean create, boolean append) throws IOException
 	{
 		if (file == null)
 		{
-			return null;
+			throw new NullPointerException();
 		}
 		
-		if (!file.isFile())
-		{
-			return null;
-		}
+		assert file.isFile();
 		
 		if (!file.exists() && create)
 		{
-			try
-			{
-				if (!file.createNewFile())
-				{
-					return null;
-				}
-				
-			}
-			catch (Exception e)
-			{
-				return null;
-			}
+			file.createNewFile();
 			
-		}
-		
-		if (!file.canWrite())
-		{
-			return null;
 		}
 		
 		FileWriter ret = null;
