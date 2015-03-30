@@ -147,7 +147,7 @@ public class IOHelper
 	{
 		if (is == null)
 		{
-			throw new NullPointerException("Reader is null");
+			throw new NullPointerException("Stream is null");
 		}
 		
 		BufferedInputStream in = (is instanceof BufferedInputStream) ? (BufferedInputStream)is : new BufferedInputStream(is);
