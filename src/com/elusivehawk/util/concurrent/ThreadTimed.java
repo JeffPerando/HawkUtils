@@ -17,33 +17,6 @@ public class ThreadTimed extends ThreadStoppable implements IUpdatable
 	private double time = 0, lastTime, timeUsed = 0, delta, deltaTime = 0, timeSpent = 0;
 	
 	private IUpdatable updater = this;
-	private final Runnable update = (() ->
-	{
-		try
-		{
-			this.updater.update(this.deltaTime);
-			
-		}
-		catch (Throwable e)
-		{
-			this.handleException(e);
-			
-		}
-		
-	}), postUpdate = (() ->
-	{
-		try
-		{
-			this.postUpdate(this.deltaTime);
-			
-		}
-		catch (Throwable e)
-		{
-			this.handleException(e);
-			
-		}
-		
-	});
 	
 	private final int updates;
 	private Timer timer = new Timer();
@@ -112,13 +85,25 @@ public class ThreadTimed extends ThreadStoppable implements IUpdatable
 		this.time = System.nanoTime() / Timer.NANO_SEC;
 		this.deltaTime = this.time - this.lastTime;
 		
-		this.timeSpent = this.timer.timeCall(this.update);//Updates, and tracks how much time has been spent.
+		this.timer.start();
+		
+		this.updater.update(this.deltaTime);
+		
+		this.timer.stop();
+		
+		this.timeSpent = this.timer.time();
 		
 		if (this.timeSpent < this.delta)//What if we actually have MORE time than we know what to do with?
 		{
 			if (this.doPostUpdate())
 			{
-				this.timeSpent += this.timer.timeCall(this.postUpdate);//Times a post update.
+				this.timer.start();
+				
+				this.postUpdate(this.deltaTime);
+				
+				this.timer.stop();
+				
+				this.timeSpent += this.timer.time();
 				
 				if (this.timeSpent >= this.delta)//Do we STILL have more time?!
 				{
