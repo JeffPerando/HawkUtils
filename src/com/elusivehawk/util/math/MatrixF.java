@@ -68,12 +68,12 @@ public class MatrixF extends FloatArithmetic
 	
 	public float get(int x, int y)
 	{
-		return this.get(x + (y * this.sizeSqrt));
+		return this.get(y + (x * this.sizeSqrt));
 	}
 	
 	public MatrixF set(int x, int y, float f)
 	{
-		return (MatrixF)this.set(x + (y * this.sizeSqrt), f);
+		return (MatrixF)this.set(y + (x * this.sizeSqrt), f);
 	}
 	
 	public MatrixF setRow(int r, float... fs)

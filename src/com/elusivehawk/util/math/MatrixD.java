@@ -68,12 +68,12 @@ public class MatrixD extends DoubleArithmetic
 	
 	public double get(int x, int y)
 	{
-		return this.get(x + (y * this.sizeSqrt));
+		return this.get(y + (x * this.sizeSqrt));
 	}
 	
 	public MatrixD set(int x, int y, double f)
 	{
-		return (MatrixD)this.set(x + (y * this.sizeSqrt), f);
+		return (MatrixD)this.set(y + (x * this.sizeSqrt), f);
 	}
 	
 	public MatrixD setRow(int r, double... fs)
