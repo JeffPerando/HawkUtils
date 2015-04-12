@@ -71,7 +71,7 @@ public class MatrixF extends FloatArithmetic
 	{
 		int index = (y + (x * this.sizeSqrt));
 		
-		Logger.debug("Setting. X: %s, Y: %s, Index: %s", x, y, index);
+		Logger.info("Setting. X: %s, Y: %s, Index: %s", x, y, index);
 		
 		return this.get(index);
 	}
@@ -80,7 +80,7 @@ public class MatrixF extends FloatArithmetic
 	{
 		int index = (y + (x * this.sizeSqrt));
 		
-		Logger.debug("Getting. X: %s, Y: %s, Index: %s", x, y, index);
+		Logger.info("Getting. X: %s, Y: %s, Index: %s", x, y, index);
 		
 		return (MatrixF)this.set(y + (x * this.sizeSqrt), f);
 	}
@@ -360,7 +360,7 @@ public class MatrixF extends FloatArithmetic
 		
 		MatrixF tmp = new MatrixF(this.sizeSqrt);
 		
-		Logger.debug("Size of tmp: %s", tmp.size());
+		Logger.info("Size of tmp: %s", tmp.size());
 		
 		for (int ix = 0; x < tmp.sizeSqrt - 1; ix++)
 		{
