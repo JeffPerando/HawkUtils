@@ -349,7 +349,7 @@ public class MatrixD extends DoubleArithmetic
 				{xy * omc - zs,		y * y * omc + c,	yz * omc + xs},
 				{xz * omc + ys,		yz * omc - xs,		z * z * omc + c}};
 		
-		MatrixD tmp = new MatrixD(this.size());
+		MatrixD tmp = new MatrixD(this.sizeSqrt);
 		
 		for (int ix = 0; x < tmp.sizeSqrt - 1; ix++)
 		{

@@ -349,7 +349,7 @@ public class MatrixF extends FloatArithmetic
 				{xy * omc - zs,		y * y * omc + c,	yz * omc + xs},
 				{xz * omc + ys,		yz * omc - xs,		z * z * omc + c}};
 		
-		MatrixF tmp = new MatrixF(this.size());
+		MatrixF tmp = new MatrixF(this.sizeSqrt);
 		
 		for (int ix = 0; x < tmp.sizeSqrt - 1; ix++)
 		{
