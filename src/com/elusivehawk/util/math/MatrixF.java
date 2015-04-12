@@ -8,6 +8,7 @@ import static com.elusivehawk.util.math.MathConst.Z;
 import static com.elusivehawk.util.math.MathHelper.square;
 import static com.elusivehawk.util.math.MathHelper.toRadians;
 import java.nio.FloatBuffer;
+import com.elusivehawk.util.Logger;
 
 /**
  * 
@@ -68,11 +69,19 @@ public class MatrixF extends FloatArithmetic
 	
 	public float get(int x, int y)
 	{
-		return this.get(y + (x * this.sizeSqrt));
+		int index = (y + (x * this.sizeSqrt));
+		
+		Logger.debug("Setting. X: %s, Y: %s, Index: %s", x, y, index);
+		
+		return this.get(index);
 	}
 	
 	public MatrixF set(int x, int y, float f)
 	{
+		int index = (y + (x * this.sizeSqrt));
+		
+		Logger.debug("Getting. X: %s, Y: %s, Index: %s", x, y, index);
+		
 		return (MatrixF)this.set(y + (x * this.sizeSqrt), f);
 	}
 	
@@ -350,6 +359,8 @@ public class MatrixF extends FloatArithmetic
 				{xz * omc + ys,		yz * omc - xs,		z * z * omc + c}};
 		
 		MatrixF tmp = new MatrixF(this.sizeSqrt);
+		
+		Logger.debug("Size of tmp: %s", tmp.size());
 		
 		for (int ix = 0; x < tmp.sizeSqrt - 1; ix++)
 		{
