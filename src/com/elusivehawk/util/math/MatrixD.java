@@ -351,9 +351,9 @@ public class MatrixD extends DoubleArithmetic
 		
 		MatrixD tmp = new MatrixD(this.sizeSqrt);
 		
-		for (int ix = 0; x < tmp.sizeSqrt - 1; ix++)
+		for (int ix = 0; ix < tmp.sizeSqrt - 1; ix++)
 		{
-			for (int iy = 0; y < tmp.sizeSqrt - 1; iy++)
+			for (int iy = 0; iy < tmp.sizeSqrt - 1; iy++)
 			{
 				tmp.set(ix, iy, this.get(0, iy) * calc[ix][0] + this.get(1, iy) * calc[ix][1] + this.get(2, iy) * calc[ix][2]);
 				
