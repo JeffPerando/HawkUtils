@@ -437,16 +437,26 @@ public class MatrixD extends DoubleArithmetic
 		return this;
 	}
 	
-	public MatrixD translate(VectorD vec)
-	{
-		return this.translate(vec.get(X), vec.get(Y), vec.get(Z));
-	}
-	
 	public MatrixD translate(double x, double y, double z)
 	{
-		this.set(3, x);
-		this.set(7, y);
-		this.set(11, z);
+		return this.translate(new VectorD(x, y, z));
+	}
+	
+	public MatrixD translate(VectorD vec)
+	{
+		for (int y = 0; y < this.sizeSqrt - 1; y++)
+		{
+			double d = 0;
+			
+			for (int x = 0; x < this.sizeSqrt - 1; x++)
+			{
+				d += (this.get(x, y) * vec.get(x));
+				
+			}
+			
+			this.set(this.sizeSqrt - 1, y, d);
+			
+		}
 		
 		return this;
 	}
