@@ -8,7 +8,6 @@ import static com.elusivehawk.util.math.MathConst.Z;
 import static com.elusivehawk.util.math.MathHelper.square;
 import static com.elusivehawk.util.math.MathHelper.toRadians;
 import java.nio.FloatBuffer;
-import com.elusivehawk.util.Logger;
 
 /**
  * 
