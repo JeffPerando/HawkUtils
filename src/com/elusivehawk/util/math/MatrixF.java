@@ -437,16 +437,26 @@ public class MatrixF extends FloatArithmetic
 		return this;
 	}
 	
-	public MatrixF translate(VectorF vec)
-	{
-		return this.translate(vec.get(X), vec.get(Y), vec.get(Z));
-	}
-	
 	public MatrixF translate(float x, float y, float z)
 	{
-		this.set(3, x);
-		this.set(7, y);
-		this.set(11, z);
+		return this.translate(new VectorF(x, y, z));
+	}
+	
+	public MatrixF translate(VectorF vec)
+	{
+		for (int y = 0; y < this.sizeSqrt - 1; y++)
+		{
+			float f = 0;
+			
+			for (int x = 0; x < this.sizeSqrt - 1; x++)
+			{
+				f += (this.get(x, y) * vec.get(x));
+				
+			}
+			
+			this.set(this.sizeSqrt - 1, y, f);
+			
+		}
 		
 		return this;
 	}
