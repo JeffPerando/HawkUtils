@@ -5,12 +5,10 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-/.idea/*
 /.settings/*
 /bin/*
 /build/*
 /builds/*
-/lib/*/*
 
 # Package Files #
 *.war
