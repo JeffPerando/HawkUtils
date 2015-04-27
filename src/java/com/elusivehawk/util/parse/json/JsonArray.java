@@ -1,11 +1,18 @@
 
 package com.elusivehawk.util.parse.json;
 
+import java.nio.ByteBuffer;
+import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import java.nio.LongBuffer;
+import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import com.elusivehawk.util.IPopulator;
 import com.elusivehawk.util.Logger;
+import com.elusivehawk.util.storage.BufferHelper;
 
 /**
  * 
@@ -235,6 +242,84 @@ public class JsonArray implements IJsonSerializer, Iterable<Object>
 		for (int c = 0; c < this.length(); c++)
 		{
 			ret[c] = this.getValue(c, clazz);
+			
+		}
+		
+		return ret;
+	}
+	
+	public ByteBuffer toByteBuffer()
+	{
+		ByteBuffer ret = BufferHelper.createByteBuffer(this.length());
+		
+		for (int c = 0; c < this.length(); c++)
+		{
+			ret.put(this.getByte(c));
+			
+		}
+		
+		return ret;
+	}
+	
+	public DoubleBuffer toDoubleBuffer()
+	{
+		DoubleBuffer ret = BufferHelper.createDoubleBuffer(this.length());
+		
+		for (int c = 0; c < this.length(); c++)
+		{
+			ret.put(this.getDouble(c));
+			
+		}
+		
+		return ret;
+	}
+	
+	public FloatBuffer toFloatBuffer()
+	{
+		FloatBuffer ret = BufferHelper.createFloatBuffer(this.length());
+		
+		for (int c = 0; c < this.length(); c++)
+		{
+			ret.put(this.getFloat(c));
+			
+		}
+		
+		return ret;
+	}
+	
+	public IntBuffer toIntBuffer()
+	{
+		IntBuffer ret = BufferHelper.createIntBuffer(this.length());
+		
+		for (int c = 0; c < this.length(); c++)
+		{
+			ret.put(this.getInt(c));
+			
+		}
+		
+		return ret;
+	}
+	
+	public LongBuffer toLongBuffer()
+	{
+		LongBuffer ret = BufferHelper.createLongBuffer(this.length());
+		
+		for (int c = 0; c < this.length(); c++)
+		{
+			ret.put(this.getLong(c));
+			
+		}
+		
+		return ret;
+	}
+	
+	public ShortBuffer toShortBuffer()
+	{
+		ShortBuffer ret = BufferHelper.createShortBuffer(this.length());
+		
+		for (int c = 0; c < this.length(); c++)
+		{
+			ret.put(this.getShort(c));
 			
 		}
 		
