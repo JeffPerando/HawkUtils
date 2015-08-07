@@ -236,6 +236,11 @@ public final class BufferHelper
 		return ret;
 	}
 	
+	public static ByteBuffer makeByteBuffer(CharSequence str)
+	{
+		return makeByteBuffer(str.toString().getBytes());
+	}
+	
 	public static CharBuffer makeCharBuffer(char... data)
 	{
 		return (CharBuffer)createCharBuffer(data.length).put(data).flip();
